@@ -64,7 +64,7 @@ Before deploying to production, your `backend-node` implementation MUST include:
 
 ## Configuration
 
-### Environment Variables
+### Frontend Environment Variables
 
 Set the following in your frontend `.env` file (in `frontend/` directory):
 

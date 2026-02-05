@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 15,
-  "summary": "Expand ArthaNidhi Pay into a more complete India-standard banking web app: add mandatory KYC during signup with uploads and optional fields, admin portal (separate frontend+backend) to review/approve KYC and change requests with maker/checker roles, auto-approve KYCs when all mandatory fields are filled while still visible to admin, generate unique Customer ID (ARTHA + 12 digits) and 16-digit account number upon activation, support account-to-account transfers, joint accounts (secondary holders), user/admin forgot-reset password flows, contact/communication address page with map, dashboard greeting with time/date, inactivity auto-logout, and separate env configs for user vs admin plus dev/stage/prod; continue Node.js (CommonJS) + PostgreSQL backend approach for external runs.",
+  "projectStateVersion": 21,
+  "summary": "Phase 1 change: apply the newly requested UI/content/feature updates ONLY to the ArthaNidhi Pay (User Portal) first, with NO data integration with the Admin Portal for now. User portal will include: new logo (replace everywhere) + updated footer copyright, global sunrise + neon sky-blue + peacock-feather mixed gradient background theme, full KYC form during signup with auto-approval if mandatory fields are filled, account view showing auto-generated Customer ID + Account Number (including auto-generation for existing users missing these), money transfer feature with real balance updates (using dummy/seed initial balances), updated dashboard greeting with username + local timezone date/time, move logout from dashboard into header (header-only), dark mode toggle across pages, left sidebar menu with all pages, dummy market/stocks/mutual-funds data, and a gold/silver rates module with dropdowns (Indian capital city, karat 18/22/24, weights 1g/10g/100g/1000g), plus a world+India financial news section (dummy).",
   "architectural_notes": [
     "Site-wide header/footer shared across all pages with consistent ArthaNidhi Pay branding (name + logo).",
     "Currency formatting should use INR (₹) for all monetary values displayed in the UI.",
@@ -14,8 +14,15 @@
     "On activation, auto-generate and persist unique IDs: Customer ID format `ARTHA` + 12 digits and a separate 16-digit Account Number.",
     "Implement session inactivity timeout (5 minutes) with automatic logout for both user and admin portals."
   ],
-  "known_issues": [],
-  "isFixRequest": false,
+  "known_issues": [
+    "Existing user(s) (e.g., 'abc user') currently missing generated Customer ID and Account Number; must be backfilled automatically.",
+    "Gold/Silver Rates module not showing for existing user 'abc' (should render for all users).",
+    "Sidebar menu is appearing on the right instead of the requested left side.",
+    "Logout button is still displayed on the Dashboard; should be shown only in the header.",
+    "New logo replacement not yet applied consistently across all pages (should replace everywhere)."
+  ],
+  "isFixRequest": true,
+  "imageRequirements": "## Required Images\n- ArthaNidhi Pay logo (clean modern wordmark + icon) on transparent background (arthanidhi-logo.dim_512x512.png)",
   "existing_features": [
     {
       "id": "feature-create-a-consistent-stunning-user-friendly-visual-theme-for-the-arthanidhi-pay-website-colors-typography-spacing-components-and-apply-it-across-all-pages-without-using-a-blue-purple-primary-palette",
@@ -238,6 +245,54 @@
       "title": "Provide a batch-oriented delivery plan in-repo (developer-facing documentation) for generating/working with the code in ordered batches as requested (option 1: entire project in multiple ordered batches), including a clear sequence of which folders/files belong to user portal vs admin portal.",
       "reqIds": [
         "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-and-complete-the-repository-documentation-so-a-developer-can-run-the-project-locally-in-vs-code-using-npm-for-both-frontend-and-backend-with-copy-paste-commands-for-1-internet-computer-motoko-backend-user-portal-frontend-in-ic-mode-and-2-user-portal-frontend-in-rest-mode-with-an-external-backend-referenced-as-the-backend-node-folder-per-existing-docs",
+      "title": "Update and complete the repository documentation so a developer can run the project locally in VS Code using npm for both frontend and backend, with copy-paste commands for: (1) Internet Computer (Motoko) backend + User Portal frontend in IC mode, and (2) User Portal frontend in REST mode with an external backend (referenced as the \"backend-node\" folder, per existing docs).",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-explicit-dev-and-staging-environment-setup-for-the-user-portal-using-vite-environment-files-and-document-the-corresponding-urls-for-each-environment-local-urls-are-acceptable-provide-example-environment-files-and-instructions-to-run-each-mode-via-npm-scripts-commands",
+      "title": "Add explicit Dev and Staging environment setup for the User Portal using Vite environment files and document the corresponding URLs for each environment (local URLs are acceptable). Provide example environment files and instructions to run each mode via npm scripts/commands.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-github-onboarding-instructions-to-the-documentation-how-to-initialize-a-repo-add-a-remote-push-to-github-and-how-to-configure-environment-files-safely-e-g-keep-env-out-of-git-include-a-clearly-marked-placeholder-for-the-user-s-github-repository-url-do-not-hardcode-an-unknown-url",
+      "title": "Add GitHub onboarding instructions to the documentation: how to initialize a repo, add a remote, push to GitHub, and how to configure environment files safely (e.g., keep `.env` out of git). Include a clearly marked placeholder for the user’s GitHub repository URL (do not hardcode an unknown URL).",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-vs-code-friendly-setup-in-repo-to-make-local-development-straightforward-workspace-recommendations-and-basic-guidance-without-requiring-proprietary-extensions-if-adding-config-files-e-g-vscode-ensure-they-work-for-running-the-user-portal-and-do-not-change-any-immutable-frontend-paths",
+      "title": "Provide a VS Code-friendly setup in-repo to make local development straightforward (workspace recommendations and basic guidance), without requiring proprietary extensions. If adding config files (e.g., `.vscode`), ensure they work for running the User Portal and do not change any immutable frontend paths.",
+      "reqIds": [
+        "REQ-35"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-user-portal-dashboard-renders-a-visible-gold-silver-rates-dummy-data-section-for-all-authenticated-users-including-existing-users-with-dropdown-controls-for-1-indian-capital-city-2-karat-18-22-24-and-3-weight-1g-10g-100g-1000g-and-display-calculated-dummy-prices-in-inr-based-on-the-selected-options",
+      "title": "Ensure the User Portal Dashboard renders a visible \"Gold & Silver Rates\" dummy-data section for all authenticated users (including existing users), with dropdown controls for (1) Indian capital city, (2) karat 18/22/24, and (3) weight 1g/10g/100g/1000g, and display calculated dummy prices in INR (₹) based on the selected options.",
+      "reqIds": [
+        "REQ-36"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-user-portal-logo-so-that-the-correct-arthanidhi-pay-logo-artwork-is-used-consistently-across-the-user-portal-ui-at-minimum-header-and-footer-replacing-the-currently-referenced-logo-asset-path-s-where-needed",
+      "title": "Fix the User Portal logo so that the correct ArthaNidhi Pay logo artwork is used consistently across the User Portal UI (at minimum: header and footer), replacing the currently referenced logo asset path(s) where needed.",
+      "reqIds": [
+        "REQ-37"
       ],
       "version": 1
     }
@@ -475,6 +530,48 @@
       "reqIds": [
         "REQ-30"
       ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-51",
+      "summary": "Phase 1 scope change: implement updates in User Portal only; Admin Portal unchanged with no integration for now",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-52",
+      "summary": "Add Gold & Silver Rates module (dummy) with dropdowns: Indian capital city, karat 18/22/24, weight 1g/10g/100g/1000g",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-53",
+      "summary": "Add dashboard content: world+India financial news section (dummy) and ensure username + local timezone date/time greeting",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-54",
+      "summary": "Add/ensure dark mode toggle across all pages and a left sidebar menu listing all pages; move Logout button to header (not dashboard)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-55",
+      "summary": "Ensure existing users missing Customer ID/Account Number get them auto-generated; assign dummy initial balance to both new and existing users; balances and monthly charts update based on transactions",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-56",
+      "summary": "Apply new visual theme update: sunrise gradient + blue neon + snowy white mountains background (User Portal)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-57",
+      "summary": "Add a dummy-but-consistent transfer system: real balance deduction/credit between users with transfer history and full transfer flow UI",
+      "reqIds": [],
       "status": "pending"
     }
   ],

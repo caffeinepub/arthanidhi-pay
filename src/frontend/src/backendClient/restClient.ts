@@ -16,7 +16,8 @@
  */
 
 import type { BackendClient } from './types';
-import type { UserProfile, Transaction, TransactionRange, Settings, MarketData, MutualFund, Stock } from '../backend';
+import type { UserProfile } from '../backend';
+import type { Transaction, TransactionRange, Settings, MarketData, MutualFund, Stock } from '../types';
 import { stringifyWithBigInt, parseWithBigInt } from '../utils/jsonBigint';
 
 export class RESTBackendClient implements BackendClient {

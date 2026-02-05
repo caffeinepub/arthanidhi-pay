@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
 import { getBackendClient, getBackendConfig } from '../backendClient';
-import type { UserProfile, Transaction, TransactionRange, Settings, MarketData, MutualFund, Stock } from '../backend';
+import type { UserProfile } from '../backend';
+import type { Transaction, TransactionRange, Settings, MarketData, MutualFund, Stock } from '../types';
 
 export function useGetCallerUserProfile() {
   const { actor, isFetching: actorFetching } = useActor();

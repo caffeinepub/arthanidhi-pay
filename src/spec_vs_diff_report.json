@@ -1,75 +1,44 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T19:55:08.383Z",
-  "summary": "Diff adds a separate Admin Portal React app under `frontend/admin-portal/` with its own entry, routes, layout, and admin-only protected routing, plus admin-specific env config and documentation. However, the required “regular auth using the app’s backend” and “working password reset flow” appear implemented only as localStorage/demo UI flows, and admin-backend integration is explicitly left as placeholder/“coming soon” rather than implemented with admin-only backend operations consumed by the admin portal.",
+  "generatedAt": "2026-02-05T21:53:52.157Z",
+  "summary": "REQ-36 is partially implemented: a new GoldSilverRatesCard is added and wired into DashboardPage with dropdowns and dummy price calculations, but the city dropdown does not appear to use “Indian capital cities” as required. REQ-37 is implemented for header/footer logo paths, but there is evidence other User Portal pages may still reference a different logo asset, so “consistent across the User Portal UI” is not fully met.",
   "missing_requirements": [
     {
-      "id": "REQ-28",
-      "requirement": "Implement regular (non–Internet Identity) authentication flows for BOTH the user portal and the admin portal using the app’s backend (signup, login, logout, session persistence, protected routes).",
-      "reason": "The diff evidence indicates both portals use localStorage-based demo auth contexts rather than backend-backed authentication (explicitly called out as demo/insecure). No backend endpoints for signup/login/session are evidenced in the diff summary.",
+      "id": "REQ-36",
+      "requirement": "City dropdown should list Indian capital cities.",
+      "reason": "The added city list includes non-capital cities (e.g., Mumbai, Bangalore, Kolkata, Chennai, Hyderabad, Ahmedabad, Pune, Jaipur, Lucknow) rather than Indian capital cities.",
       "evidence": [
-        "frontend/admin-portal/src/contexts/AdminAuthContext.tsx",
-        "frontend-file-summaries.txt (mentions `frontend/src/contexts/AuthContext.tsx` is localStorage-based)",
-        "frontend/admin-portal/README.md (describes localStorage keys for auth)"
+        "frontend/src/components/dashboard/GoldSilverRatesCard.tsx"
       ]
     },
     {
-      "id": "REQ-29",
-      "requirement": "Add a Forgot Password link on BOTH login pages leading to a dedicated password recovery/reset flow that works with the regular signup/login system (not Internet Identity).",
-      "reason": "Both portals have a forgot-password page, but the implementation is a demo submission that does not reset passwords or integrate with a real backend-backed auth system. The pages explicitly state it would send an email “in a real application.”",
+      "id": "REQ-37",
+      "requirement": "Use the correct ArthaNidhi Pay logo artwork consistently across the User Portal UI (at minimum header and footer), replacing incorrect logo asset paths where needed.",
+      "reason": "Header and Footer were updated to use /assets/generated/arthanidhi-logo.dim_512x512.png, but the diff summary indicates LoginPage still uses a different logo asset (\"logo-1.png\"), suggesting logo usage is not consistent across the User Portal UI.",
       "evidence": [
-        "frontend/src/pages/ForgotPasswordPage.tsx",
-        "frontend/admin-portal/src/pages/AdminForgotPasswordPage.tsx"
-      ]
-    },
-    {
-      "id": "REQ-30",
-      "requirement": "Integrate Admin Portal with the same backend by adding backend authorization for admin-only actions and exposing admin-specific operations needed by the admin frontend; admin portal must fetch/display admin-relevant backend data using authenticated admin sessions.",
-      "reason": "Admin portal backend client is explicitly a placeholder returning static data/empty arrays. Admin dashboard shows static metrics (e.g., Total Users = 0) and notes backend integration will be added later. Backend diff shows some access-control checks, but no concrete admin-only operations evidenced as being called by the admin portal to display real backend data.",
-      "evidence": [
-        "frontend/admin-portal/src/backend/adminBackendClient.ts",
-        "frontend/admin-portal/src/pages/AdminDashboardPage.tsx",
-        "backend/main.mo"
+        "frontend/src/components/layout/Header.tsx",
+        "frontend/src/components/layout/Footer.tsx",
+        "frontend-file-summaries.txt"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "References to KYC approval workflows and other future admin capabilities (e.g., transaction monitoring, audit logs) in admin UI/README despite being listed as non-goals for this request.",
-      "reason": "BuildRequest non-goals explicitly include not implementing KYC/maker-checker workflows/transfers/joint accounts unless requested. The diff introduces user-facing text claiming/teasing KYC approval workflows and similar admin capabilities (even if marked as future).",
+      "description": "Added/changed footer content to include caffeine.ai attribution, a heart icon, a demo disclaimer, and a hardcoded © 2026 line.",
+      "reason": "BuildRequest only asked to fix the logo; it did not request changing footer attribution/disclaimer/copyright text.",
       "evidence": [
-        "frontend/admin-portal/src/pages/AdminDashboardPage.tsx (list includes “User management and KYC approval workflows”)",
-        "frontend/README.md (Admin Portal section mentions user management/oversight and system monitoring/configuration)"
+        "frontend/src/components/layout/Footer.tsx"
       ]
     }
   ],
-  "confidence": 0.78,
+  "confidence": 0.68,
   "changed_files": [
-    "backend/main.mo",
     "frontend-file-summaries.txt",
-    "frontend/DELIVERY_PLAN_BATCHES.md",
-    "frontend/README.md",
-    "frontend/admin-portal/.env.example",
-    "frontend/admin-portal/README.md",
-    "frontend/admin-portal/index.html",
-    "frontend/admin-portal/src/AdminApp.tsx",
-    "frontend/admin-portal/src/backend/adminBackendClient.ts",
-    "frontend/admin-portal/src/components/auth/AdminProtectedRoute.tsx",
-    "frontend/admin-portal/src/components/layout/AdminHeader.tsx",
-    "frontend/admin-portal/src/components/layout/AdminShell.tsx",
-    "frontend/admin-portal/src/config/env.ts",
-    "frontend/admin-portal/src/contexts/AdminAuthContext.tsx",
-    "frontend/admin-portal/src/main.tsx",
-    "frontend/admin-portal/src/pages/AccessDeniedPage.tsx",
-    "frontend/admin-portal/src/pages/AdminDashboardPage.tsx",
-    "frontend/admin-portal/src/pages/AdminForgotPasswordPage.tsx",
-    "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
-    "frontend/admin-portal/src/pages/AdminSignupPage.tsx",
-    "frontend/admin-portal/src/styles/admin.css",
-    "frontend/src/App.tsx",
-    "frontend/src/pages/ForgotPasswordPage.tsx",
-    "frontend/src/pages/LoginPage.tsx",
+    "frontend/src/components/dashboard/GoldSilverRatesCard.tsx",
+    "frontend/src/components/layout/Footer.tsx",
+    "frontend/src/components/layout/Header.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
     "project_state.json"
   ]
 }

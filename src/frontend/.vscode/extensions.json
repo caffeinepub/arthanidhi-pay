@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "dfinity-foundation.vscode-motoko",
+    "eamodio.gitlens",
+    "christian-kohler.path-intellisense",
+    "formulahendry.auto-rename-tag",
+    "usernamehw.errorlens"
+  ],
+  "unwantedRecommendations": []
+}

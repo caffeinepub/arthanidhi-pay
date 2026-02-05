@@ -13,85 +13,13 @@ export const UserRole = IDL.Variant({
   'user' : IDL.Null,
   'guest' : IDL.Null,
 });
-export const UserProfile = IDL.Record({
-  'displayName' : IDL.Text,
-  'createdAt' : IDL.Int,
-  'email' : IDL.Opt(IDL.Text),
-});
-export const MarketData = IDL.Record({
-  'marketLabel' : IDL.Text,
-  'currency' : IDL.Text,
-  'category' : IDL.Text,
-  'change' : IDL.Int,
-  'price' : IDL.Nat,
-  'symbol' : IDL.Text,
-});
-export const MutualFund = IDL.Record({
-  'nav' : IDL.Nat,
-  'oneDayChange' : IDL.Int,
-  'name' : IDL.Text,
-  'currency' : IDL.Text,
-  'category' : IDL.Text,
-  'oneYearReturn' : IDL.Int,
-});
-export const Settings = IDL.Record({
-  'preferredCurrency' : IDL.Text,
-  'isDarkMode' : IDL.Bool,
-});
-export const TransactionType = IDL.Variant({
-  'credit' : IDL.Null,
-  'debit' : IDL.Null,
-});
-export const Time = IDL.Int;
-export const TransactionRange = IDL.Record({
-  'transactionType' : IDL.Opt(TransactionType),
-  'endDate' : IDL.Opt(Time),
-  'startDate' : IDL.Opt(Time),
-});
-export const Transaction = IDL.Record({
-  'id' : IDL.Nat,
-  'transactionType' : TransactionType,
-  'description' : IDL.Text,
-  'timestamp' : IDL.Int,
-  'amount' : IDL.Nat,
-});
-export const Stock = IDL.Record({
-  'dailyChange' : IDL.Int,
-  'company' : IDL.Text,
-  'currency' : IDL.Text,
-  'market' : IDL.Text,
-  'price' : IDL.Nat,
-  'symbol' : IDL.Text,
-});
+export const UserProfile = IDL.Record({ 'name' : IDL.Text });
 
 export const idlService = IDL.Service({
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-  'createAccount' : IDL.Func([IDL.Text], [], []),
-  'deposit' : IDL.Func([IDL.Nat, IDL.Text], [], []),
-  'getBalance' : IDL.Func([], [IDL.Nat, IDL.Text], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-  'getFinancialHealthData' : IDL.Func(
-      [],
-      [
-        IDL.Record({
-          'balance' : IDL.Nat,
-          'monthlyDebits' : IDL.Nat,
-          'monthlyCredits' : IDL.Nat,
-        }),
-      ],
-      ['query'],
-    ),
-  'getMarketSummary' : IDL.Func([], [IDL.Vec(MarketData)], ['query']),
-  'getMutualFunds' : IDL.Func([], [IDL.Vec(MutualFund)], ['query']),
-  'getSettings' : IDL.Func([], [Settings], ['query']),
-  'getStatement' : IDL.Func(
-      [IDL.Opt(TransactionRange)],
-      [IDL.Vec(Transaction)],
-      ['query'],
-    ),
-  'getStocks' : IDL.Func([], [IDL.Vec(Stock)], ['query']),
   'getUserProfile' : IDL.Func(
       [IDL.Principal],
       [IDL.Opt(UserProfile)],
@@ -99,14 +27,6 @@ export const idlService = IDL.Service({
     ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
-  'searchTransactions' : IDL.Func(
-      [IDL.Text],
-      [IDL.Vec(Transaction)],
-      ['query'],
-    ),
-  'updateProfile' : IDL.Func([IDL.Text], [], []),
-  'updateSettings' : IDL.Func([Settings], [], []),
-  'withdraw' : IDL.Func([IDL.Nat, IDL.Text], [], []),
 });
 
 export const idlInitArgs = [];
@@ -117,85 +37,13 @@ export const idlFactory = ({ IDL }) => {
     'user' : IDL.Null,
     'guest' : IDL.Null,
   });
-  const UserProfile = IDL.Record({
-    'displayName' : IDL.Text,
-    'createdAt' : IDL.Int,
-    'email' : IDL.Opt(IDL.Text),
-  });
-  const MarketData = IDL.Record({
-    'marketLabel' : IDL.Text,
-    'currency' : IDL.Text,
-    'category' : IDL.Text,
-    'change' : IDL.Int,
-    'price' : IDL.Nat,
-    'symbol' : IDL.Text,
-  });
-  const MutualFund = IDL.Record({
-    'nav' : IDL.Nat,
-    'oneDayChange' : IDL.Int,
-    'name' : IDL.Text,
-    'currency' : IDL.Text,
-    'category' : IDL.Text,
-    'oneYearReturn' : IDL.Int,
-  });
-  const Settings = IDL.Record({
-    'preferredCurrency' : IDL.Text,
-    'isDarkMode' : IDL.Bool,
-  });
-  const TransactionType = IDL.Variant({
-    'credit' : IDL.Null,
-    'debit' : IDL.Null,
-  });
-  const Time = IDL.Int;
-  const TransactionRange = IDL.Record({
-    'transactionType' : IDL.Opt(TransactionType),
-    'endDate' : IDL.Opt(Time),
-    'startDate' : IDL.Opt(Time),
-  });
-  const Transaction = IDL.Record({
-    'id' : IDL.Nat,
-    'transactionType' : TransactionType,
-    'description' : IDL.Text,
-    'timestamp' : IDL.Int,
-    'amount' : IDL.Nat,
-  });
-  const Stock = IDL.Record({
-    'dailyChange' : IDL.Int,
-    'company' : IDL.Text,
-    'currency' : IDL.Text,
-    'market' : IDL.Text,
-    'price' : IDL.Nat,
-    'symbol' : IDL.Text,
-  });
+  const UserProfile = IDL.Record({ 'name' : IDL.Text });
   
   return IDL.Service({
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-    'createAccount' : IDL.Func([IDL.Text], [], []),
-    'deposit' : IDL.Func([IDL.Nat, IDL.Text], [], []),
-    'getBalance' : IDL.Func([], [IDL.Nat, IDL.Text], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-    'getFinancialHealthData' : IDL.Func(
-        [],
-        [
-          IDL.Record({
-            'balance' : IDL.Nat,
-            'monthlyDebits' : IDL.Nat,
-            'monthlyCredits' : IDL.Nat,
-          }),
-        ],
-        ['query'],
-      ),
-    'getMarketSummary' : IDL.Func([], [IDL.Vec(MarketData)], ['query']),
-    'getMutualFunds' : IDL.Func([], [IDL.Vec(MutualFund)], ['query']),
-    'getSettings' : IDL.Func([], [Settings], ['query']),
-    'getStatement' : IDL.Func(
-        [IDL.Opt(TransactionRange)],
-        [IDL.Vec(Transaction)],
-        ['query'],
-      ),
-    'getStocks' : IDL.Func([], [IDL.Vec(Stock)], ['query']),
     'getUserProfile' : IDL.Func(
         [IDL.Principal],
         [IDL.Opt(UserProfile)],
@@ -203,14 +51,6 @@ export const idlFactory = ({ IDL }) => {
       ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
-    'searchTransactions' : IDL.Func(
-        [IDL.Text],
-        [IDL.Vec(Transaction)],
-        ['query'],
-      ),
-    'updateProfile' : IDL.Func([IDL.Text], [], []),
-    'updateSettings' : IDL.Func([Settings], [], []),
-    'withdraw' : IDL.Func([IDL.Nat, IDL.Text], [], []),
   });
 };
 

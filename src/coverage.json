@@ -1,163 +1,56 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T19:55:08.387Z",
+  "generatedAt": "2026-02-05T21:53:52.161Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 6,
-    "implemented": 5,
+    "total": 2,
+    "implemented": 2,
     "items": [
       {
-        "id": "REQ-26",
-        "summary": "Create a separate Admin Portal frontend within the same repository, isolated from the existing ArthaNidhi Pay user frontend, with its own routes, auth pages, and layout while reusing the same ArthaNidhi visual background style (light surface with soft wave accents).",
+        "id": "REQ-36",
+        "summary": "Ensure the User Portal Dashboard renders a visible \"Gold & Silver Rates\" dummy-data section for all authenticated users (including existing users), with dropdown controls for (1) Indian capital city, (2) karat 18/22/24, and (3) weight 1g/10g/100g/1000g, and display calculated dummy prices in INR (₹) based on the selected options.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/admin-portal/index.html",
-          "frontend/admin-portal/src/main.tsx",
-          "frontend/admin-portal/src/AdminApp.tsx",
-          "frontend/admin-portal/src/components/layout/AdminShell.tsx",
-          "frontend/admin-portal/src/components/layout/AdminHeader.tsx",
-          "frontend/admin-portal/src/components/auth/AdminProtectedRoute.tsx",
-          "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
-          "frontend/admin-portal/src/pages/AdminSignupPage.tsx",
-          "frontend/admin-portal/src/pages/AdminDashboardPage.tsx",
-          "frontend/admin-portal/src/pages/AccessDeniedPage.tsx",
-          "frontend/admin-portal/src/styles/admin.css",
-          "frontend/public/assets/generated/arthanidhi-wave-bg.dim_1920x1080.png"
+          "frontend/src/components/dashboard/GoldSilverRatesCard.tsx",
+          "frontend/src/pages/DashboardPage.tsx",
+          "frontend/src/utils/currency.ts"
         ],
         "matchedFiles": [
-          "frontend/admin-portal/index.html",
-          "frontend/admin-portal/src/main.tsx",
-          "frontend/admin-portal/src/AdminApp.tsx",
-          "frontend/admin-portal/src/components/layout/AdminShell.tsx",
-          "frontend/admin-portal/src/components/layout/AdminHeader.tsx",
-          "frontend/admin-portal/src/components/auth/AdminProtectedRoute.tsx",
-          "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
-          "frontend/admin-portal/src/pages/AdminSignupPage.tsx",
-          "frontend/admin-portal/src/pages/AdminDashboardPage.tsx",
-          "frontend/admin-portal/src/pages/AccessDeniedPage.tsx",
-          "frontend/admin-portal/src/styles/admin.css"
+          "frontend/src/components/dashboard/GoldSilverRatesCard.tsx",
+          "frontend/src/pages/DashboardPage.tsx"
         ]
       },
       {
-        "id": "REQ-27",
-        "summary": "Add separate environment configuration for the Admin Portal so it can be built/run with admin-specific environment variables (including dev/stage/prod separation if already present for the user portal), without breaking the existing user portal environment setup.",
+        "id": "REQ-37",
+        "summary": "Fix the User Portal logo so that the correct ArthaNidhi Pay logo artwork is used consistently across the User Portal UI (at minimum: header and footer), replacing the currently referenced logo asset path(s) where needed.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/admin-portal/.env.example",
-          "frontend/admin-portal/src/config/env.ts",
-          "frontend/.env.example",
-          "frontend/README.md",
-          "frontend/admin-portal/README.md"
-        ],
-        "matchedFiles": [
-          "frontend/admin-portal/.env.example",
-          "frontend/admin-portal/src/config/env.ts",
-          "frontend/README.md",
-          "frontend/admin-portal/README.md"
-        ]
-      },
-      {
-        "id": "REQ-28",
-        "summary": "Implement regular (non–Internet Identity) authentication flows for BOTH the user portal and the admin portal: signup, login, logout, session persistence, and access-controlled protected routes appropriate to each portal.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/contexts/AuthContext.tsx",
-          "frontend/src/components/auth/ProtectedRoute.tsx",
-          "frontend/src/pages/LoginPage.tsx",
-          "frontend/src/pages/SignupPage.tsx",
+          "frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png",
           "frontend/src/components/layout/Header.tsx",
-          "frontend/admin-portal/src/contexts/AdminAuthContext.tsx",
-          "frontend/admin-portal/src/components/auth/AdminProtectedRoute.tsx",
-          "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
-          "frontend/admin-portal/src/pages/AdminSignupPage.tsx",
-          "frontend/admin-portal/src/AdminApp.tsx",
-          "frontend/admin-portal/src/backend/adminBackendClient.ts"
+          "frontend/src/components/layout/Footer.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/LoginPage.tsx",
-          "frontend/admin-portal/src/contexts/AdminAuthContext.tsx",
-          "frontend/admin-portal/src/components/auth/AdminProtectedRoute.tsx",
-          "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
-          "frontend/admin-portal/src/pages/AdminSignupPage.tsx",
-          "frontend/admin-portal/src/AdminApp.tsx",
-          "frontend/admin-portal/src/backend/adminBackendClient.ts"
-        ]
-      },
-      {
-        "id": "REQ-29",
-        "summary": "Add a Forgot Password link on the login page for BOTH the user portal and the admin portal, each leading to a dedicated password recovery/reset flow that works with the regular signup/login system (not Internet Identity).",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/ForgotPasswordPage.tsx",
-          "frontend/src/App.tsx",
-          "frontend/src/pages/LoginPage.tsx",
-          "frontend/admin-portal/src/pages/AdminForgotPasswordPage.tsx",
-          "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
-          "frontend/admin-portal/src/AdminApp.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/ForgotPasswordPage.tsx",
-          "frontend/src/App.tsx",
-          "frontend/src/pages/LoginPage.tsx",
-          "frontend/admin-portal/src/pages/AdminForgotPasswordPage.tsx",
-          "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
-          "frontend/admin-portal/src/AdminApp.tsx"
-        ]
-      },
-      {
-        "id": "REQ-30",
-        "summary": "Ensure the Admin Portal is integrated with ArthaNidhi Pay data via the same backend, by adding backend authorization for admin-only actions and exposing admin-specific operations needed by the admin frontend (while preserving existing user operations).",
-        "status": "unknown",
-        "plannedFiles": [],
-        "matchedFiles": []
-      },
-      {
-        "id": "REQ-31",
-        "summary": "Provide a batch-oriented delivery plan in-repo (developer-facing documentation) for generating/working with the code in ordered batches as requested (option 1: entire project in multiple ordered batches), including a clear sequence of which folders/files belong to user portal vs admin portal.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/DELIVERY_PLAN_BATCHES.md",
-          "frontend/README.md"
-        ],
-        "matchedFiles": [
-          "frontend/DELIVERY_PLAN_BATCHES.md",
-          "frontend/README.md"
+          "frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png",
+          "frontend/src/components/layout/Header.tsx",
+          "frontend/src/components/layout/Footer.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/main.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/DELIVERY_PLAN_BATCHES.md",
-    "frontend/README.md",
-    "frontend/admin-portal/.env.example",
-    "frontend/admin-portal/README.md",
-    "frontend/admin-portal/index.html",
-    "frontend/admin-portal/src/AdminApp.tsx",
-    "frontend/admin-portal/src/backend/adminBackendClient.ts",
-    "frontend/admin-portal/src/components/auth/AdminProtectedRoute.tsx",
-    "frontend/admin-portal/src/components/layout/AdminHeader.tsx",
-    "frontend/admin-portal/src/components/layout/AdminShell.tsx",
-    "frontend/admin-portal/src/config/env.ts",
-    "frontend/admin-portal/src/contexts/AdminAuthContext.tsx",
-    "frontend/admin-portal/src/main.tsx",
-    "frontend/admin-portal/src/pages/AccessDeniedPage.tsx",
-    "frontend/admin-portal/src/pages/AdminDashboardPage.tsx",
-    "frontend/admin-portal/src/pages/AdminForgotPasswordPage.tsx",
-    "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
-    "frontend/admin-portal/src/pages/AdminSignupPage.tsx",
-    "frontend/admin-portal/src/styles/admin.css",
-    "frontend/src/App.tsx",
-    "frontend/src/pages/ForgotPasswordPage.tsx",
-    "frontend/src/pages/LoginPage.tsx",
+    "frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png",
+    "frontend/src/components/dashboard/GoldSilverRatesCard.tsx",
+    "frontend/src/components/layout/Footer.tsx",
+    "frontend/src/components/layout/Header.tsx",
+    "frontend/src/pages/DashboardPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

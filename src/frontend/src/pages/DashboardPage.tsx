@@ -1,7 +1,6 @@
 import { useNavigate } from '@tanstack/react-router';
-import { useInternetIdentity } from '../hooks/useInternetIdentity';
+import { useAuth } from '../contexts/AuthContext';
 import { useGetCallerUserProfile, useGetBalance, useGetStatement } from '../hooks/useQueries';
-import { useQueryClient } from '@tanstack/react-query';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -9,31 +8,22 @@ import {
   Wallet, 
   TrendingUp, 
   ArrowUpRight, 
-  ArrowDownRight, 
-  LogOut,
+  ArrowDownRight,
   CreditCard,
   FileText,
   BarChart3
 } from 'lucide-react';
-import { toast } from 'sonner';
 import { formatINR } from '../utils/currency';
+import GoldSilverRatesCard from '../components/dashboard/GoldSilverRatesCard';
 
 export default function DashboardPage() {
   const navigate = useNavigate();
-  const { clear } = useInternetIdentity();
-  const queryClient = useQueryClient();
+  const { user } = useAuth();
   const { data: userProfile } = useGetCallerUserProfile();
   const { data: balanceData, isLoading: balanceLoading } = useGetBalance();
   const { data: transactions, isLoading: transactionsLoading } = useGetStatement(null);
 
   const recentTransactions = transactions?.slice(-5).reverse() || [];
-
-  const handleLogout = async () => {
-    await clear();
-    queryClient.clear();
-    toast.success('Logged out successfully');
-    navigate({ to: '/' });
-  };
 
   const formatDate = (timestamp: bigint) => {
     return new Date(Number(timestamp) / 1000000).toLocaleDateString('en-IN', {
@@ -43,21 +33,20 @@ export default function DashboardPage() {
     });
   };
 
+  // Use name from backend profile, fallback to auth context displayName, then 'User'
+  const displayName = userProfile?.name || user?.displayName || 'User';
+
   return (
     <div className="container py-8 space-y-8 animate-fade-in">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-display font-bold tracking-tight">
-            Welcome back, {userProfile?.displayName || 'User'}
+            Welcome back, {displayName}
           </h1>
           <p className="text-muted-foreground mt-1">
             Here's an overview of your financial activity
           </p>
         </div>
-        <Button onClick={handleLogout} variant="outline">
-          <LogOut className="mr-2 h-4 w-4" />
-          Logout
-        </Button>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -120,6 +109,8 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+
+      <GoldSilverRatesCard />
 
       <Card className="bg-card/95 backdrop-blur">
         <CardHeader>

@@ -1,143 +1,61 @@
 {
   "kind": "build_request",
-  "title": "Add Separate Admin Portal (Frontend) With Dedicated Env and Shared Backend Integration",
+  "title": "Fix missing Gold & Silver dummy rates section and correct the User Portal logo",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-26",
-      "text": "Create a separate Admin Portal frontend within the same repository, isolated from the existing ArthaNidhi Pay user frontend, with its own routes, auth pages, and layout while reusing the same ArthaNidhi visual background style (light surface with soft wave accents).",
+      "id": "REQ-36",
+      "text": "Ensure the User Portal Dashboard renders a visible \"Gold & Silver Rates\" dummy-data section for all authenticated users (including existing users), with dropdown controls for (1) Indian capital city, (2) karat 18/22/24, and (3) weight 1g/10g/100g/1000g, and display calculated dummy prices in INR (₹) based on the selected options.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "admin frontend and backend will be separste naa and it will be in the same structure and differnent env for admin"
+          "Gold and Silver rate dummy data section are not showing."
         ]
       },
       "acceptanceCriteria": [
-        "There is a clearly separate admin frontend entry (separate folder or clearly separated app within the frontend workspace) that can be run independently in development.",
-        "Admin Portal pages use the same background styling as the ArthaNidhi Pay user portal.",
-        "Admin Portal has its own navigation/layout distinct from the user portal (even if visually consistent).",
-        "All user-facing text in the Admin Portal is in English."
+        "When logged in, the Dashboard page shows a clearly labeled \"Gold & Silver Rates\" section without requiring any special user state.",
+        "The section includes dropdowns for city (Indian capital cities), karat (18/22/24), and weight (1g/10g/100g/1000g).",
+        "Changing any dropdown selection updates the displayed dummy price(s) immediately in the UI.",
+        "All displayed currency values use INR formatting with the ₹ symbol (consistent with the existing currency utilities).",
+        "The section renders reliably for existing users (e.g., the previously reported user 'abc'), not only newly created users."
       ]
     },
     {
-      "id": "REQ-27",
-      "text": "Add separate environment configuration for the Admin Portal so it can be built/run with admin-specific environment variables (including dev/stage/prod separation if already present for the user portal), without breaking the existing user portal environment setup.",
+      "id": "REQ-37",
+      "text": "Fix the User Portal logo so that the correct ArthaNidhi Pay logo artwork is used consistently across the User Portal UI (at minimum: header and footer), replacing the currently referenced logo asset path(s) where needed.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "it will be in the same structure and differnent env for admin"
+          "And logo is not correct."
         ]
       },
       "acceptanceCriteria": [
-        "Admin Portal can be started with its own environment configuration (admin-specific env file(s) or variables).",
-        "User portal continues to run with its existing environment configuration unchanged.",
-        "Documentation in the repo explains how to run user portal and admin portal side-by-side locally in VS Code using English-only instructions."
-      ]
-    },
-    {
-      "id": "REQ-28",
-      "text": "Implement regular (non–Internet Identity) authentication flows for BOTH the user portal and the admin portal: signup, login, logout, session persistence, and access-controlled protected routes appropriate to each portal.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "wait.no unique usetrname n password ,regular signup and forget password link for resetting in the both admin Arthanidhi and Arthanidhi pay"
-        ]
-      },
-      "acceptanceCriteria": [
-        "User portal supports signup + login with a username/email and password using the app’s backend (not Internet Identity).",
-        "Admin portal supports signup + login with a username/email and password using the app’s backend (not Internet Identity).",
-        "Protected routes in each portal require an authenticated session and redirect unauthenticated users to the correct login page for that portal.",
-        "Logout clears the session and returns the user/admin to the appropriate login page."
-      ]
-    },
-    {
-      "id": "REQ-29",
-      "text": "Add a Forgot Password link on the login page for BOTH the user portal and the admin portal, each leading to a dedicated password recovery/reset flow that works with the regular signup/login system (not Internet Identity).",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "forget password link in the login page for both",
-          "regular signup and forget password link for resetting in the both admin Arthanidhi and Arthanidhi pay"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Both login pages (user + admin) display a clearly visible \"Forgot password?\" link.",
-        "Each portal has a working password reset flow compatible with the implemented regular authentication approach.",
-        "All user-facing password reset guidance and UI text is in English."
-      ]
-    },
-    {
-      "id": "REQ-30",
-      "text": "Ensure the Admin Portal is integrated with ArthaNidhi Pay data via the same backend, by adding backend authorization for admin-only actions and exposing admin-specific operations needed by the admin frontend (while preserving existing user operations).",
-      "target": "backend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "will you separate admin portal and integrate with ArthaNidhi ?"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Backend enforces admin-only access on admin operations (non-admin sessions cannot call/admin-use admin endpoints).",
-        "Admin and user operations can coexist without interfering with each other’s data access rules.",
-        "Admin portal can successfully fetch and display admin-relevant backend data using authenticated admin sessions."
-      ]
-    },
-    {
-      "id": "REQ-31",
-      "text": "Provide a batch-oriented delivery plan in-repo (developer-facing documentation) for generating/working with the code in ordered batches as requested (option 1: entire project in multiple ordered batches), including a clear sequence of which folders/files belong to user portal vs admin portal.",
-      "target": "unknown",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "1"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Repository includes English documentation that lists an ordered, deterministic sequence for assembling the project code in batches (user frontend, admin frontend, backend, shared docs/config).",
-        "Documentation clearly identifies which parts are user portal vs admin portal and how to run both in VS Code."
+        "The header logo and footer logo display the same, correct ArthaNidhi Pay logo artwork.",
+        "There are no remaining references to an incorrect logo asset path (e.g., outdated filenames/locations) in the User Portal header/footer.",
+        "User-facing alt text remains English and accurately describes the logo (e.g., \"ArthaNidhi\")."
       ]
     }
   ],
   "constraints": [
-    "Keep all user-facing text in English.",
-    "Backend must remain within the single-actor Motoko architecture (all Motoko logic in backend/main.mo; only add backend/migration.mo if state upgrades require it).",
-    "Do not edit files under frontend/src/components/ui or other immutable paths listed in SYSTEM_CONTEXT; compose them instead.",
-    "Do not require or depend on external databases or external backend services as part of this build."
+    "Apply changes to the ArthaNidhi Pay User Portal only; do not modify Admin Portal behavior or integrate Admin Portal data flows as part of this fix.",
+    "Do not edit files under frontend/src/components/ui or any other paths listed as immutable in SYSTEM_CONTEXT.",
+    "Use English for any user-facing text added or modified."
   ],
   "nonGoals": [
-    "Do not generate or provide a ZIP file; provide runnable folder structure and code plus VS Code instructions instead.",
-    "Do not add third-party authentication providers (only app-managed auth for this request; no OAuth/Auth0/etc.).",
-    "Do not add real-time data, WebSockets, or push notifications.",
-    "Do not implement KYC, maker-checker workflows, transfers, joint accounts, or map integration unless explicitly requested in a new message."
+    "Implementing real-time gold/silver pricing or integrating any external APIs for commodity rates.",
+    "Changing authentication, backend storage, or adding new backend endpoints solely for the gold/silver dummy module.",
+    "Redesigning unrelated pages beyond what is necessary to restore the missing section and correct the logo asset usage."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "ArthaNidhi Pay logo (clean modern wordmark + icon) on transparent background (arthanidhi-logo.dim_512x512.png)"
+    ],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

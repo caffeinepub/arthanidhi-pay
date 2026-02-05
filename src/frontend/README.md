@@ -28,6 +28,7 @@ Both portals share the same design system and UI components but run independentl
 ### Prerequisites
 - Node.js 18 or higher
 - npm or pnpm package manager
+- DFX (DFINITY Canister SDK) - Required for IC mode only
 
 ### Installation
 
@@ -72,43 +73,16 @@ Both portals share the same design system and UI components but run independentl
    - User Portal: `http://localhost:3000`
    - Admin Portal: `http://localhost:3001`
 
-## Authentication Systems
+## Development Environments
 
-### User Portal Authentication
-- **Storage Keys**: `arthanidhi_user`, `arthanidhi_users`
-- **Access**: Regular user accounts
-- **Routes**: `/dashboard`, `/account`, `/statements`, etc.
+ArthaNidhi Pay supports multiple environment configurations:
 
-### Admin Portal Authentication
-- **Storage Keys**: `arthanidhi_admin_user`, `arthanidhi_admins`
-- **Access**: Admin accounts only
-- **Routes**: `/dashboard` (admin-specific)
+### Available Environment Files
 
-Both authentication systems are completely isolated and can run simultaneously without conflicts.
+- `.env.development.example` - Development environment template
+- `.env.staging.example` - Staging environment template  
+- `.env.example` - Default environment template
 
-⚠️ **Security Note**: The current authentication is localStorage-based for development only. For production, implement secure backend authentication with proper password hashing, JWT tokens, and httpOnly cookies.
+### Running Different Environments
 
-## Features
-
-### User Portal
-- **Dashboard**: Overview of balance, recent transactions, and quick actions
-- **Account Management**: View balance, monthly credits/debits, and financial charts
-- **Statements**: Filter, search, and export transaction history
-- **Market Insights**: Real-time Indian market data (NIFTY, SENSEX, stocks)
-- **Mutual Funds**: Browse Indian mutual funds with NAV and returns
-- **Stocks**: View Indian stock prices and daily changes
-- **Settings**: Update profile and toggle light/dark theme
-
-### Admin Portal
-- **Dashboard**: System overview and admin tools
-- **User Management**: (Coming soon) Manage user accounts and KYC
-- **System Monitoring**: (Coming soon) Monitor system health and activity
-- **Configuration**: (Coming soon) System settings and configuration
-
-## Backend Integration
-
-The application supports two backend modes:
-
-### IC Mode (Internet Computer)
-Uses the Motoko backend canister for all operations.
-
+**Development (default):**

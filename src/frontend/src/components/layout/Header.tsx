@@ -50,11 +50,8 @@ export default function Header() {
             <img
               src="/assets/generated/arthanidhi-logo.dim_512x512.png"
               alt="ArthaNidhi"
-              className="h-10 w-10"
+              className="h-10 w-auto"
             />
-            <span className="font-display text-xl font-semibold tracking-tight">
-              ArthaNidhi
-            </span>
           </button>
 
           {isAuthenticated && (
@@ -119,7 +116,7 @@ export default function Header() {
                     <Menu className="h-5 w-5" />
                   </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-64">
+                <SheetContent side="left" className="w-64">
                   <div className="flex flex-col gap-4 mt-8">
                     <div className="px-2 py-2 border-b">
                       <p className="text-sm font-medium">

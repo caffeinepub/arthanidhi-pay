@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ArrowUpRight, ArrowDownRight, Download, Search } from 'lucide-react';
-import { TransactionType } from '../backend';
+import type { TransactionType } from '../types';
 import { exportTransactionsToCSV } from '../utils/csv';
 import { toast } from 'sonner';
 import { formatINR } from '../utils/currency';
@@ -15,14 +15,14 @@ import { formatINR } from '../utils/currency';
 export default function StatementsPage() {
   const { data: balanceData } = useGetBalance();
   const [searchKeyword, setSearchKeyword] = useState('');
-  const [transactionType, setTransactionType] = useState<'all' | 'credit' | 'debit'>('all');
+  const [transactionType, setTransactionType] = useState<'all' | TransactionType>('all');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
   const range = {
     startDate: startDate ? BigInt(new Date(startDate).getTime() * 1000000) : undefined,
     endDate: endDate ? BigInt(new Date(endDate).getTime() * 1000000) : undefined,
-    transactionType: transactionType === 'all' ? undefined : (transactionType as TransactionType),
+    transactionType: transactionType === 'all' ? undefined : transactionType,
   };
 
   const { data: allTransactions, isLoading: statementsLoading } = useGetStatement(

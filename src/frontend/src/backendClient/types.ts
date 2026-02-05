@@ -14,7 +14,8 @@
  * - User settings
  */
 
-import type { UserProfile, Transaction, TransactionRange, Settings, MarketData, MutualFund, Stock } from '../backend';
+import type { UserProfile } from '../backend';
+import type { Transaction, TransactionRange, Settings, MarketData, MutualFund, Stock } from '../types';
 
 /**
  * BackendClient interface that both IC and REST clients must implement.

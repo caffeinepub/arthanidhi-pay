@@ -10,81 +10,18 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export interface MarketData {
-  'marketLabel' : string,
-  'currency' : string,
-  'category' : string,
-  'change' : bigint,
-  'price' : bigint,
-  'symbol' : string,
-}
-export interface MutualFund {
-  'nav' : bigint,
-  'oneDayChange' : bigint,
-  'name' : string,
-  'currency' : string,
-  'category' : string,
-  'oneYearReturn' : bigint,
-}
-export interface Settings {
-  'preferredCurrency' : string,
-  'isDarkMode' : boolean,
-}
-export interface Stock {
-  'dailyChange' : bigint,
-  'company' : string,
-  'currency' : string,
-  'market' : string,
-  'price' : bigint,
-  'symbol' : string,
-}
-export type Time = bigint;
-export interface Transaction {
-  'id' : bigint,
-  'transactionType' : TransactionType,
-  'description' : string,
-  'timestamp' : bigint,
-  'amount' : bigint,
-}
-export interface TransactionRange {
-  'transactionType' : [] | [TransactionType],
-  'endDate' : [] | [Time],
-  'startDate' : [] | [Time],
-}
-export type TransactionType = { 'credit' : null } |
-  { 'debit' : null };
-export interface UserProfile {
-  'displayName' : string,
-  'createdAt' : bigint,
-  'email' : [] | [string],
-}
+export interface UserProfile { 'name' : string }
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
   { 'guest' : null };
 export interface _SERVICE {
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
-  'createAccount' : ActorMethod<[string], undefined>,
-  'deposit' : ActorMethod<[bigint, string], undefined>,
-  'getBalance' : ActorMethod<[], [bigint, string]>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
-  'getFinancialHealthData' : ActorMethod<
-    [],
-    { 'balance' : bigint, 'monthlyDebits' : bigint, 'monthlyCredits' : bigint }
-  >,
-  'getMarketSummary' : ActorMethod<[], Array<MarketData>>,
-  'getMutualFunds' : ActorMethod<[], Array<MutualFund>>,
-  'getSettings' : ActorMethod<[], Settings>,
-  'getStatement' : ActorMethod<[[] | [TransactionRange]], Array<Transaction>>,
-  'getStocks' : ActorMethod<[], Array<Stock>>,
   'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
-  'searchTransactions' : ActorMethod<[string], Array<Transaction>>,
-  'updateProfile' : ActorMethod<[string], undefined>,
-  'updateSettings' : ActorMethod<[Settings], undefined>,
-  'withdraw' : ActorMethod<[bigint, string], undefined>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

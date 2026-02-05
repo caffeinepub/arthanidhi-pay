@@ -1,18 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGetCallerUserProfile, useUpdateProfile } from '../hooks/useQueries';
 import { useSettings } from '../hooks/useSettings';
+import { useAuth } from '../contexts/AuthContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Separator } from '@/components/ui/separator';
 import { Loader2, Save, User, Palette } from 'lucide-react';
 import { toast } from 'sonner';
 
 export default function ProfileSettingsPage() {
   const { data: userProfile, isLoading: profileLoading } = useGetCallerUserProfile();
+  const { user } = useAuth();
   const updateProfileMutation = useUpdateProfile();
   const { theme, toggleTheme } = useSettings();
 
@@ -20,11 +21,15 @@ export default function ProfileSettingsPage() {
   const [hasEdited, setHasEdited] = useState(false);
 
   // Initialize form when profile loads
-  useState(() => {
+  useEffect(() => {
     if (userProfile && !hasEdited) {
-      setDisplayName(userProfile.displayName);
+      // Backend profile uses 'name' field
+      setDisplayName(userProfile.name || '');
+    } else if (user && !hasEdited && !userProfile) {
+      // Fallback to auth context displayName if no backend profile yet
+      setDisplayName(user.displayName || '');
     }
-  });
+  }, [userProfile, user, hasEdited]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,16 +84,16 @@ export default function ProfileSettingsPage() {
                 <Input
                   id="displayName"
                   placeholder="Enter your name"
-                  value={displayName || userProfile?.displayName || ''}
+                  value={displayName}
                   onChange={(e) => handleNameChange(e.target.value)}
                   disabled={updateProfileMutation.isPending}
                 />
               </div>
 
-              {userProfile?.email && (
+              {user?.email && (
                 <div className="space-y-2">
                   <Label>Email</Label>
-                  <Input value={userProfile.email} disabled />
+                  <Input value={user.email} disabled />
                   <p className="text-xs text-muted-foreground">
                     Email cannot be changed after registration
                   </p>

@@ -1,4 +1,4 @@
-import type { Transaction } from '../backend';
+import type { Transaction } from '../types';
 
 export function exportTransactionsToCSV(transactions: Transaction[], currency: string = 'INR') {
   const headers = ['ID', 'Date', 'Description', 'Type', 'Amount', 'Currency'];
