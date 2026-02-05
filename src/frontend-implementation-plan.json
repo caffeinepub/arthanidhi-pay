@@ -1,59 +1,111 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Restore Gold & Silver dummy rates section on Dashboard and fix User Portal logo asset",
+  "title": "User Portal branding/theme fixes, Signup KYC restoration, and Gold/Silver rates visibility",
   "requirements": [
     {
-      "id": "REQ-36",
-      "summary": "Add a reliably visible \"Gold & Silver Rates\" dummy-data section on the authenticated User Portal Dashboard with city/karat/weight dropdowns and INR (₹) dummy price calculations that update immediately.",
+      "id": "REQ-39",
+      "summary": "Add the uploaded ArthaNidhi Pay logo as a generated static asset and update all User Portal logo usages to reference it.",
       "acceptanceCriteria": [
-        "When logged in, the Dashboard page shows a clearly labeled \"Gold & Silver Rates\" section without requiring any special user state.",
-        "The section includes dropdowns for city (Indian capital cities), karat (18/22/24), and weight (1g/10g/100g/1000g).",
-        "Changing any dropdown selection updates the displayed dummy price(s) immediately in the UI.",
-        "All displayed currency values use INR formatting with the ₹ symbol (consistent with the existing currency utilities).",
-        "The section renders reliably for existing users (e.g., the previously reported user 'abc'), not only newly created users."
+        "A new logo image file derived from the uploaded screenshot exists under `frontend/public/assets/generated/`.",
+        "User Portal Header uses the new logo asset path (no remaining references to the old logo path for the visible header logo).",
+        "User Portal Footer uses the new logo asset path (no remaining references to the old logo path for the visible footer logo).",
+        "If the Login/Signup UI displays a logo/brand mark anywhere, it also uses the same new logo asset path.",
+        "All user-facing alt text remains in English."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/components/dashboard/GoldSilverRatesCard.tsx",
+          "path": "frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png",
           "operation": "create",
-          "description": "Create a Dashboard-only component that renders a clearly labeled \"Gold & Silver Rates\" dummy section with three dropdown controls (Indian capital city, karat 18/22/24, and weight 1g/10g/100g/1000g) and computed dummy Gold + Silver prices formatted using the existing INR currency utilities; ensure UI updates immediately on selection changes and does not depend on user profile presence or any special user state."
-        },
-        {
-          "path": "frontend/src/pages/DashboardPage.tsx",
-          "operation": "modify",
-          "description": "Wire the new GoldSilverRatesCard into the authenticated Dashboard page so it always renders for logged-in users (including existing users) and appears as a visible section alongside existing dashboard cards (no additional auth/profile gating beyond the existing ProtectedRoute)."
-        },
-        {
-          "path": "frontend/src/utils/currency.ts",
-          "operation": "modify",
-          "description": "Ensure the currency helpers support consistent INR (₹) formatting for the dummy rate display (e.g., confirm/extend decimal vs whole-amount formatting as needed for gold/silver dummy prices while keeping existing usages intact)."
-        }
-      ]
-    },
-    {
-      "id": "REQ-37",
-      "summary": "Replace incorrect User Portal logo references so the correct ArthaNidhi Pay logo artwork is used consistently in the header and footer.",
-      "acceptanceCriteria": [
-        "The header logo and footer logo display the same, correct ArthaNidhi Pay logo artwork.",
-        "There are no remaining references to an incorrect logo asset path (e.g., outdated filenames/locations) in the User Portal header/footer.",
-        "User-facing alt text remains English and accurately describes the logo (e.g., \"ArthaNidhi\")."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png",
-          "operation": "create",
-          "description": "Add the generated ArthaNidhi Pay logo asset to the User Portal public assets so it can be referenced consistently by the header and footer (ensure the file is available at exactly: frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png)."
+          "description": "Add the canonical ArthaNidhi Pay logo image (derived from the uploaded screenshot) as a static asset at this exact path."
         },
         {
           "path": "frontend/src/components/layout/Header.tsx",
           "operation": "modify",
-          "description": "Update the User Portal header logo to reference the correct generated logo asset at frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png (replacing the currently referenced incorrect asset path) and ensure English alt text remains accurate (e.g., \"ArthaNidhi\")."
+          "description": "Update the header logo <img> to use the new generated logo asset at `frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png` and keep alt text in English."
         },
         {
           "path": "frontend/src/components/layout/Footer.tsx",
           "operation": "modify",
-          "description": "Update the User Portal footer logo to reference the same correct generated logo asset at frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png (replacing the currently referenced incorrect asset path) and ensure English alt text remains accurate (e.g., \"ArthaNidhi\")."
+          "description": "Update the footer logo <img> to use the new generated logo asset at `frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png` and keep alt text in English."
+        },
+        {
+          "path": "frontend/src/pages/LoginPage.tsx",
+          "operation": "modify",
+          "description": "Update the login page brand/logo image to use `frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png` and keep all user-facing text/alt text in English."
+        }
+      ]
+    },
+    {
+      "id": "REQ-40",
+      "summary": "Revert global User Portal background styling from the current multi-color gradient to the earlier solid theme and apply consistently across pages.",
+      "acceptanceCriteria": [
+        "The global page background no longer uses the current multi-color gradient.",
+        "The background style is consistent across at least: Login, Signup, Dashboard, Market Insights, Mutual Funds, and Stocks pages.",
+        "No user-facing text is changed to a non-English language as part of this update."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/index.css",
+          "operation": "modify",
+          "description": "Remove/replace the current multi-color gradient background styles (including body and wave background utilities) with the earlier agreed solid background color/theme based on existing design tokens so it applies consistently across the app."
+        },
+        {
+          "path": "frontend/src/components/layout/AppShell.tsx",
+          "operation": "modify",
+          "description": "Update the app shell wrapper classes so the global background is consistently applied for both unauthenticated and authenticated pages without relying on the removed gradient utility."
+        }
+      ]
+    },
+    {
+      "id": "REQ-41",
+      "summary": "Restore a required KYC section on the Signup page and persist submitted KYC data via the existing profile save mechanism so it can be fetched after signup.",
+      "acceptanceCriteria": [
+        "The Signup page displays a clearly labeled KYC section with required fields (the form cannot be submitted until required KYC fields are completed).",
+        "If required KYC fields are missing, the user sees an English validation message and signup is blocked.",
+        "On successful signup, the submitted KYC data is stored and can be fetched back for the authenticated user (via existing profile fetch mechanisms)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/SignupPage.tsx",
+          "operation": "modify",
+          "description": "Add a clearly labeled KYC section to the signup form with required fields aligned to the existing UserProfile shape (dateOfBirth, idDocumentNumber, address) and enforce English validation messaging that blocks submission until completed. After successful signup, persist the profile via the existing backend client/profile save flow (e.g., saveCallerUserProfile) so useGetCallerUserProfile can retrieve it for the authenticated user."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Ensure the existing profile query/mutation hooks support the updated signup flow by reliably invalidating/refetching the caller profile after signup-triggered profile persistence (no language changes in user-facing strings)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-42",
+      "summary": "Ensure Gold & Silver Rates are visible for authenticated users on the Dashboard and provide a dedicated protected page/route with navigation access.",
+      "acceptanceCriteria": [
+        "After login, the Dashboard shows a visible \"Gold & Silver Rates\" section for any authenticated user.",
+        "If a dedicated page is added, it is protected (requires authentication) and can be navigated to from the authenticated navigation/menu.",
+        "All labels and disclaimers on the Gold & Silver Rates UI remain in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/GoldSilverRatesPage.tsx",
+          "operation": "create",
+          "description": "Create a dedicated Gold & Silver Rates page that renders the existing GoldSilverRatesCard for authenticated users and keeps all labels/disclaimers in English."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wire the new Gold & Silver Rates page into TanStack Router as a protected route wrapped by ProtectedRoute (requires authentication)."
+        },
+        {
+          "path": "frontend/src/components/layout/Header.tsx",
+          "operation": "modify",
+          "description": "Add an authenticated navigation/menu item for \"Gold & Silver Rates\" linking to the new protected route so users can reliably access it after login."
+        },
+        {
+          "path": "frontend/src/pages/DashboardPage.tsx",
+          "operation": "modify",
+          "description": "Confirm the Dashboard reliably renders a visible Gold & Silver Rates section for any authenticated user (keep the existing GoldSilverRatesCard placement and ensure it is not conditionally hidden)."
         }
       ]
     }

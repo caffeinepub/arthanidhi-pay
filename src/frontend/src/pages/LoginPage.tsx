@@ -42,7 +42,7 @@ export default function LoginPage() {
       <div className="grid md:grid-cols-2 gap-8 max-w-5xl w-full items-center">
         <div className="hidden md:flex items-center justify-center">
           <img
-            src="/assets/logo-1.png"
+            src="/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png"
             alt="ArthaNidhi"
             className="w-full max-w-md h-auto"
           />

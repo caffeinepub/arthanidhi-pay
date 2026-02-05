@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <img
-              src="/assets/generated/arthanidhi-logo.dim_512x512.png"
+              src="/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png"
               alt="ArthaNidhi"
               className="h-8 w-auto"
             />

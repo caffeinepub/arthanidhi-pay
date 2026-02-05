@@ -1,60 +1,95 @@
 {
   "kind": "build_request",
-  "title": "Fix missing Gold & Silver dummy rates section and correct the User Portal logo",
+  "title": "Update User Portal logo, revert background theme, and fix missing Signup KYC + Gold/Silver rates visibility",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-36",
-      "text": "Ensure the User Portal Dashboard renders a visible \"Gold & Silver Rates\" dummy-data section for all authenticated users (including existing users), with dropdown controls for (1) Indian capital city, (2) karat 18/22/24, and (3) weight 1g/10g/100g/1000g, and display calculated dummy prices in INR (₹) based on the selected options.",
+      "id": "REQ-39",
+      "text": "Add the uploaded image (Screenshot 2026-02-06 012037-4.png) as the canonical ArthaNidhi Pay logo static asset under `frontend/public/assets/generated/`, and update the User Portal UI to use this new logo everywhere a logo is shown (at minimum: global Header and Footer; include any auth pages that display a logo).",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "Gold and Silver rate dummy data section are not showing."
+          "man asking this image as the logo"
         ]
       },
       "acceptanceCriteria": [
-        "When logged in, the Dashboard page shows a clearly labeled \"Gold & Silver Rates\" section without requiring any special user state.",
-        "The section includes dropdowns for city (Indian capital cities), karat (18/22/24), and weight (1g/10g/100g/1000g).",
-        "Changing any dropdown selection updates the displayed dummy price(s) immediately in the UI.",
-        "All displayed currency values use INR formatting with the ₹ symbol (consistent with the existing currency utilities).",
-        "The section renders reliably for existing users (e.g., the previously reported user 'abc'), not only newly created users."
+        "A new logo image file derived from the uploaded screenshot exists under `frontend/public/assets/generated/`.",
+        "User Portal Header uses the new logo asset path (no remaining references to the old logo path for the visible header logo).",
+        "User Portal Footer uses the new logo asset path (no remaining references to the old logo path for the visible footer logo).",
+        "If the Login/Signup UI displays a logo/brand mark anywhere, it also uses the same new logo asset path.",
+        "All user-facing alt text remains in English."
       ]
     },
     {
-      "id": "REQ-37",
-      "text": "Fix the User Portal logo so that the correct ArthaNidhi Pay logo artwork is used consistently across the User Portal UI (at minimum: header and footer), replacing the currently referenced logo asset path(s) where needed.",
+      "id": "REQ-40",
+      "text": "Revert the User Portal background styling to the earlier agreed background color/theme (do not use the current multi-color gradient background), and apply the reverted background consistently across unauthenticated and authenticated User Portal pages.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "And logo is not correct."
+          "use the earlier background color we used don't use this one color gradient"
         ]
       },
       "acceptanceCriteria": [
-        "The header logo and footer logo display the same, correct ArthaNidhi Pay logo artwork.",
-        "There are no remaining references to an incorrect logo asset path (e.g., outdated filenames/locations) in the User Portal header/footer.",
-        "User-facing alt text remains English and accurately describes the logo (e.g., \"ArthaNidhi\")."
+        "The global page background no longer uses the current multi-color gradient.",
+        "The background style is consistent across at least: Login, Signup, Dashboard, Market Insights, Mutual Funds, and Stocks pages.",
+        "No user-facing text is changed to a non-English language as part of this update."
+      ]
+    },
+    {
+      "id": "REQ-41",
+      "text": "Ensure the full KYC section is rendered and required during User Portal signup (i.e., KYC fields are visible on the Signup page and validated before account creation), and ensure the KYC data is persisted with the user profile so it can be retrieved after signup.",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "kyc is still not showing here in the signup"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The Signup page displays a clearly labeled KYC section with required fields (the form cannot be submitted until required KYC fields are completed).",
+        "If required KYC fields are missing, the user sees an English validation message and signup is blocked.",
+        "On successful signup, the submitted KYC data is stored and can be fetched back for the authenticated user (via existing profile fetch mechanisms)."
+      ]
+    },
+    {
+      "id": "REQ-42",
+      "text": "Fix Gold & Silver Rates visibility by ensuring it is accessible and visible to authenticated users: (1) the dashboard must render the Gold & Silver Rates module reliably for all authenticated users, and (2) add a dedicated protected Gold & Silver Rates page/route if the UI currently expects a separate page.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "gold and silver rate page is not showing."
+        ]
+      },
+      "acceptanceCriteria": [
+        "After login, the Dashboard shows a visible \"Gold & Silver Rates\" section for any authenticated user.",
+        "If a dedicated page is added, it is protected (requires authentication) and can be navigated to from the authenticated navigation/menu.",
+        "All labels and disclaimers on the Gold & Silver Rates UI remain in English."
       ]
     }
   ],
   "constraints": [
-    "Apply changes to the ArthaNidhi Pay User Portal only; do not modify Admin Portal behavior or integrate Admin Portal data flows as part of this fix.",
-    "Do not edit files under frontend/src/components/ui or any other paths listed as immutable in SYSTEM_CONTEXT.",
-    "Use English for any user-facing text added or modified."
+    "Do not edit files under `frontend/src/components/ui` (Shadcn UI components are read-only).",
+    "Do not modify any frontend immutable paths listed in SYSTEM_CONTEXT.",
+    "Keep Motoko backend as a single-actor architecture in `backend/main.mo`; only introduce `backend/migration.mo` if an upgrade-safe state migration is required."
   ],
   "nonGoals": [
-    "Implementing real-time gold/silver pricing or integrating any external APIs for commodity rates.",
-    "Changing authentication, backend storage, or adding new backend endpoints solely for the gold/silver dummy module.",
-    "Redesigning unrelated pages beyond what is necessary to restore the missing section and correct the logo asset usage."
+    "Do not add external API integrations for live gold/silver pricing (dummy/simulated values only).",
+    "Do not change Admin Portal behavior or integrate Admin Portal with User Portal as part of this request."
   ],
   "imageRequirements": {
     "required": [
-      "ArthaNidhi Pay logo (clean modern wordmark + icon) on transparent background (arthanidhi-logo.dim_512x512.png)"
+      "ArthaNidhi logo wordmark with infinity loop mark in cyan/blue and orange accents (arthanidhi-logo-uploaded.dim_1200x600.png)"
     ],
     "edits": []
   }

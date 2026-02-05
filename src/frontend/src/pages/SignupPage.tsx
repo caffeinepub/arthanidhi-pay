@@ -1,20 +1,29 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useAuth } from '../contexts/AuthContext';
+import { useSaveCallerUserProfile } from '../hooks/useQueries';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, AlertCircle, UserPlus } from 'lucide-react';
+import { Separator } from '@/components/ui/separator';
 
 export default function SignupPage() {
   const navigate = useNavigate();
   const { signup, isAuthenticated } = useAuth();
+  const saveProfile = useSaveCallerUserProfile();
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  
+  // KYC fields
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [idDocumentNumber, setIdDocumentNumber] = useState('');
+  const [address, setAddress] = useState('');
+  
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -43,10 +52,35 @@ export default function SignupPage() {
       return;
     }
 
+    // Validate KYC fields
+    if (!dateOfBirth.trim()) {
+      setError('Please enter your date of birth');
+      return;
+    }
+
+    if (!idDocumentNumber.trim()) {
+      setError('Please enter your ID document number');
+      return;
+    }
+
+    if (!address.trim()) {
+      setError('Please enter your address');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
       await signup(email, password, displayName.trim());
+      
+      // Save KYC profile data
+      await saveProfile.mutateAsync({
+        name: displayName.trim(),
+        dateOfBirth: dateOfBirth.trim(),
+        idDocumentNumber: idDocumentNumber.trim(),
+        address: address.trim(),
+      });
+      
       navigate({ to: '/dashboard' });
     } catch (err: any) {
       setError(err.message || 'Signup failed');
@@ -74,7 +108,7 @@ export default function SignupPage() {
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="displayName">Full Name</Label>
+              <Label htmlFor="displayName">Full Name *</Label>
               <Input
                 id="displayName"
                 placeholder="Enter your full name"
@@ -86,7 +120,7 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">Email *</Label>
               <Input
                 id="email"
                 type="email"
@@ -99,7 +133,7 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label htmlFor="password">Password *</Label>
               <Input
                 id="password"
                 type="password"
@@ -113,7 +147,7 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label htmlFor="confirmPassword">Confirm Password *</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -123,6 +157,54 @@ export default function SignupPage() {
                 required
                 disabled={isLoading}
               />
+            </div>
+
+            <Separator className="my-6" />
+
+            <div className="space-y-4">
+              <div>
+                <h3 className="text-lg font-semibold mb-1">KYC Information</h3>
+                <p className="text-sm text-muted-foreground">
+                  Please provide the following details to complete your registration
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="dateOfBirth">Date of Birth *</Label>
+                <Input
+                  id="dateOfBirth"
+                  type="date"
+                  value={dateOfBirth}
+                  onChange={(e) => setDateOfBirth(e.target.value)}
+                  required
+                  disabled={isLoading}
+                  max={new Date().toISOString().split('T')[0]}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="idDocumentNumber">ID Document Number *</Label>
+                <Input
+                  id="idDocumentNumber"
+                  placeholder="Enter your Aadhaar/PAN/Passport number"
+                  value={idDocumentNumber}
+                  onChange={(e) => setIdDocumentNumber(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="address">Address *</Label>
+                <Input
+                  id="address"
+                  placeholder="Enter your complete address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  required
+                  disabled={isLoading}
+                />
+              </div>
             </div>
 
             <Button

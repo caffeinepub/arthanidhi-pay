@@ -26,6 +26,7 @@ export default function Header() {
     { label: 'Market Insights', path: '/market-insights' },
     { label: 'Mutual Funds', path: '/mutual-funds' },
     { label: 'Stocks', path: '/stocks' },
+    { label: 'Gold & Silver Rates', path: '/gold-silver-rates' },
   ];
 
   const handleNavigation = (path: string) => {
@@ -48,7 +49,7 @@ export default function Header() {
             className="flex items-center gap-3 transition-opacity hover:opacity-80"
           >
             <img
-              src="/assets/generated/arthanidhi-logo.dim_512x512.png"
+              src="/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png"
               alt="ArthaNidhi"
               className="h-10 w-auto"
             />

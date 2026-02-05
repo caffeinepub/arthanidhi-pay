@@ -1,56 +1,96 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T21:53:52.161Z",
+  "generatedAt": "2026-02-05T22:17:44.998Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 2,
-    "implemented": 2,
+    "total": 4,
+    "implemented": 4,
     "items": [
       {
-        "id": "REQ-36",
-        "summary": "Ensure the User Portal Dashboard renders a visible \"Gold & Silver Rates\" dummy-data section for all authenticated users (including existing users), with dropdown controls for (1) Indian capital city, (2) karat 18/22/24, and (3) weight 1g/10g/100g/1000g, and display calculated dummy prices in INR (₹) based on the selected options.",
+        "id": "REQ-39",
+        "summary": "Add the uploaded image (Screenshot 2026-02-06 012037-4.png) as the canonical ArthaNidhi Pay logo static asset under `frontend/public/assets/generated/`, and update the User Portal UI to use this new logo everywhere a logo is shown (at minimum: global Header and Footer; include any auth pages that display a logo).",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/components/dashboard/GoldSilverRatesCard.tsx",
-          "frontend/src/pages/DashboardPage.tsx",
-          "frontend/src/utils/currency.ts"
+          "frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png",
+          "frontend/src/components/layout/Header.tsx",
+          "frontend/src/components/layout/Footer.tsx",
+          "frontend/src/pages/LoginPage.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/components/dashboard/GoldSilverRatesCard.tsx",
-          "frontend/src/pages/DashboardPage.tsx"
+          "frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png",
+          "frontend/src/components/layout/Header.tsx",
+          "frontend/src/components/layout/Footer.tsx",
+          "frontend/src/pages/LoginPage.tsx"
         ]
       },
       {
-        "id": "REQ-37",
-        "summary": "Fix the User Portal logo so that the correct ArthaNidhi Pay logo artwork is used consistently across the User Portal UI (at minimum: header and footer), replacing the currently referenced logo asset path(s) where needed.",
+        "id": "REQ-40",
+        "summary": "Revert the User Portal background styling to the earlier agreed background color/theme (do not use the current multi-color gradient background), and apply the reverted background consistently across unauthenticated and authenticated User Portal pages.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png",
-          "frontend/src/components/layout/Header.tsx",
-          "frontend/src/components/layout/Footer.tsx"
+          "frontend/src/index.css",
+          "frontend/src/components/layout/AppShell.tsx"
         ],
         "matchedFiles": [
-          "frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png",
+          "frontend/src/index.css",
+          "frontend/src/components/layout/AppShell.tsx"
+        ]
+      },
+      {
+        "id": "REQ-41",
+        "summary": "Ensure the full KYC section is rendered and required during User Portal signup (i.e., KYC fields are visible on the Signup page and validated before account creation), and ensure the KYC data is persisted with the user profile so it can be retrieved after signup.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/SignupPage.tsx",
+          "frontend/src/hooks/useQueries.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/SignupPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-42",
+        "summary": "Fix Gold & Silver Rates visibility by ensuring it is accessible and visible to authenticated users: (1) the dashboard must render the Gold & Silver Rates module reliably for all authenticated users, and (2) add a dedicated protected Gold & Silver Rates page/route if the UI currently expects a separate page.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/GoldSilverRatesPage.tsx",
+          "frontend/src/App.tsx",
           "frontend/src/components/layout/Header.tsx",
-          "frontend/src/components/layout/Footer.tsx"
+          "frontend/src/pages/DashboardPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/GoldSilverRatesPage.tsx",
+          "frontend/src/App.tsx",
+          "frontend/src/components/layout/Header.tsx"
         ]
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
+    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/arthanidhi-logo.dim_512x512.png",
-    "frontend/src/components/dashboard/GoldSilverRatesCard.tsx",
+    "frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/backendClient/icClient.ts",
+    "frontend/src/components/layout/AppShell.tsx",
     "frontend/src/components/layout/Footer.tsx",
     "frontend/src/components/layout/Header.tsx",
-    "frontend/src/pages/DashboardPage.tsx",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/index.css",
+    "frontend/src/pages/GoldSilverRatesPage.tsx",
+    "frontend/src/pages/LoginPage.tsx",
+    "frontend/src/pages/SignupPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

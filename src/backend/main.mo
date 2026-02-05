@@ -1,22 +1,27 @@
 import Map "mo:core/Map";
 import Principal "mo:core/Principal";
 import Runtime "mo:core/Runtime";
+import Migration "migration";
 
 import AccessControl "authorization/access-control";
 import MixinAuthorization "authorization/MixinAuthorization";
 
-
+// Migration setup
+(with migration = Migration.run)
 actor {
-  // User profile type
+  // User profile type with KYC fields
   public type UserProfile = {
     name : Text;
+    address : Text;
+    idDocumentNumber : Text;
+    dateOfBirth : Text;
   };
 
   // Initialize the access control system
   let accessControlState = AccessControl.initState();
   include MixinAuthorization(accessControlState);
 
-  // Storage for user profiles
+  // Storage for user profiles with new KYC data
   let userProfiles = Map.empty<Principal, UserProfile>();
 
   // Get the caller's own profile
@@ -35,7 +40,7 @@ actor {
     userProfiles.get(user);
   };
 
-  // Save the caller's own profile
+  // Save the caller's own profile (including KYC)
   public shared ({ caller }) func saveCallerUserProfile(profile : UserProfile) : async () {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can save profiles");

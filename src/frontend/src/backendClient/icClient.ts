@@ -10,7 +10,7 @@
  */
 
 import type { BackendClient } from './types';
-import type { backendInterface } from '../backend';
+import type { backendInterface, UserProfile } from '../backend';
 
 export class ICBackendClient implements BackendClient {
   constructor(private actor: backendInterface) {}
@@ -19,13 +19,29 @@ export class ICBackendClient implements BackendClient {
     return this.actor.getCallerUserProfile();
   }
 
-  async saveCallerUserProfile(profile: any) {
+  async saveCallerUserProfile(profile: UserProfile) {
     return this.actor.saveCallerUserProfile(profile);
   }
 
   async updateProfile(displayName: string) {
-    // The backend only supports saving full profile, so we update the name field
-    return this.actor.saveCallerUserProfile({ name: displayName });
+    // Fetch existing profile to preserve KYC fields
+    const existingProfile = await this.actor.getCallerUserProfile();
+    
+    if (existingProfile) {
+      // Update only the name field, preserve KYC data
+      return this.actor.saveCallerUserProfile({
+        ...existingProfile,
+        name: displayName,
+      });
+    } else {
+      // If no profile exists, create one with empty KYC fields
+      return this.actor.saveCallerUserProfile({
+        name: displayName,
+        dateOfBirth: '',
+        idDocumentNumber: '',
+        address: '',
+      });
+    }
   }
 
   async getBalance() {

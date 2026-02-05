@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 21,
+  "projectStateVersion": 25,
   "summary": "Phase 1 change: apply the newly requested UI/content/feature updates ONLY to the ArthaNidhi Pay (User Portal) first, with NO data integration with the Admin Portal for now. User portal will include: new logo (replace everywhere) + updated footer copyright, global sunrise + neon sky-blue + peacock-feather mixed gradient background theme, full KYC form during signup with auto-approval if mandatory fields are filled, account view showing auto-generated Customer ID + Account Number (including auto-generation for existing users missing these), money transfer feature with real balance updates (using dummy/seed initial balances), updated dashboard greeting with username + local timezone date/time, move logout from dashboard into header (header-only), dark mode toggle across pages, left sidebar menu with all pages, dummy market/stocks/mutual-funds data, and a gold/silver rates module with dropdowns (Indian capital city, karat 18/22/24, weights 1g/10g/100g/1000g), plus a world+India financial news section (dummy).",
   "architectural_notes": [
     "Site-wide header/footer shared across all pages with consistent ArthaNidhi Pay branding (name + logo).",
@@ -19,10 +19,14 @@
     "Gold/Silver Rates module not showing for existing user 'abc' (should render for all users).",
     "Sidebar menu is appearing on the right instead of the requested left side.",
     "Logout button is still displayed on the Dashboard; should be shown only in the header.",
-    "New logo replacement not yet applied consistently across all pages (should replace everywhere)."
+    "New logo replacement not yet applied consistently across all pages (should replace everywhere).",
+    "Logo asset selection is incorrect; user requests reverting to the previous logo (use the provided logo / previous logo consistently across the portal).",
+    "Signup: Full KYC form is still not showing during signup (should be visible and required per Phase 1 scope).",
+    "Visual theme: Background/gradient currently applied is not the earlier agreed background color/theme; revert to the earlier background and do not use the current gradient.",
+    "Gold & Silver Rates: The Gold/Silver rates module/page is still not showing (user reports it missing; should be visible for all authenticated users)."
   ],
   "isFixRequest": true,
-  "imageRequirements": "## Required Images\n- ArthaNidhi Pay logo (clean modern wordmark + icon) on transparent background (arthanidhi-logo.dim_512x512.png)",
+  "imageRequirements": "## Required Images\n- ArthaNidhi logo wordmark with infinity loop mark in cyan/blue and orange accents (arthanidhi-logo-uploaded.dim_1200x600.png)",
   "existing_features": [
     {
       "id": "feature-create-a-consistent-stunning-user-friendly-visual-theme-for-the-arthanidhi-pay-website-colors-typography-spacing-components-and-apply-it-across-all-pages-without-using-a-blue-purple-primary-palette",
@@ -293,6 +297,46 @@
       "title": "Fix the User Portal logo so that the correct ArthaNidhi Pay logo artwork is used consistently across the User Portal UI (at minimum: header and footer), replacing the currently referenced logo asset path(s) where needed.",
       "reqIds": [
         "REQ-37"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-uploaded-logo-design-as-the-canonical-arthanidhi-pay-logo-asset-under-frontend-public-assets-generated-and-update-the-user-portal-ui-to-use-this-same-logo-consistently-anywhere-a-logo-is-shown-at-minimum-header-and-footer-and-the-login-page-illustration-logo",
+      "title": "Add the uploaded logo design as the canonical ArthaNidhi Pay logo asset under `frontend/public/assets/generated/` and update the User Portal UI to use this same logo consistently anywhere a logo is shown (at minimum: Header and Footer, and the Login page illustration/logo).",
+      "reqIds": [
+        "REQ-38"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-uploaded-image-screenshot-2026-02-06-012037-4-png-as-the-canonical-arthanidhi-pay-logo-static-asset-under-frontend-public-assets-generated-and-update-the-user-portal-ui-to-use-this-new-logo-everywhere-a-logo-is-shown-at-minimum-global-header-and-footer-include-any-auth-pages-that-display-a-logo",
+      "title": "Add the uploaded image (Screenshot 2026-02-06 012037-4.png) as the canonical ArthaNidhi Pay logo static asset under `frontend/public/assets/generated/`, and update the User Portal UI to use this new logo everywhere a logo is shown (at minimum: global Header and Footer; include any auth pages that display a logo).",
+      "reqIds": [
+        "REQ-39"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-revert-the-user-portal-background-styling-to-the-earlier-agreed-background-color-theme-do-not-use-the-current-multi-color-gradient-background-and-apply-the-reverted-background-consistently-across-unauthenticated-and-authenticated-user-portal-pages",
+      "title": "Revert the User Portal background styling to the earlier agreed background color/theme (do not use the current multi-color gradient background), and apply the reverted background consistently across unauthenticated and authenticated User Portal pages.",
+      "reqIds": [
+        "REQ-40"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-full-kyc-section-is-rendered-and-required-during-user-portal-signup-i-e-kyc-fields-are-visible-on-the-signup-page-and-validated-before-account-creation-and-ensure-the-kyc-data-is-persisted-with-the-user-profile-so-it-can-be-retrieved-after-signup",
+      "title": "Ensure the full KYC section is rendered and required during User Portal signup (i.e., KYC fields are visible on the Signup page and validated before account creation), and ensure the KYC data is persisted with the user profile so it can be retrieved after signup.",
+      "reqIds": [
+        "REQ-41"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-gold-silver-rates-visibility-by-ensuring-it-is-accessible-and-visible-to-authenticated-users-1-the-dashboard-must-render-the-gold-silver-rates-module-reliably-for-all-authenticated-users-and-2-add-a-dedicated-protected-gold-silver-rates-page-route-if-the-ui-currently-expects-a-separate-page",
+      "title": "Fix Gold & Silver Rates visibility by ensuring it is accessible and visible to authenticated users: (1) the dashboard must render the Gold & Silver Rates module reliably for all authenticated users, and (2) add a dedicated protected Gold & Silver Rates page/route if the UI currently expects a separate page.",
+      "reqIds": [
+        "REQ-42"
       ],
       "version": 1
     }

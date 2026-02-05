@@ -23,6 +23,7 @@ import StatementsPage from './pages/StatementsPage';
 import MarketInsightsPage from './pages/MarketInsightsPage';
 import MutualFundsPage from './pages/MutualFundsPage';
 import StocksPage from './pages/StocksPage';
+import GoldSilverRatesPage from './pages/GoldSilverRatesPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { ThemeProvider } from 'next-themes';
@@ -123,6 +124,16 @@ const stocksRoute = createRoute({
   ),
 });
 
+const goldSilverRatesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/gold-silver-rates',
+  component: () => (
+    <ProtectedRoute>
+      <GoldSilverRatesPage />
+    </ProtectedRoute>
+  ),
+});
+
 const profileSettingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/settings',
@@ -144,6 +155,7 @@ const routeTree = rootRoute.addChildren([
   marketInsightsRoute,
   mutualFundsRoute,
   stocksRoute,
+  goldSilverRatesRoute,
   profileSettingsRoute,
 ]);
 

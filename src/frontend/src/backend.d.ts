@@ -8,7 +8,10 @@ export interface None {
 }
 export type Option<T> = Some<T> | None;
 export interface UserProfile {
+    dateOfBirth: string;
     name: string;
+    idDocumentNumber: string;
+    address: string;
 }
 export enum UserRole {
     admin = "admin",
