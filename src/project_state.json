@@ -1,0 +1,485 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 15,
+  "summary": "Expand ArthaNidhi Pay into a more complete India-standard banking web app: add mandatory KYC during signup with uploads and optional fields, admin portal (separate frontend+backend) to review/approve KYC and change requests with maker/checker roles, auto-approve KYCs when all mandatory fields are filled while still visible to admin, generate unique Customer ID (ARTHA + 12 digits) and 16-digit account number upon activation, support account-to-account transfers, joint accounts (secondary holders), user/admin forgot-reset password flows, contact/communication address page with map, dashboard greeting with time/date, inactivity auto-logout, and separate env configs for user vs admin plus dev/stage/prod; continue Node.js (CommonJS) + PostgreSQL backend approach for external runs.",
+  "architectural_notes": [
+    "Site-wide header/footer shared across all pages with consistent ArthaNidhi Pay branding (name + logo).",
+    "Currency formatting should use INR (₹) for all monetary values displayed in the UI.",
+    "Internet Computer canisters cannot call external payment APIs; to support real payment gateways when running the code externally, use a Node.js (or other standard) backend that can make outbound HTTP calls, while keeping the React frontend.",
+    "Node.js backend implementation choice confirmed: CommonJS (require) style (e.g., server.js).",
+    "Planned external backend datastore: PostgreSQL connected from Node.js backend for users/accounts/transactions/transfers.",
+    "Node.js external REST backend folder should be named exactly `backend-node`.",
+    "Add a separate Admin Portal (separate frontend + backend) within the same repo, sharing branding/theme but isolated via its own environment configuration.",
+    "KYC-driven onboarding: users remain inactive until KYC is approved; if mandatory fields are completed, KYC can be auto-approved but still visible in admin.",
+    "On activation, auto-generate and persist unique IDs: Customer ID format `ARTHA` + 12 digits and a separate 16-digit Account Number.",
+    "Implement session inactivity timeout (5 minutes) with automatic logout for both user and admin portals."
+  ],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-a-consistent-stunning-user-friendly-visual-theme-for-the-arthanidhi-pay-website-colors-typography-spacing-components-and-apply-it-across-all-pages-without-using-a-blue-purple-primary-palette",
+      "title": "Create a consistent, stunning, user-friendly visual theme for the ArthaNidhi Pay website (colors, typography, spacing, components) and apply it across all pages without using a blue+purple primary palette.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-required-brand-images-logo-and-optional-hero-illustrations-and-include-them-as-static-assets-under-frontend-public-assets-generated-then-render-them-in-the-ui-where-appropriate-header-footer-and-key-pages",
+      "title": "Generate required brand images (logo and optional hero/illustrations) and include them as static assets under frontend/public/assets/generated, then render them in the UI where appropriate (header/footer and key pages).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-global-navigation-chrome-a-header-and-footer-rendered-on-all-pages-showing-the-arthanidhi-pay-name-and-logo-plus-a-footer-section-containing-an-english-disclaimer-and-a-copyright-line",
+      "title": "Implement global navigation chrome: a Header and Footer rendered on all pages, showing the ArthaNidhi Pay name and logo, plus a Footer section containing an English disclaimer and a copyright line.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-authentication-flows-using-internet-identity-signup-page-onboarding-details-captured-after-first-login-login-page-and-protected-routes-that-require-the-user-to-be-authenticated",
+      "title": "Add authentication flows using Internet Identity: Signup page (onboarding details captured after first login), Login page, and protected routes that require the user to be authenticated.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-forgot-password-link-on-the-login-page-that-navigates-to-a-dedicated-forgot-password-page-explaining-that-account-recovery-is-handled-via-internet-identity-and-providing-clear-user-guidance-english-only-copy",
+      "title": "Add a \"Forgot password\" link on the Login page that navigates to a dedicated Forgot Password page explaining that account recovery is handled via Internet Identity and providing clear user guidance (English-only copy).",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-the-home-dashboard-page-for-arthanidhi-pay-showing-a-high-level-overview-e-g-total-balance-recent-activity-summary-quick-links-to-account-statements-market-insights-and-include-a-logout-button-on-the-dashboard",
+      "title": "Create the Home/Dashboard page for ArthaNidhi Pay showing a high-level overview (e.g., total balance, recent activity summary, quick links to Account, Statements, Market Insights) and include a Logout button on the Dashboard.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-the-account-page-that-presents-account-details-and-renders-financial-health-visualizations-including-at-least-one-pie-chart-and-one-additional-chart-e-g-line-bar-based-on-the-user-s-transactions-budget-categories",
+      "title": "Create the Account page that presents account details and renders Financial Health visualizations including at least one pie chart and one additional chart (e.g., line/bar) based on the user’s transactions/budget categories.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-the-balance-inquiry-statement-page-that-lists-transactions-with-filtering-date-range-and-type-credit-debit-at-minimum-and-shows-current-available-balance",
+      "title": "Create the Balance Inquiry / Statement page that lists transactions with filtering (date range and type credit/debit at minimum) and shows current/available balance.",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-the-market-insight-page-showing-market-summary-cards-and-simple-charts-tables-using-backend-provided-mock-market-data-no-external-api-calls-and-include-clear-labeling-that-data-is-informational-only",
+      "title": "Create the Market Insight page showing market summary cards and simple charts/tables using backend-provided mock market data (no external API calls), and include clear labeling that data is informational only.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-at-least-three-additional-user-friendly-features-appropriate-for-a-banking-dashboard-selected-and-implemented-end-to-end-without-adding-external-integrations-1-transaction-search-by-keyword-2-downloadable-statement-export-csv-generated-client-side-from-fetched-transactions-and-3-in-app-profile-settings-page-e-g-update-display-name-toggle-light-dark-mode",
+      "title": "Add at least three additional user-friendly features appropriate for a banking dashboard (selected and implemented end-to-end) without adding external integrations: (1) transaction search by keyword, (2) downloadable statement export (CSV) generated client-side from fetched transactions, and (3) in-app profile/settings page (e.g., update display name, toggle light/dark mode).",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-app-branding-to-match-the-uploaded-reference-images-by-a-replacing-the-currently-used-logo-with-the-provided-logo-artwork-and-b-applying-a-background-style-consistent-with-the-reference-light-surface-with-soft-wave-accents-across-key-unauthenticated-and-authenticated-pages-login-signup-dashboard-market-insights-mutual-funds-stocks",
+      "title": "Update the app branding to match the uploaded reference images by (a) replacing the currently used logo with the provided logo artwork, and (b) applying a background style consistent with the reference (light surface with soft wave accents) across key unauthenticated and authenticated pages (Login, Signup, Dashboard, Market Insights, Mutual Funds, Stocks).",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-switch-all-currency-display-in-the-frontend-from-usd-formatting-to-inr-formatting-using-the-symbol-including-balance-statements-dashboard-summary-numbers-and-market-related-prices-ensure-number-formatting-uses-indian-locale-conventions-where-appropriate-e-g-en-in",
+      "title": "Switch all currency display in the frontend from USD formatting to INR formatting using the ₹ symbol, including balance, statements, dashboard summary numbers, and market-related prices; ensure number formatting uses Indian locale conventions where appropriate (e.g., en-IN).",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-revise-market-insights-to-be-india-focused-using-backend-provided-mock-data-no-external-apis-replace-current-global-crypto-tickers-with-indian-market-symbols-and-labels-e-g-nifty-50-sensex-major-nse-bse-listed-equities-and-keep-the-existing-informational-only-simulated-data-disclaimer-in-english",
+      "title": "Revise Market Insights to be India-focused using backend-provided mock data (no external APIs): replace current global/crypto tickers with Indian-market symbols and labels (e.g., NIFTY 50, SENSEX, major NSE/BSE-listed equities), and keep the existing “Informational only / simulated data” disclaimer in English.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-protected-mutual-funds-page-focused-on-indian-mutual-funds-using-backend-provided-mock-data-no-external-apis-including-a-list-table-of-funds-with-key-fields-fund-name-category-nav-price-1d-change-1y-return-as-mock-values-and-a-short-english-disclaimer-that-values-are-simulated",
+      "title": "Add a new protected Mutual Funds page focused on Indian mutual funds using backend-provided mock data (no external APIs), including a list/table of funds with key fields (fund name, category, NAV/price, 1D change, 1Y return as mock values) and a short English disclaimer that values are simulated.",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-protected-stocks-page-focused-on-indian-stocks-using-backend-provided-mock-data-no-external-apis-including-a-list-table-of-stocks-with-key-fields-symbol-company-name-last-price-in-daily-change-and-integrate-navigation-links-to-market-insights-mutual-funds-and-stocks-in-the-global-header-menu",
+      "title": "Add a new protected Stocks page focused on Indian stocks using backend-provided mock data (no external APIs), including a list/table of stocks with key fields (symbol, company name, last price in ₹, daily change), and integrate navigation links to Market Insights, Mutual Funds, and Stocks in the global header/menu.",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-frontend-side-backend-abstraction-that-can-switch-between-the-current-internet-computer-actor-backend-and-an-external-rest-backend-controlled-by-a-single-environment-config-flag-e-g-vite-backend-mode-ic-rest",
+      "title": "Add a frontend-side backend abstraction that can switch between the current Internet Computer actor backend and an external REST backend, controlled by a single environment/config flag (e.g., `VITE_BACKEND_MODE=ic|rest`).",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-react-query-hooks-in-frontend-src-hooks-usequeries-ts-to-use-the-new-backend-abstraction-so-that-the-app-can-function-with-either-ic-actor-calls-or-rest-calls-without-changing-page-components",
+      "title": "Update the React Query hooks in `frontend/src/hooks/useQueries.ts` to use the new backend abstraction so that the app can function with either IC actor calls or REST calls, without changing page components.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-clear-rest-api-contract-endpoint-list-request-response-json-shapes-and-local-vs-code-run-instructions-so-the-user-can-implement-a-node-js-express-backend-externally-that-matches-the-frontend-s-expected-behavior",
+      "title": "Provide a clear REST API contract (endpoint list + request/response JSON shapes) and local VS Code run instructions so the user can implement a Node.js/Express backend externally that matches the frontend’s expected behavior.",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-frontend-documentation-to-clearly-explain-how-to-run-the-exported-project-locally-in-vs-code-for-both-backend-modes-ic-and-rest-including-exact-commands-required-tooling-versions-and-where-to-place-the-env-file-ensure-all-user-facing-text-is-in-english",
+      "title": "Update the frontend documentation to clearly explain how to run the exported project locally in VS Code for both backend modes (IC and REST), including exact commands, required tooling versions, and where to place the `.env` file; ensure all user-facing text is in English.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-complete-frontend-rest-backend-contract-md-so-it-fully-documents-the-rest-api-required-by-the-existing-frontend-src-backendclient-restclient-ts-implementation-including-endpoint-list-http-methods-required-headers-request-response-json-shapes-including-how-bigint-values-are-represented-error-shapes-and-authentication-session-expectations",
+      "title": "Complete `frontend/REST_BACKEND_CONTRACT.md` so it fully documents the REST API required by the existing `frontend/src/backendClient/restClient.ts` implementation, including endpoint list, HTTP methods, required headers, request/response JSON shapes (including how bigint values are represented), error shapes, and authentication/session expectations.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-standardized-file-header-comments-across-the-codebase-backend-motoko-and-frontend-typescript-tsx-that-describe-each-file-s-purpose-key-responsibilities-and-any-important-constraints-do-not-add-excessive-line-by-line-comments-that-reduce-readability",
+      "title": "Add standardized file header comments across the codebase (backend Motoko and frontend TypeScript/TSX) that describe each file’s purpose, key responsibilities, and any important constraints; do not add excessive line-by-line comments that reduce readability.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-project-documentation-to-clearly-answer-whether-the-currently-provided-code-and-run-instructions-are-intended-for-development-or-production-use-including-explicit-guidance-on-what-would-be-required-to-run-in-production-e-g-environment-variables-security-auth-expectations-and-any-demo-local-limitations-using-english-only-user-facing-text",
+      "title": "Update the project documentation to clearly answer whether the currently provided code and run instructions are intended for development or production use, including explicit guidance on what would be required to run in production (e.g., environment variables, security/auth expectations, and any \"demo/local\" limitations) using English-only user-facing text.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-standardize-all-documentation-references-to-the-external-rest-backend-folder-name-as-exactly-backend-node-including-any-run-commands-and-folder-structure-references-and-ensure-the-instructions-consistently-reflect-running-the-frontend-and-the-external-backend-side-by-side-in-vs-code",
+      "title": "Standardize all documentation references to the external REST backend folder name as exactly \"backend-node\" (including any run commands and folder structure references), and ensure the instructions consistently reflect running the frontend and the external backend side-by-side in VS Code.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-separate-admin-portal-frontend-within-the-same-repository-isolated-from-the-existing-arthanidhi-pay-user-frontend-with-its-own-routes-auth-pages-and-layout-while-reusing-the-same-arthanidhi-visual-background-style-light-surface-with-soft-wave-accents",
+      "title": "Create a separate Admin Portal frontend within the same repository, isolated from the existing ArthaNidhi Pay user frontend, with its own routes, auth pages, and layout while reusing the same ArthaNidhi visual background style (light surface with soft wave accents).",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-separate-environment-configuration-for-the-admin-portal-so-it-can-be-built-run-with-admin-specific-environment-variables-including-dev-stage-prod-separation-if-already-present-for-the-user-portal-without-breaking-the-existing-user-portal-environment-setup",
+      "title": "Add separate environment configuration for the Admin Portal so it can be built/run with admin-specific environment variables (including dev/stage/prod separation if already present for the user portal), without breaking the existing user portal environment setup.",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-regular-non-internet-identity-authentication-flows-for-both-the-user-portal-and-the-admin-portal-signup-login-logout-session-persistence-and-access-controlled-protected-routes-appropriate-to-each-portal",
+      "title": "Implement regular (non–Internet Identity) authentication flows for BOTH the user portal and the admin portal: signup, login, logout, session persistence, and access-controlled protected routes appropriate to each portal.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-forgot-password-link-on-the-login-page-for-both-the-user-portal-and-the-admin-portal-each-leading-to-a-dedicated-password-recovery-reset-flow-that-works-with-the-regular-signup-login-system-not-internet-identity",
+      "title": "Add a Forgot Password link on the login page for BOTH the user portal and the admin portal, each leading to a dedicated password recovery/reset flow that works with the regular signup/login system (not Internet Identity).",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-batch-oriented-delivery-plan-in-repo-developer-facing-documentation-for-generating-working-with-the-code-in-ordered-batches-as-requested-option-1-entire-project-in-multiple-ordered-batches-including-a-clear-sequence-of-which-folders-files-belong-to-user-portal-vs-admin-portal",
+      "title": "Provide a batch-oriented delivery plan in-repo (developer-facing documentation) for generating/working with the code in ordered batches as requested (option 1: entire project in multiple ordered batches), including a clear sequence of which folders/files belong to user portal vs admin portal.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create ArthaNidhi Pay banking website UI/UX (stunning, user-friendly)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Add Signup page",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Add Login page with \"Forgot\" password link",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Add Home/Dashboard page",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Add Account page with Financial Health charts (including pie chart)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Add Balance Inquiry / Statement page",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Add Market Insight page",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Add global Header and Footer on all pages with ArthaNidhi name/logo, disclaimer, and copyright",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Add Logout button on homepage/dashboard",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Add additional recommended features (to be proposed by assistant)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Implement backend data models and canister methods to support user profiles, accounts, balances, and transaction/statement history stored per authenticated principal.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-18",
+      "summary": "Update UI to match provided reference image: make logo and background consistent with the image",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-19",
+      "summary": "Switch currency display from USD to INR with ₹ symbol across the app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-20",
+      "summary": "Update Market Insight page to focus on Indian market data/labels (India-specific market insights)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-21",
+      "summary": "Add a Mutual Funds page (India-focused)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-22",
+      "summary": "Add a Stocks page (India-focused)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-25",
+      "summary": "Update backend defaults and settings so the account preferred currency is INR by default and the balance endpoint reports INR as the currency value returned to the frontend.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-26",
+      "summary": "Replace Internet Identity auth with simplified custom signup/login supporting multiple users and user database access control",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-27",
+      "summary": "Add local environment setup for dev, staging, and production (separate configs) for running in VS Code",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-28",
+      "summary": "Support money transactions/transfers between two users (and corresponding transfer history/balance updates)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-29",
+      "summary": "Replace IC canister backend with a Node.js backend for external deployment to enable external payment API integrations (e.g., Razorpay/Stripe)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-30",
+      "summary": "Create a Node.js (CommonJS) backend with PostgreSQL integration matching the frontend REST contract",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-31",
+      "summary": "Add per-file header comments and line-by-line code comments across the generated backend codebase",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-32",
+      "summary": "Add KYC capture during user signup (mandatory fields + optional uploads) with edit profile support",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-33",
+      "summary": "Implement KYC workflow: user inactive until approved/auto-approved; admin sees status incl. Auto-Approved",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-34",
+      "summary": "Generate unique Customer ID (ARTHA + 12 digits) and 16-digit account number upon activation; display in account view",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-35",
+      "summary": "Add separate Admin Portal (frontend + backend) integrated with ArthaNidhi Pay data for KYC/change approvals",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-36",
+      "summary": "Admin roles: Maker/Checker approval flow (KYC + user change requests)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-37",
+      "summary": "Add joint account option: link secondary holders (Aadhaar/PAN/mobile/profile pic; optional signature) to primary account",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-38",
+      "summary": "Support signatures in KYC/joint holders via both image upload (JPG/PNG) and drawn signature pad",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-39",
+      "summary": "Add user contact detail change governance: max 5 changes for address/email/mobile; request admin approval within 48 hours",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-40",
+      "summary": "Add inactivity auto-timeout: logout user/admin after 5 minutes of no activity",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-41",
+      "summary": "Add Contact Us + bank communication address page with map integration",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-42",
+      "summary": "Add Forgot Password/Reset Password flows for both user portal and admin portal (regular signup/login)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-43",
+      "summary": "Update dashboard to greet 'Hello <username>' and show current time/date stamp",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-44",
+      "summary": "Upgrade Market Insights/Stocks to live values (real-time/near real-time data) instead of mock data",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-45",
+      "summary": "Create separate env/config setup for admin app in addition to existing dev/stage/prod separation",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-50",
+      "summary": "Ensure the Admin Portal is integrated with ArthaNidhi Pay data via the same backend, by adding backend authorization for admin-only actions and exposing admin-specific operations needed by the admin frontend (while preserving existing user operations).",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "ArthaNidhi Pay",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

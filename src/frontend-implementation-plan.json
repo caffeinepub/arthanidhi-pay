@@ -1,0 +1,243 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Separate Admin Portal Frontend with Dedicated Env and Regular Auth UI Flows",
+  "requirements": [
+    {
+      "id": "REQ-26",
+      "summary": "Add a separate Admin Portal React frontend inside the repo with its own entry, routes, auth pages, and admin layout while reusing ArthaNidhi Pay wave background styling and English-only UI text.",
+      "acceptanceCriteria": [
+        "There is a clearly separate admin frontend entry (separate folder or clearly separated app within the frontend workspace) that can be run independently in development.",
+        "Admin Portal pages use the same background styling as the ArthaNidhi Pay user portal.",
+        "Admin Portal has its own navigation/layout distinct from the user portal (even if visually consistent).",
+        "All user-facing text in the Admin Portal is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/admin-portal/index.html",
+          "operation": "create",
+          "description": "Create the Admin Portal HTML entry point for an independently runnable admin Vite app (separate from the user portal)."
+        },
+        {
+          "path": "frontend/admin-portal/src/main.tsx",
+          "operation": "create",
+          "description": "Create the Admin Portal React bootstrap entry (Query client + router + providers) to run independently from the user portal."
+        },
+        {
+          "path": "frontend/admin-portal/src/AdminApp.tsx",
+          "operation": "create",
+          "description": "Create the Admin Portal root app component with its own TanStack Router route tree, admin-only protected areas, and distinct layout shell."
+        },
+        {
+          "path": "frontend/admin-portal/src/components/layout/AdminShell.tsx",
+          "operation": "create",
+          "description": "Create Admin Portal layout wrapper that reuses the shared wave background styling (same light surface with soft wave accents) while providing distinct admin structure."
+        },
+        {
+          "path": "frontend/admin-portal/src/components/layout/AdminHeader.tsx",
+          "operation": "create",
+          "description": "Create an admin-specific header/navigation (distinct from user portal) with links to admin routes and logout. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/components/auth/AdminProtectedRoute.tsx",
+          "operation": "create",
+          "description": "Create an AdminProtectedRoute guard that redirects unauthenticated users to the Admin Portal login and blocks non-admin users (showing an access denied screen). Use the authorization component concepts (role-based checks) and verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
+          "operation": "create",
+          "description": "Create the Admin Portal login page UI (English-only) and wire navigation to admin routes; include a visible \"Forgot password?\" link (wired in REQ-29). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/pages/AdminSignupPage.tsx",
+          "operation": "create",
+          "description": "Create the Admin Portal signup page UI (English-only) for regular username/email + password registration. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/pages/AdminDashboardPage.tsx",
+          "operation": "create",
+          "description": "Create an initial Admin Dashboard page that demonstrates authenticated admin access and can display admin-relevant data once backend support exists. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/pages/AccessDeniedPage.tsx",
+          "operation": "create",
+          "description": "Create an Admin Portal access denied screen for unauthorized/insufficient-role scenarios (English-only). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/styles/admin.css",
+          "operation": "create",
+          "description": "Add Admin Portal styling entry that composes/reuses the existing wave background styling approach (no changes under immutable UI component paths)."
+        },
+        {
+          "path": "frontend/public/assets/generated/arthanidhi-wave-bg.dim_1920x1080.png",
+          "operation": "modify",
+          "description": "Ensure the Admin Portal references the existing generated wave background asset at frontend/public/assets/generated/arthanidhi-wave-bg.dim_1920x1080.png (no duplication; reuse for consistent background styling)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-27",
+      "summary": "Add a separate environment configuration for the Admin Portal (dev/stage/prod as applicable) without breaking the existing user portal env setup, and document how to run both side-by-side in VS Code.",
+      "acceptanceCriteria": [
+        "Admin Portal can be started with its own environment configuration (admin-specific env file(s) or variables).",
+        "User portal continues to run with its existing environment configuration unchanged.",
+        "Documentation in the repo explains how to run user portal and admin portal side-by-side locally in VS Code using English-only instructions."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/admin-portal/.env.example",
+          "operation": "create",
+          "description": "Add an Admin Portal-specific .env.example documenting required admin env variables (admin-specific values where relevant) without modifying the user portal env behavior."
+        },
+        {
+          "path": "frontend/admin-portal/src/config/env.ts",
+          "operation": "create",
+          "description": "Create Admin Portal env loader/validator (Vite import.meta.env) to keep admin configuration isolated from user portal config and to support dev/stage/prod via separate env files."
+        },
+        {
+          "path": "frontend/.env.example",
+          "operation": "modify",
+          "description": "Update the user portal env example with a short note pointing to the Admin Portal env example, without changing existing variables or defaults."
+        },
+        {
+          "path": "frontend/README.md",
+          "operation": "modify",
+          "description": "Document English-only instructions to run user portal and admin portal side-by-side locally in VS Code (two terminals), including where each portal’s .env files live and how to start each dev server."
+        },
+        {
+          "path": "frontend/admin-portal/README.md",
+          "operation": "create",
+          "description": "Add Admin Portal-specific README with English-only run/build instructions and environment setup details, explicitly stating how it differs from the user portal."
+        }
+      ]
+    },
+    {
+      "id": "REQ-28",
+      "summary": "Implement regular (non–Internet Identity) auth UX and route protection for both user and admin portals: signup, login, logout, session persistence, and portal-correct redirects.",
+      "acceptanceCriteria": [
+        "User portal supports signup + login with a username/email and password using the app’s backend (not Internet Identity).",
+        "Admin portal supports signup + login with a username/email and password using the app’s backend (not Internet Identity).",
+        "Protected routes in each portal require an authenticated session and redirect unauthenticated users to the correct login page for that portal.",
+        "Logout clears the session and returns the user/admin to the appropriate login page."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/contexts/AuthContext.tsx",
+          "operation": "modify",
+          "description": "Refactor the user portal AuthContext to support backend-managed auth (regular email/username + password) with session persistence, while keeping the existing provider API stable for the app. Ensure logout clears cached auth state and session data. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/auth/ProtectedRoute.tsx",
+          "operation": "modify",
+          "description": "Update user portal ProtectedRoute to redirect unauthenticated users to the user login route and to respect the updated auth initialization/loading state (no flashes)."
+        },
+        {
+          "path": "frontend/src/pages/LoginPage.tsx",
+          "operation": "modify",
+          "description": "Update the user portal login page to use the updated regular auth flow, ensure English-only text, and ensure successful login redirects to /dashboard and logout returns to the user login page. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/pages/SignupPage.tsx",
+          "operation": "modify",
+          "description": "Update the user portal signup page to use the updated regular auth flow (email/username + password) with validation and English-only text. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/components/layout/Header.tsx",
+          "operation": "modify",
+          "description": "Ensure user portal logout uses the updated auth logout behavior (session cleared) and redirects to the user portal login route."
+        },
+        {
+          "path": "frontend/admin-portal/src/contexts/AdminAuthContext.tsx",
+          "operation": "create",
+          "description": "Create a dedicated AdminAuthContext that implements regular backend-managed auth, session persistence, and logout for the Admin Portal (isolated keys/storage and redirects). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/components/auth/AdminProtectedRoute.tsx",
+          "operation": "modify",
+          "description": "Implement AdminProtectedRoute to require an authenticated admin session and redirect to the admin login page; incorporate role checks using the authorization component concepts (e.g., admin role) and show AccessDenied when insufficient permissions. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
+          "operation": "modify",
+          "description": "Wire Admin Portal login to AdminAuthContext, ensure post-login redirect to admin dashboard, and ensure logout returns to the admin login page. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/pages/AdminSignupPage.tsx",
+          "operation": "modify",
+          "description": "Wire Admin Portal signup to AdminAuthContext with English-only validation/errors and redirect behavior. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/AdminApp.tsx",
+          "operation": "modify",
+          "description": "Wire AdminAuthProvider into the Admin Portal app and register admin auth + protected routes (login, signup, dashboard) ensuring portal-correct redirects."
+        },
+        {
+          "path": "frontend/admin-portal/src/backend/adminBackendClient.ts",
+          "operation": "create",
+          "description": "Create an Admin Portal backend client wrapper for calling shared backend capabilities with authenticated admin sessions (using admin env config) and for checking admin role where needed. Verify the component's usage instructions before implementing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-29",
+      "summary": "Add a \"Forgot password?\" link and a dedicated password recovery/reset flow for both user and admin portals compatible with regular (non-II) auth.",
+      "acceptanceCriteria": [
+        "Both login pages (user + admin) display a clearly visible \"Forgot password?\" link.",
+        "Each portal has a working password reset flow compatible with the implemented regular authentication approach.",
+        "All user-facing password reset guidance and UI text is in English."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/ForgotPasswordPage.tsx",
+          "operation": "modify",
+          "description": "Replace the Internet Identity recovery content with a regular-password recovery UI flow (request reset + reset form states) compatible with backend-managed auth, with English-only guidance. Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Register and wire a user-portal forgot-password route and ensure navigation/redirects work from the user login page to the reset flow."
+        },
+        {
+          "path": "frontend/src/pages/LoginPage.tsx",
+          "operation": "modify",
+          "description": "Add a clearly visible \"Forgot password?\" link on the user portal login page that navigates to the user portal forgot-password route (English-only). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/pages/AdminForgotPasswordPage.tsx",
+          "operation": "create",
+          "description": "Create an Admin Portal password recovery/reset flow page compatible with backend-managed auth (English-only). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/pages/AdminLoginPage.tsx",
+          "operation": "modify",
+          "description": "Add a clearly visible \"Forgot password?\" link on the admin login page routing to the admin password recovery flow (English-only). Verify the component's usage instructions before implementing."
+        },
+        {
+          "path": "frontend/admin-portal/src/AdminApp.tsx",
+          "operation": "modify",
+          "description": "Register and wire the Admin Portal forgot-password route and ensure it is reachable from the admin login page and returns users to the correct admin login after completion/cancel."
+        }
+      ]
+    },
+    {
+      "id": "REQ-31",
+      "summary": "Add in-repo developer documentation describing an ordered batch delivery plan and clearly separating user portal vs admin portal folders/files, including VS Code run instructions.",
+      "acceptanceCriteria": [
+        "Repository includes English documentation that lists an ordered, deterministic sequence for assembling the project code in batches (user frontend, admin frontend, backend, shared docs/config).",
+        "Documentation clearly identifies which parts are user portal vs admin portal and how to run both in VS Code."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/DELIVERY_PLAN_BATCHES.md",
+          "operation": "create",
+          "description": "Create English-only batch-oriented delivery plan documentation listing deterministic batches and mapping folders/files to user portal vs admin portal (and shared config/docs), plus VS Code side-by-side run steps."
+        },
+        {
+          "path": "frontend/README.md",
+          "operation": "modify",
+          "description": "Add a short section linking to DELIVERY_PLAN_BATCHES.md and summarizing which folders are user portal vs admin portal with English-only instructions."
+        }
+      ]
+    }
+  ]
+}
