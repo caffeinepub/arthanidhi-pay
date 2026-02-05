@@ -13,25 +13,40 @@ export const UserRole = IDL.Variant({
   'user' : IDL.Null,
   'guest' : IDL.Null,
 });
-export const UserProfile = IDL.Record({
+export const TransactionRecord = IDL.Record({
+  'id' : IDL.Nat,
+  'fromAccount' : IDL.Text,
+  'description' : IDL.Text,
+  'timestamp' : IDL.Nat,
+  'toAccount' : IDL.Text,
+  'amount' : IDL.Nat,
+});
+export const Account = IDL.Record({
+  'balance' : IDL.Nat,
   'dateOfBirth' : IDL.Text,
   'name' : IDL.Text,
   'idDocumentNumber' : IDL.Text,
   'address' : IDL.Text,
+  'customerId' : IDL.Text,
+  'accountNumber' : IDL.Text,
+  'transactionHistory' : IDL.Vec(TransactionRecord),
 });
 
 export const idlService = IDL.Service({
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-  'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+  'deposit' : IDL.Func([IDL.Text, IDL.Nat], [], []),
+  'getAccount' : IDL.Func([IDL.Principal], [IDL.Opt(Account)], ['query']),
+  'getCallerAccount' : IDL.Func([], [IDL.Opt(Account)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-  'getUserProfile' : IDL.Func(
-      [IDL.Principal],
-      [IDL.Opt(UserProfile)],
+  'getTransactionHistory' : IDL.Func(
+      [],
+      [IDL.Vec(TransactionRecord)],
       ['query'],
     ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
-  'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'saveCallerAccount' : IDL.Func([Account], [], []),
+  'transfer' : IDL.Func([IDL.Text, IDL.Text, IDL.Nat, IDL.Text], [], []),
 });
 
 export const idlInitArgs = [];
@@ -42,25 +57,40 @@ export const idlFactory = ({ IDL }) => {
     'user' : IDL.Null,
     'guest' : IDL.Null,
   });
-  const UserProfile = IDL.Record({
+  const TransactionRecord = IDL.Record({
+    'id' : IDL.Nat,
+    'fromAccount' : IDL.Text,
+    'description' : IDL.Text,
+    'timestamp' : IDL.Nat,
+    'toAccount' : IDL.Text,
+    'amount' : IDL.Nat,
+  });
+  const Account = IDL.Record({
+    'balance' : IDL.Nat,
     'dateOfBirth' : IDL.Text,
     'name' : IDL.Text,
     'idDocumentNumber' : IDL.Text,
     'address' : IDL.Text,
+    'customerId' : IDL.Text,
+    'accountNumber' : IDL.Text,
+    'transactionHistory' : IDL.Vec(TransactionRecord),
   });
   
   return IDL.Service({
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-    'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+    'deposit' : IDL.Func([IDL.Text, IDL.Nat], [], []),
+    'getAccount' : IDL.Func([IDL.Principal], [IDL.Opt(Account)], ['query']),
+    'getCallerAccount' : IDL.Func([], [IDL.Opt(Account)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
-    'getUserProfile' : IDL.Func(
-        [IDL.Principal],
-        [IDL.Opt(UserProfile)],
+    'getTransactionHistory' : IDL.Func(
+        [],
+        [IDL.Vec(TransactionRecord)],
         ['query'],
       ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
-    'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'saveCallerAccount' : IDL.Func([Account], [], []),
+    'transfer' : IDL.Func([IDL.Text, IDL.Text, IDL.Nat, IDL.Text], [], []),
   });
 };
 

@@ -7,11 +7,23 @@ export interface None {
     __kind__: "None";
 }
 export type Option<T> = Some<T> | None;
-export interface UserProfile {
+export interface Account {
+    balance: bigint;
     dateOfBirth: string;
     name: string;
     idDocumentNumber: string;
     address: string;
+    customerId: string;
+    accountNumber: string;
+    transactionHistory: Array<TransactionRecord>;
+}
+export interface TransactionRecord {
+    id: bigint;
+    fromAccount: string;
+    description: string;
+    timestamp: bigint;
+    toAccount: string;
+    amount: bigint;
 }
 export enum UserRole {
     admin = "admin",
@@ -20,9 +32,12 @@ export enum UserRole {
 }
 export interface backendInterface {
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
-    getCallerUserProfile(): Promise<UserProfile | null>;
+    deposit(accountNumber: string, amount: bigint): Promise<void>;
+    getAccount(user: Principal): Promise<Account | null>;
+    getCallerAccount(): Promise<Account | null>;
     getCallerUserRole(): Promise<UserRole>;
-    getUserProfile(user: Principal): Promise<UserProfile | null>;
+    getTransactionHistory(): Promise<Array<TransactionRecord>>;
     isCallerAdmin(): Promise<boolean>;
-    saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    saveCallerAccount(profile: Account): Promise<void>;
+    transfer(fromAccount: string, toAccount: string, amount: bigint, description: string): Promise<void>;
 }

@@ -1,14 +1,80 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
 import { getBackendClient, getBackendConfig } from '../backendClient';
-import type { UserProfile } from '../backend';
+import type { Account } from '../backend';
 import type { Transaction, TransactionRange, Settings, MarketData, MutualFund, Stock } from '../types';
+import { useEffect, useRef } from 'react';
+
+export function useGetCallerAccount() {
+  const { actor, isFetching: actorFetching } = useActor();
+  const config = getBackendConfig();
+  const queryClient = useQueryClient();
+  const refetchAttempts = useRef(0);
+  const maxRefetchAttempts = 8; // Increased from 5 to 8 for better reliability
+
+  const query = useQuery<Account | null>({
+    queryKey: ['callerAccount'],
+    queryFn: async () => {
+      if (config.mode === 'rest') {
+        const client = getBackendClient();
+        return client.getCallerAccount();
+      }
+      
+      if (!actor) throw new Error('Actor not available');
+      const client = getBackendClient(actor);
+      return client.getCallerAccount();
+    },
+    enabled: config.mode === 'rest' || (!!actor && !actorFetching),
+    retry: false,
+    staleTime: 0, // Always fetch fresh data
+  });
+
+  // Auto-refetch when identifiers are missing or balance is 0 (backend is generating them)
+  useEffect(() => {
+    if (query.data) {
+      const needsRefetch = 
+        !query.data.customerId || 
+        !query.data.accountNumber || 
+        query.data.balance === BigInt(0);
+      
+      if (needsRefetch && refetchAttempts.current < maxRefetchAttempts) {
+        refetchAttempts.current += 1;
+        const delay = Math.min(1000 * refetchAttempts.current, 3000); // Progressive delay: 1s, 2s, 3s (max)
+        
+        const timeout = setTimeout(() => {
+          console.log(`Refetching account (attempt ${refetchAttempts.current}/${maxRefetchAttempts})...`);
+          queryClient.invalidateQueries({ queryKey: ['callerAccount'] });
+        }, delay);
+        
+        return () => clearTimeout(timeout);
+      } else if (!needsRefetch) {
+        // Reset counter when we have valid data
+        if (refetchAttempts.current > 0) {
+          console.log('Account fully initialized:', {
+            customerId: query.data.customerId,
+            accountNumber: query.data.accountNumber,
+            balance: query.data.balance.toString(),
+          });
+        }
+        refetchAttempts.current = 0;
+      } else if (refetchAttempts.current >= maxRefetchAttempts) {
+        console.warn('Max refetch attempts reached. Account may not be fully initialized.');
+      }
+    }
+  }, [query.data, queryClient]);
+
+  return {
+    ...query,
+    isLoading: config.mode === 'ic' ? (actorFetching || query.isLoading) : query.isLoading,
+    isFetched: config.mode === 'rest' ? query.isFetched : (!!actor && query.isFetched),
+  };
+}
 
 export function useGetCallerUserProfile() {
   const { actor, isFetching: actorFetching } = useActor();
   const config = getBackendConfig();
 
-  const query = useQuery<UserProfile | null>({
+  const query = useQuery<Account | null>({
     queryKey: ['currentUserProfile'],
     queryFn: async () => {
       if (config.mode === 'rest') {
@@ -37,7 +103,7 @@ export function useSaveCallerUserProfile() {
   const config = getBackendConfig();
 
   return useMutation({
-    mutationFn: async (profile: UserProfile) => {
+    mutationFn: async (profile: Account) => {
       if (config.mode === 'rest') {
         const client = getBackendClient();
         return client.saveCallerUserProfile(profile);
@@ -48,7 +114,11 @@ export function useSaveCallerUserProfile() {
       return client.saveCallerUserProfile(profile);
     },
     onSuccess: () => {
+      // Invalidate all related queries to force fresh data
       queryClient.invalidateQueries({ queryKey: ['currentUserProfile'] });
+      queryClient.invalidateQueries({ queryKey: ['callerAccount'] });
+      queryClient.invalidateQueries({ queryKey: ['balance'] });
+      queryClient.invalidateQueries({ queryKey: ['financialHealth'] });
     },
   });
 }
@@ -71,6 +141,7 @@ export function useUpdateProfile() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentUserProfile'] });
+      queryClient.invalidateQueries({ queryKey: ['callerAccount'] });
     },
   });
 }
@@ -135,6 +206,41 @@ export function useSearchTransactions(keyword: string) {
       return client.searchTransactions(keyword);
     },
     enabled: (config.mode === 'rest' || (!!actor && !isFetching)) && !!keyword,
+  });
+}
+
+export function useTransfer() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+  const config = getBackendConfig();
+
+  return useMutation({
+    mutationFn: async ({ 
+      fromAccount, 
+      toAccount, 
+      amount, 
+      description 
+    }: { 
+      fromAccount: string; 
+      toAccount: string; 
+      amount: bigint; 
+      description: string;
+    }) => {
+      if (config.mode === 'rest') {
+        const client = getBackendClient();
+        return client.transfer(fromAccount, toAccount, amount, description);
+      }
+      
+      if (!actor) throw new Error('Actor not available');
+      const client = getBackendClient(actor);
+      return client.transfer(fromAccount, toAccount, amount, description);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['balance'] });
+      queryClient.invalidateQueries({ queryKey: ['statement'] });
+      queryClient.invalidateQueries({ queryKey: ['financialHealth'] });
+      queryClient.invalidateQueries({ queryKey: ['callerAccount'] });
+    },
   });
 }
 
@@ -284,6 +390,7 @@ export function useDeposit() {
       queryClient.invalidateQueries({ queryKey: ['balance'] });
       queryClient.invalidateQueries({ queryKey: ['statement'] });
       queryClient.invalidateQueries({ queryKey: ['financialHealth'] });
+      queryClient.invalidateQueries({ queryKey: ['callerAccount'] });
     },
   });
 }
@@ -308,6 +415,7 @@ export function useWithdraw() {
       queryClient.invalidateQueries({ queryKey: ['balance'] });
       queryClient.invalidateQueries({ queryKey: ['statement'] });
       queryClient.invalidateQueries({ queryKey: ['financialHealth'] });
+      queryClient.invalidateQueries({ queryKey: ['callerAccount'] });
     },
   });
 }

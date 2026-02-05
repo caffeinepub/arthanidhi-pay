@@ -1,5 +1,3 @@
-import { Heart } from 'lucide-react';
-
 export default function Footer() {
   return (
     <footer className="border-t bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 mt-auto">
@@ -15,15 +13,7 @@ export default function Footer() {
           
           <div className="text-center md:text-right">
             <p className="text-sm text-muted-foreground">
-              © 2026. Built with <Heart className="inline h-3 w-3 text-primary fill-primary" /> using{' '}
-              <a
-                href="https://caffeine.ai"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-primary hover:underline font-medium"
-              >
-                caffeine.ai
-              </a>
+              © 2026 belongs to ArthaNidhi Pay and built by Arunachalam Data Management.
             </p>
             <p className="text-xs text-muted-foreground mt-1">
               Demo application for educational purposes only

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 25,
+  "projectStateVersion": 33,
   "summary": "Phase 1 change: apply the newly requested UI/content/feature updates ONLY to the ArthaNidhi Pay (User Portal) first, with NO data integration with the Admin Portal for now. User portal will include: new logo (replace everywhere) + updated footer copyright, global sunrise + neon sky-blue + peacock-feather mixed gradient background theme, full KYC form during signup with auto-approval if mandatory fields are filled, account view showing auto-generated Customer ID + Account Number (including auto-generation for existing users missing these), money transfer feature with real balance updates (using dummy/seed initial balances), updated dashboard greeting with username + local timezone date/time, move logout from dashboard into header (header-only), dark mode toggle across pages, left sidebar menu with all pages, dummy market/stocks/mutual-funds data, and a gold/silver rates module with dropdowns (Indian capital city, karat 18/22/24, weights 1g/10g/100g/1000g), plus a world+India financial news section (dummy).",
   "architectural_notes": [
     "Site-wide header/footer shared across all pages with consistent ArthaNidhi Pay branding (name + logo).",
@@ -23,10 +23,11 @@
     "Logo asset selection is incorrect; user requests reverting to the previous logo (use the provided logo / previous logo consistently across the portal).",
     "Signup: Full KYC form is still not showing during signup (should be visible and required per Phase 1 scope).",
     "Visual theme: Background/gradient currently applied is not the earlier agreed background color/theme; revert to the earlier background and do not use the current gradient.",
-    "Gold & Silver Rates: The Gold/Silver rates module/page is still not showing (user reports it missing; should be visible for all authenticated users)."
+    "Gold & Silver Rates: The Gold/Silver rates module/page is still not showing (user reports it missing; should be visible for all authenticated users).",
+    "Background/theme should be a stunning, consistent background across all pages (user reiterates request to apply it everywhere)."
   ],
-  "isFixRequest": true,
-  "imageRequirements": "## Required Images\n- ArthaNidhi logo wordmark with infinity loop mark in cyan/blue and orange accents (arthanidhi-logo-uploaded.dim_1200x600.png)",
+  "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Premium dark-mode fintech abstract background in deep navy and charcoal with soft gradients, gentle glow lines, subtle blue/white accents, and minimal saffron/green highlights; high contrast; no text/logos/people/watermarks (banking-bg-dark-india.dim_3840x2160.png)",
   "existing_features": [
     {
       "id": "feature-create-a-consistent-stunning-user-friendly-visual-theme-for-the-arthanidhi-pay-website-colors-typography-spacing-components-and-apply-it-across-all-pages-without-using-a-blue-purple-primary-palette",
@@ -339,6 +340,94 @@
         "REQ-42"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-implement-a-left-side-persistent-navigation-menu-sidebar-in-the-arthanidhi-pay-user-portal-authenticated-layout-that-lists-the-main-protected-pages-dashboard-account-statements-market-insights-mutual-funds-stocks-gold-silver-rates-profile-settings-and-works-responsively-collapsible-drawer-on-small-screens",
+      "title": "Implement a LEFT-side persistent navigation menu (sidebar) in the ArthaNidhi Pay User Portal authenticated layout that lists the main protected pages (Dashboard, Account, Statements, Market Insights, Mutual Funds, Stocks, Gold & Silver Rates, Profile/Settings) and works responsively (collapsible/drawer on small screens).",
+      "reqIds": [
+        "REQ-43"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-move-the-user-portal-logout-control-so-it-is-available-in-the-global-header-user-menu-or-equivalent-header-control-and-remove-hide-any-logout-button-currently-rendered-on-the-dashboard-page-content-area",
+      "title": "Move the User Portal logout control so it is available in the global Header user menu (or equivalent header control) and remove/hide any Logout button currently rendered on the Dashboard page content area.",
+      "reqIds": [
+        "REQ-44"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-user-portal-dashboard-header-area-to-greet-the-authenticated-user-by-their-name-or-display-name-and-show-the-current-local-date-time-based-on-the-user-s-browser-timezone",
+      "title": "Update the User Portal Dashboard header area to greet the authenticated user by their name (or display name) and show the current local date/time (based on the user's browser timezone).",
+      "reqIds": [
+        "REQ-45"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-news-section-to-the-user-portal-dashboard-that-shows-a-mixed-world-and-india-finance-news-feed-using-simulated-mock-items-no-external-api-calls-and-clearly-label-it-as-simulated-demo-content-in-english",
+      "title": "Add a \"News\" section to the User Portal Dashboard that shows a mixed \"World\" and \"India\" finance news feed using simulated/mock items (no external API calls), and clearly label it as simulated/demo content in English.",
+      "reqIds": [
+        "REQ-46"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-dummy-but-consistent-money-transfer-feature-in-the-user-portal-that-allows-transferring-inr-amounts-between-two-users-within-the-system-and-updates-both-users-balances-and-transaction-transfer-history-accordingly",
+      "title": "Implement a dummy-but-consistent money transfer feature in the User Portal that allows transferring INR amounts between two users within the system, and updates both users’ balances and transaction/transfer history accordingly.",
+      "reqIds": [
+        "REQ-47"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-every-user-portal-account-has-a-generated-customer-id-and-account-number-and-backfill-them-automatically-for-existing-users-who-are-missing-these-fields-display-them-on-the-account-page",
+      "title": "Ensure every User Portal account has a generated Customer ID and Account Number, and backfill them automatically for existing users who are missing these fields; display them on the Account page.",
+      "reqIds": [
+        "REQ-48"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-user-portal-footer-attribution-copyright-text-to-remove-any-mention-of-built-with-and-caffeine-ai-and-replace-it-with-exactly-2026-belongs-to-arthanidhi-pay-and-built-by-arunachalam-data-management",
+      "title": "Update the User Portal footer attribution/copyright text to remove any mention of \"Built with\" and \"caffeine.ai\", and replace it with exactly: \"© 2026 belongs to ArthaNidhi Pay and built by Arunachalam Data Management.\"",
+      "reqIds": [
+        "REQ-49"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-all-user-portal-users-existing-and-new-have-a-an-auto-generated-customer-id-and-account-number-if-missing-and-b-the-same-dummy-initial-balance-applied-consistently-so-that-transfers-transactions-update-balances-and-the-monthly-credit-debit-charts-accordingly",
+      "title": "Ensure all User Portal users (existing and new) have (a) an auto-generated Customer ID and Account Number if missing, and (b) the same dummy initial balance applied consistently, so that transfers/transactions update balances and the monthly credit/debit charts accordingly.",
+      "reqIds": [
+        "REQ-50"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-modernize-the-user-portal-background-color-and-overall-ui-styling-so-it-no-longer-looks-visually-odd-while-keeping-styling-consistent-across-unauthenticated-and-authenticated-user-portal-pages",
+      "title": "Modernize the User Portal background color and overall UI styling so it no longer looks visually odd, while keeping styling consistent across unauthenticated and authenticated User Portal pages.",
+      "reqIds": [
+        "REQ-51"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-generate-a-premium-high-resolution-dark-mode-website-background-image-suitable-for-an-indian-digital-banking-fintech-ui-using-deep-navy-blue-and-charcoal-tones-as-the-base-subtle-accents-of-blue-and-white-and-very-minimal-saffron-or-green-highlights-include-soft-gradients-gentle-glow-lines-and-minimal-abstract-elements-representing-finance-growth-digital-payments-and-secure-transactions-ensure-the-image-contains-no-people-no-text-no-logos-and-no-watermarks",
+      "title": "Generate a premium, high-resolution dark-mode website background image suitable for an Indian digital banking/fintech UI, using deep navy blue and charcoal tones as the base, subtle accents of blue and white, and very minimal saffron or green highlights; include soft gradients, gentle glow lines, and minimal abstract elements representing finance, growth, digital payments, and secure transactions; ensure the image contains no people, no text, no logos, and no watermarks.",
+      "reqIds": [
+        "REQ-52"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-the-newly-generated-dark-mode-banking-background-image-across-the-arthanidhi-pay-user-portal-in-dark-mode-unauthenticated-and-authenticated-pages-ensuring-readable-contrast-for-all-primary-ui-surfaces-cards-tables-form-fields-and-navigation-while-keeping-the-background-subtle-and-non-distracting",
+      "title": "Apply the newly generated dark-mode banking background image across the ArthaNidhi Pay User Portal in dark mode (unauthenticated and authenticated pages), ensuring readable contrast for all primary UI surfaces (cards, tables, form fields, and navigation) while keeping the background subtle and non-distracting.",
+      "reqIds": [
+        "REQ-53"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -615,6 +704,24 @@
     {
       "id": "AR-57",
       "summary": "Add a dummy-but-consistent transfer system: real balance deduction/credit between users with transfer history and full transfer flow UI",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-58",
+      "summary": "Update footer copyright line to remove 'Built with using caffeine.ai' and replace with: '© 2026 belongs to ArthaNidhi Pay and built by Arunachalam Data Management.'",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-59",
+      "summary": "Revise background color/UI styling to look more modern (current look appears odd) while keeping consistency across pages",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-60",
+      "summary": "Create/generate a premium dark-mode banking website background image for Indian users (deep navy + charcoal base, subtle blue/white accents, minimal saffron/green; soft gradients + gentle glow lines; abstract finance/growth/digital payments/security elements; high-contrast, accessible; no people/text/logos/watermarks; high resolution)",
       "reqIds": [],
       "status": "pending"
     }

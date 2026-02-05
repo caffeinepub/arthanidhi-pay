@@ -1,96 +1,47 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T22:17:44.998Z",
+  "generatedAt": "2026-02-05T23:07:01.703Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 4,
-    "implemented": 4,
+    "total": 2,
+    "implemented": 2,
     "items": [
       {
-        "id": "REQ-39",
-        "summary": "Add the uploaded image (Screenshot 2026-02-06 012037-4.png) as the canonical ArthaNidhi Pay logo static asset under `frontend/public/assets/generated/`, and update the User Portal UI to use this new logo everywhere a logo is shown (at minimum: global Header and Footer; include any auth pages that display a logo).",
+        "id": "REQ-52",
+        "summary": "Generate a premium, high-resolution dark-mode website background image suitable for an Indian digital banking/fintech UI, using deep navy blue and charcoal tones as the base, subtle accents of blue and white, and very minimal saffron or green highlights; include soft gradients, gentle glow lines, and minimal abstract elements representing finance, growth, digital payments, and secure transactions; ensure the image contains no people, no text, no logos, and no watermarks.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png",
-          "frontend/src/components/layout/Header.tsx",
-          "frontend/src/components/layout/Footer.tsx",
-          "frontend/src/pages/LoginPage.tsx"
+          "frontend/public/assets/generated/banking-bg-dark-india.dim_3840x2160.png"
         ],
         "matchedFiles": [
-          "frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png",
-          "frontend/src/components/layout/Header.tsx",
-          "frontend/src/components/layout/Footer.tsx",
-          "frontend/src/pages/LoginPage.tsx"
+          "frontend/public/assets/generated/banking-bg-dark-india.dim_3840x2160.png"
         ]
       },
       {
-        "id": "REQ-40",
-        "summary": "Revert the User Portal background styling to the earlier agreed background color/theme (do not use the current multi-color gradient background), and apply the reverted background consistently across unauthenticated and authenticated User Portal pages.",
+        "id": "REQ-53",
+        "summary": "Apply the newly generated dark-mode banking background image across the ArthaNidhi Pay User Portal in dark mode (unauthenticated and authenticated pages), ensuring readable contrast for all primary UI surfaces (cards, tables, form fields, and navigation) while keeping the background subtle and non-distracting.",
         "status": "implemented",
         "plannedFiles": [
           "frontend/src/index.css",
           "frontend/src/components/layout/AppShell.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/index.css",
-          "frontend/src/components/layout/AppShell.tsx"
-        ]
-      },
-      {
-        "id": "REQ-41",
-        "summary": "Ensure the full KYC section is rendered and required during User Portal signup (i.e., KYC fields are visible on the Signup page and validated before account creation), and ensure the KYC data is persisted with the user profile so it can be retrieved after signup.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/SignupPage.tsx",
-          "frontend/src/hooks/useQueries.ts"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/SignupPage.tsx"
-        ]
-      },
-      {
-        "id": "REQ-42",
-        "summary": "Fix Gold & Silver Rates visibility by ensuring it is accessible and visible to authenticated users: (1) the dashboard must render the Gold & Silver Rates module reliably for all authenticated users, and (2) add a dedicated protected Gold & Silver Rates page/route if the UI currently expects a separate page.",
-        "status": "implemented",
-        "plannedFiles": [
-          "frontend/src/pages/GoldSilverRatesPage.tsx",
-          "frontend/src/App.tsx",
-          "frontend/src/components/layout/Header.tsx",
-          "frontend/src/pages/DashboardPage.tsx"
-        ],
-        "matchedFiles": [
-          "frontend/src/pages/GoldSilverRatesPage.tsx",
-          "frontend/src/App.tsx",
-          "frontend/src/components/layout/Header.tsx"
+          "frontend/src/index.css"
         ]
       }
     ]
   },
   "changedFiles": [
-    "backend/main.mo",
-    "backend/migration.mo",
     "build-request.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png",
-    "frontend/src/App.tsx",
-    "frontend/src/backend.d.ts",
-    "frontend/src/backend.ts",
-    "frontend/src/backendClient/icClient.ts",
-    "frontend/src/components/layout/AppShell.tsx",
-    "frontend/src/components/layout/Footer.tsx",
-    "frontend/src/components/layout/Header.tsx",
-    "frontend/src/declarations/backend.did.d.ts",
-    "frontend/src/declarations/backend.did.js",
+    "frontend/public/assets/generated/banking-bg-dark-india.dim_3840x2160.png",
     "frontend/src/index.css",
-    "frontend/src/pages/GoldSilverRatesPage.tsx",
-    "frontend/src/pages/LoginPage.tsx",
-    "frontend/src/pages/SignupPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

@@ -1,111 +1,44 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "User Portal branding/theme fixes, Signup KYC restoration, and Gold/Silver rates visibility",
+  "title": "Premium India-focused dark-mode banking background (static asset + global dark theme application)",
   "requirements": [
     {
-      "id": "REQ-39",
-      "summary": "Add the uploaded ArthaNidhi Pay logo as a generated static asset and update all User Portal logo usages to reference it.",
+      "id": "REQ-52",
+      "summary": "Add the generated premium dark-mode fintech background image as a static frontend asset.",
       "acceptanceCriteria": [
-        "A new logo image file derived from the uploaded screenshot exists under `frontend/public/assets/generated/`.",
-        "User Portal Header uses the new logo asset path (no remaining references to the old logo path for the visible header logo).",
-        "User Portal Footer uses the new logo asset path (no remaining references to the old logo path for the visible footer logo).",
-        "If the Login/Signup UI displays a logo/brand mark anywhere, it also uses the same new logo asset path.",
-        "All user-facing alt text remains in English."
+        "A new background image file is added under `frontend/public/assets/generated/` with the exact filename specified in the image requirements.",
+        "The generated image is visually consistent with: deep navy + charcoal base, subtle blue/white accents, and only minimal saffron/green highlights.",
+        "The image contains no people, no text, no logos, and no watermarks.",
+        "The image is high resolution and suitable for full-page background use without visible pixelation."
       ],
       "file_operations": [
         {
-          "path": "frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png",
+          "path": "frontend/public/assets/generated/banking-bg-dark-india.dim_3840x2160.png",
           "operation": "create",
-          "description": "Add the canonical ArthaNidhi Pay logo image (derived from the uploaded screenshot) as a static asset at this exact path."
-        },
-        {
-          "path": "frontend/src/components/layout/Header.tsx",
-          "operation": "modify",
-          "description": "Update the header logo <img> to use the new generated logo asset at `frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png` and keep alt text in English."
-        },
-        {
-          "path": "frontend/src/components/layout/Footer.tsx",
-          "operation": "modify",
-          "description": "Update the footer logo <img> to use the new generated logo asset at `frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png` and keep alt text in English."
-        },
-        {
-          "path": "frontend/src/pages/LoginPage.tsx",
-          "operation": "modify",
-          "description": "Update the login page brand/logo image to use `frontend/public/assets/generated/arthanidhi-logo-uploaded.dim_1200x600.png` and keep all user-facing text/alt text in English."
+          "description": "Add the generated static background image asset at exactly `frontend/public/assets/generated/banking-bg-dark-india.dim_3840x2160.png`, ensuring it matches the requested dark-mode Indian fintech aesthetic (no people/text/logos/watermarks)."
         }
       ]
     },
     {
-      "id": "REQ-40",
-      "summary": "Revert global User Portal background styling from the current multi-color gradient to the earlier solid theme and apply consistently across pages.",
+      "id": "REQ-53",
+      "summary": "Apply the generated background image globally in dark mode across unauthenticated and authenticated user-portal pages while preserving readability and not regressing light mode.",
       "acceptanceCriteria": [
-        "The global page background no longer uses the current multi-color gradient.",
-        "The background style is consistent across at least: Login, Signup, Dashboard, Market Insights, Mutual Funds, and Stocks pages.",
-        "No user-facing text is changed to a non-English language as part of this update."
+        "When the app theme is set to dark mode, the generated background image is visible on core screens (at minimum: Login, Signup, Dashboard, Account, Statements, Market Insights, Mutual Funds, Stocks, Gold & Silver Rates, Profile/Settings).",
+        "Foreground content maintains high contrast and remains readable over the background (no low-contrast text or icons).",
+        "No user-facing text is added or modified in a non-English language as part of this change.",
+        "Light mode behavior is not regressed (light mode continues to render as before unless explicitly updated to maintain overall visual consistency)."
       ],
       "file_operations": [
         {
           "path": "frontend/src/index.css",
           "operation": "modify",
-          "description": "Remove/replace the current multi-color gradient background styles (including body and wave background utilities) with the earlier agreed solid background color/theme based on existing design tokens so it applies consistently across the app."
+          "description": "In dark mode only, apply `frontend/public/assets/generated/banking-bg-dark-india.dim_3840x2160.png` as the global page background (e.g., via `html.dark body` styling) with appropriate sizing/positioning and a safe fallback background color so the image is subtle and non-distracting while keeping text/cards/tables/forms readable; do not change light-mode background behavior."
         },
         {
           "path": "frontend/src/components/layout/AppShell.tsx",
           "operation": "modify",
-          "description": "Update the app shell wrapper classes so the global background is consistently applied for both unauthenticated and authenticated pages without relying on the removed gradient utility."
-        }
-      ]
-    },
-    {
-      "id": "REQ-41",
-      "summary": "Restore a required KYC section on the Signup page and persist submitted KYC data via the existing profile save mechanism so it can be fetched after signup.",
-      "acceptanceCriteria": [
-        "The Signup page displays a clearly labeled KYC section with required fields (the form cannot be submitted until required KYC fields are completed).",
-        "If required KYC fields are missing, the user sees an English validation message and signup is blocked.",
-        "On successful signup, the submitted KYC data is stored and can be fetched back for the authenticated user (via existing profile fetch mechanisms)."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/SignupPage.tsx",
-          "operation": "modify",
-          "description": "Add a clearly labeled KYC section to the signup form with required fields aligned to the existing UserProfile shape (dateOfBirth, idDocumentNumber, address) and enforce English validation messaging that blocks submission until completed. After successful signup, persist the profile via the existing backend client/profile save flow (e.g., saveCallerUserProfile) so useGetCallerUserProfile can retrieve it for the authenticated user."
-        },
-        {
-          "path": "frontend/src/hooks/useQueries.ts",
-          "operation": "modify",
-          "description": "Ensure the existing profile query/mutation hooks support the updated signup flow by reliably invalidating/refetching the caller profile after signup-triggered profile persistence (no language changes in user-facing strings)."
-        }
-      ]
-    },
-    {
-      "id": "REQ-42",
-      "summary": "Ensure Gold & Silver Rates are visible for authenticated users on the Dashboard and provide a dedicated protected page/route with navigation access.",
-      "acceptanceCriteria": [
-        "After login, the Dashboard shows a visible \"Gold & Silver Rates\" section for any authenticated user.",
-        "If a dedicated page is added, it is protected (requires authentication) and can be navigated to from the authenticated navigation/menu.",
-        "All labels and disclaimers on the Gold & Silver Rates UI remain in English."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/src/pages/GoldSilverRatesPage.tsx",
-          "operation": "create",
-          "description": "Create a dedicated Gold & Silver Rates page that renders the existing GoldSilverRatesCard for authenticated users and keeps all labels/disclaimers in English."
-        },
-        {
-          "path": "frontend/src/App.tsx",
-          "operation": "modify",
-          "description": "Wire the new Gold & Silver Rates page into TanStack Router as a protected route wrapped by ProtectedRoute (requires authentication)."
-        },
-        {
-          "path": "frontend/src/components/layout/Header.tsx",
-          "operation": "modify",
-          "description": "Add an authenticated navigation/menu item for \"Gold & Silver Rates\" linking to the new protected route so users can reliably access it after login."
-        },
-        {
-          "path": "frontend/src/pages/DashboardPage.tsx",
-          "operation": "modify",
-          "description": "Confirm the Dashboard reliably renders a visible Gold & Silver Rates section for any authenticated user (keep the existing GoldSilverRatesCard placement and ensure it is not conditionally hidden)."
+          "description": "Ensure the main app layout allows the body background image to remain visible on both unauthenticated and authenticated screens (Login/Signup and all protected routes) without introducing readability regressions (e.g., avoid any layout-level solid backgrounds that would fully cover the body background, while keeping existing UI surfaces readable)."
         }
       ]
     }

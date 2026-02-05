@@ -1,7 +1,8 @@
 import { useNavigate } from '@tanstack/react-router';
 import { useAuth } from '../../contexts/AuthContext';
+import { useQueryClient } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
-import { Menu, Moon, Sun, LogOut } from 'lucide-react';
+import { Menu, Moon, Sun, LogOut, User } from 'lucide-react';
 import { useSettings } from '../../hooks/useSettings';
 import {
   DropdownMenu,
@@ -10,42 +11,40 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useState } from 'react';
 
-export default function Header() {
+interface HeaderProps {
+  onMobileMenuToggle?: () => void;
+}
+
+export default function Header({ onMobileMenuToggle }: HeaderProps) {
   const navigate = useNavigate();
   const { user, isAuthenticated, logout } = useAuth();
   const { theme, toggleTheme } = useSettings();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const queryClient = useQueryClient();
 
-  const navItems = [
-    { label: 'Dashboard', path: '/dashboard' },
-    { label: 'Account', path: '/account' },
-    { label: 'Statements', path: '/statements' },
-    { label: 'Market Insights', path: '/market-insights' },
-    { label: 'Mutual Funds', path: '/mutual-funds' },
-    { label: 'Stocks', path: '/stocks' },
-    { label: 'Gold & Silver Rates', path: '/gold-silver-rates' },
-  ];
-
-  const handleNavigation = (path: string) => {
-    navigate({ to: path });
-    setMobileMenuOpen(false);
-  };
-
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    await logout();
+    queryClient.clear();
     navigate({ to: '/' });
-    setMobileMenuOpen(false);
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-4">
+          {isAuthenticated && (
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onMobileMenuToggle}
+              className="lg:hidden"
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+          )}
+          
           <button
-            onClick={() => handleNavigation(isAuthenticated ? '/dashboard' : '/')}
+            onClick={() => navigate({ to: isAuthenticated ? '/dashboard' : '/' })}
             className="flex items-center gap-3 transition-opacity hover:opacity-80"
           >
             <img
@@ -54,20 +53,6 @@ export default function Header() {
               className="h-10 w-auto"
             />
           </button>
-
-          {isAuthenticated && (
-            <nav className="hidden lg:flex items-center gap-6">
-              {navItems.map((item) => (
-                <button
-                  key={item.path}
-                  onClick={() => handleNavigation(item.path)}
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {item.label}
-                </button>
-              ))}
-            </nav>
-          )}
         </div>
 
         <div className="flex items-center gap-3">
@@ -85,82 +70,37 @@ export default function Header() {
           </Button>
 
           {isAuthenticated ? (
-            <>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="hidden lg:inline-flex">
-                    {user?.displayName || 'Account'}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={() => handleNavigation('/settings')}>
-                    Settings
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={toggleTheme}
-                    className="sm:hidden"
-                  >
-                    {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout} className="text-destructive">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" size="icon" className="lg:hidden">
-                    <Menu className="h-5 w-5" />
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="left" className="w-64">
-                  <div className="flex flex-col gap-4 mt-8">
-                    <div className="px-2 py-2 border-b">
-                      <p className="text-sm font-medium">
-                        {user?.displayName || 'Account'}
-                      </p>
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {user?.email}
-                      </p>
-                    </div>
-                    {navItems.map((item) => (
-                      <button
-                        key={item.path}
-                        onClick={() => handleNavigation(item.path)}
-                        className="px-2 py-2 text-left text-sm font-medium hover:bg-accent rounded-md transition-colors"
-                      >
-                        {item.label}
-                      </button>
-                    ))}
-                    <button
-                      onClick={() => handleNavigation('/settings')}
-                      className="px-2 py-2 text-left text-sm font-medium hover:bg-accent rounded-md transition-colors"
-                    >
-                      Settings
-                    </button>
-                    <button
-                      onClick={toggleTheme}
-                      className="px-2 py-2 text-left text-sm font-medium hover:bg-accent rounded-md transition-colors sm:hidden"
-                    >
-                      {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
-                    </button>
-                    <button
-                      onClick={handleLogout}
-                      className="px-2 py-2 text-left text-sm font-medium text-destructive hover:bg-accent rounded-md transition-colors mt-4 border-t pt-4"
-                    >
-                      <LogOut className="inline mr-2 h-4 w-4" />
-                      Logout
-                    </button>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="gap-2">
+                  <User className="h-4 w-4" />
+                  <span className="hidden sm:inline">{user?.displayName || 'Account'}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <div className="px-2 py-1.5 text-sm">
+                  <p className="font-medium">{user?.displayName || 'User'}</p>
+                  <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate({ to: '/settings' })}>
+                  Settings
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={toggleTheme}
+                  className="sm:hidden"
+                >
+                  {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
-            <Button onClick={() => handleNavigation('/')} size="sm">
+            <Button onClick={() => navigate({ to: '/' })} size="sm">
               Login
             </Button>
           )}

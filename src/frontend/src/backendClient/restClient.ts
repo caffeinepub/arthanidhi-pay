@@ -16,7 +16,7 @@
  */
 
 import type { BackendClient } from './types';
-import type { UserProfile } from '../backend';
+import type { Account } from '../backend';
 import type { Transaction, TransactionRange, Settings, MarketData, MutualFund, Stock } from '../types';
 import { stringifyWithBigInt, parseWithBigInt } from '../utils/jsonBigint';
 
@@ -84,12 +84,24 @@ export class RESTBackendClient implements BackendClient {
     return parseWithBigInt<T>(text);
   }
 
-  // Profile operations
-  async getCallerUserProfile(): Promise<UserProfile | null> {
-    return this.request<UserProfile | null>('/profile');
+  // Account operations
+  async getCallerAccount(): Promise<Account | null> {
+    return this.request<Account | null>('/account');
   }
 
-  async saveCallerUserProfile(profile: UserProfile): Promise<void> {
+  async saveCallerAccount(account: Account): Promise<void> {
+    await this.request('/account', {
+      method: 'POST',
+      body: stringifyWithBigInt(account),
+    });
+  }
+
+  // Legacy profile operations (for compatibility)
+  async getCallerUserProfile(): Promise<Account | null> {
+    return this.request<Account | null>('/profile');
+  }
+
+  async saveCallerUserProfile(profile: Account): Promise<void> {
     await this.request('/profile', {
       method: 'POST',
       body: stringifyWithBigInt(profile),
@@ -133,6 +145,13 @@ export class RESTBackendClient implements BackendClient {
 
   async searchTransactions(keyword: string): Promise<Transaction[]> {
     return this.request<Transaction[]>(`/transactions/search?keyword=${encodeURIComponent(keyword)}`);
+  }
+
+  async transfer(fromAccount: string, toAccount: string, amount: bigint, description: string): Promise<void> {
+    await this.request('/transfer', {
+      method: 'POST',
+      body: stringifyWithBigInt({ fromAccount, toAccount, amount, description }),
+    });
   }
 
   // Financial health

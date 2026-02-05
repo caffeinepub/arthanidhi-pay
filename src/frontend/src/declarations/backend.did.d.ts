@@ -10,11 +10,23 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export interface UserProfile {
+export interface Account {
+  'balance' : bigint,
   'dateOfBirth' : string,
   'name' : string,
   'idDocumentNumber' : string,
   'address' : string,
+  'customerId' : string,
+  'accountNumber' : string,
+  'transactionHistory' : Array<TransactionRecord>,
+}
+export interface TransactionRecord {
+  'id' : bigint,
+  'fromAccount' : string,
+  'description' : string,
+  'timestamp' : bigint,
+  'toAccount' : string,
+  'amount' : bigint,
 }
 export type UserRole = { 'admin' : null } |
   { 'user' : null } |
@@ -22,11 +34,14 @@ export type UserRole = { 'admin' : null } |
 export interface _SERVICE {
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
-  'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
+  'deposit' : ActorMethod<[string, bigint], undefined>,
+  'getAccount' : ActorMethod<[Principal], [] | [Account]>,
+  'getCallerAccount' : ActorMethod<[], [] | [Account]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
-  'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
+  'getTransactionHistory' : ActorMethod<[], Array<TransactionRecord>>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
-  'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'saveCallerAccount' : ActorMethod<[Account], undefined>,
+  'transfer' : ActorMethod<[string, string, bigint, string], undefined>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from '@tanstack/react-router';
 import { useAuth } from '../contexts/AuthContext';
 import { useGetCallerUserProfile, useGetBalance, useGetStatement } from '../hooks/useQueries';
@@ -11,10 +12,13 @@ import {
   ArrowDownRight,
   CreditCard,
   FileText,
-  BarChart3
+  BarChart3,
+  Clock
 } from 'lucide-react';
 import { formatINR } from '../utils/currency';
 import GoldSilverRatesCard from '../components/dashboard/GoldSilverRatesCard';
+import NewsCard from '../components/dashboard/NewsCard';
+import TransferDialog from '../components/transfers/TransferDialog';
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -22,6 +26,16 @@ export default function DashboardPage() {
   const { data: userProfile } = useGetCallerUserProfile();
   const { data: balanceData, isLoading: balanceLoading } = useGetBalance();
   const { data: transactions, isLoading: transactionsLoading } = useGetStatement(null);
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 60000); // Update every minute
+
+    return () => clearInterval(timer);
+  }, []);
 
   const recentTransactions = transactions?.slice(-5).reverse() || [];
 
@@ -33,6 +47,24 @@ export default function DashboardPage() {
     });
   };
 
+  const formatDateTime = (date: Date) => {
+    return date.toLocaleString('en-IN', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  };
+
+  const getGreeting = () => {
+    const hour = currentTime.getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
+  };
+
   // Use name from backend profile, fallback to auth context displayName, then 'User'
   const displayName = userProfile?.name || user?.displayName || 'User';
 
@@ -41,10 +73,11 @@ export default function DashboardPage() {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-display font-bold tracking-tight">
-            Welcome back, {displayName}
+            {getGreeting()}, {displayName}
           </h1>
-          <p className="text-muted-foreground mt-1">
-            Here's an overview of your financial activity
+          <p className="text-muted-foreground mt-1 flex items-center gap-2">
+            <Clock className="h-4 w-4" />
+            {formatDateTime(currentTime)}
           </p>
         </div>
       </div>
@@ -82,6 +115,7 @@ export default function DashboardPage() {
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
+            <TransferDialog />
             <Button
               onClick={() => navigate({ to: '/account' })}
               variant="outline"
@@ -110,7 +144,10 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      <GoldSilverRatesCard />
+      <div className="grid gap-6 lg:grid-cols-2">
+        <GoldSilverRatesCard />
+        <NewsCard />
+      </div>
 
       <Card className="bg-card/95 backdrop-blur">
         <CardHeader>

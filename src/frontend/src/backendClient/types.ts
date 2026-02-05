@@ -8,13 +8,14 @@
  * 
  * The interface includes all operations needed by the ArthaNidhi application:
  * - Profile management
- * - Balance and transaction operations
+ * - Account operations (balance, transfers, deposits)
+ * - Transaction operations
  * - Financial health data
  * - Market data (indices, mutual funds, stocks)
  * - User settings
  */
 
-import type { UserProfile } from '../backend';
+import type { Account } from '../backend';
 import type { Transaction, TransactionRange, Settings, MarketData, MutualFund, Stock } from '../types';
 
 /**
@@ -22,9 +23,13 @@ import type { Transaction, TransactionRange, Settings, MarketData, MutualFund, S
  * Provides a unified API for all backend operations.
  */
 export interface BackendClient {
-  // Profile operations
-  getCallerUserProfile(): Promise<UserProfile | null>;
-  saveCallerUserProfile(profile: UserProfile): Promise<void>;
+  // Account operations
+  getCallerAccount(): Promise<Account | null>;
+  saveCallerAccount(account: Account): Promise<void>;
+
+  // Legacy profile operations (for compatibility)
+  getCallerUserProfile(): Promise<Account | null>;
+  saveCallerUserProfile(profile: Account): Promise<void>;
   updateProfile(displayName: string): Promise<void>;
 
   // Balance operations
@@ -33,6 +38,7 @@ export interface BackendClient {
   // Transaction operations
   getStatement(range: TransactionRange | null): Promise<Transaction[]>;
   searchTransactions(keyword: string): Promise<Transaction[]>;
+  transfer(fromAccount: string, toAccount: string, amount: bigint, description: string): Promise<void>;
 
   // Financial health
   getFinancialHealthData(): Promise<{

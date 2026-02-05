@@ -1,96 +1,70 @@
 {
   "kind": "build_request",
-  "title": "Update User Portal logo, revert background theme, and fix missing Signup KYC + Gold/Silver rates visibility",
+  "title": "Generate and apply premium dark-mode banking background (India-focused)",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-39",
-      "text": "Add the uploaded image (Screenshot 2026-02-06 012037-4.png) as the canonical ArthaNidhi Pay logo static asset under `frontend/public/assets/generated/`, and update the User Portal UI to use this new logo everywhere a logo is shown (at minimum: global Header and Footer; include any auth pages that display a logo).",
+      "id": "REQ-52",
+      "text": "Generate a premium, high-resolution dark-mode website background image suitable for an Indian digital banking/fintech UI, using deep navy blue and charcoal tones as the base, subtle accents of blue and white, and very minimal saffron or green highlights; include soft gradients, gentle glow lines, and minimal abstract elements representing finance, growth, digital payments, and secure transactions; ensure the image contains no people, no text, no logos, and no watermarks.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "man asking this image as the logo"
+          "Create a premium dark mode banking website background suitable for Indian users.\nUse deep navy blue and charcoal tones as the base, with subtle accents of blue, white,\nand very minimal saffron or green highlights.\n\nDesign should feel professional, secure, and government-compliant, suitable for an\nenterprise-grade Indian digital banking or fintech platform.\nUse soft gradients, gentle glow lines, and minimal abstract elements representing\nfinance, growth, digital payments, and secure transactions.\n\nClean, modern, and accessible UI background with high contrast for readability.\nEye-friendly, trustworthy, and authoritative appearance.\nNo people, no text, no logos, no watermark.\nHigh resolution, modern fintech aesthetic."
         ]
       },
       "acceptanceCriteria": [
-        "A new logo image file derived from the uploaded screenshot exists under `frontend/public/assets/generated/`.",
-        "User Portal Header uses the new logo asset path (no remaining references to the old logo path for the visible header logo).",
-        "User Portal Footer uses the new logo asset path (no remaining references to the old logo path for the visible footer logo).",
-        "If the Login/Signup UI displays a logo/brand mark anywhere, it also uses the same new logo asset path.",
-        "All user-facing alt text remains in English."
+        "A new background image file is added under `frontend/public/assets/generated/` with the exact filename specified in the image requirements.",
+        "The generated image is visually consistent with: deep navy + charcoal base, subtle blue/white accents, and only minimal saffron/green highlights.",
+        "The image contains no people, no text, no logos, and no watermarks.",
+        "The image is high resolution and suitable for full-page background use without visible pixelation."
       ]
     },
     {
-      "id": "REQ-40",
-      "text": "Revert the User Portal background styling to the earlier agreed background color/theme (do not use the current multi-color gradient background), and apply the reverted background consistently across unauthenticated and authenticated User Portal pages.",
+      "id": "REQ-53",
+      "text": "Apply the newly generated dark-mode banking background image across the ArthaNidhi Pay User Portal in dark mode (unauthenticated and authenticated pages), ensuring readable contrast for all primary UI surfaces (cards, tables, form fields, and navigation) while keeping the background subtle and non-distracting.",
       "target": "frontend",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "use the earlier background color we used don't use this one color gradient"
+          "Clean, modern, and accessible UI background with high contrast for readability.\nEye-friendly, trustworthy, and authoritative appearance."
         ]
       },
       "acceptanceCriteria": [
-        "The global page background no longer uses the current multi-color gradient.",
-        "The background style is consistent across at least: Login, Signup, Dashboard, Market Insights, Mutual Funds, and Stocks pages.",
-        "No user-facing text is changed to a non-English language as part of this update."
-      ]
-    },
-    {
-      "id": "REQ-41",
-      "text": "Ensure the full KYC section is rendered and required during User Portal signup (i.e., KYC fields are visible on the Signup page and validated before account creation), and ensure the KYC data is persisted with the user profile so it can be retrieved after signup.",
-      "target": "both",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "kyc is still not showing here in the signup"
-        ]
-      },
-      "acceptanceCriteria": [
-        "The Signup page displays a clearly labeled KYC section with required fields (the form cannot be submitted until required KYC fields are completed).",
-        "If required KYC fields are missing, the user sees an English validation message and signup is blocked.",
-        "On successful signup, the submitted KYC data is stored and can be fetched back for the authenticated user (via existing profile fetch mechanisms)."
-      ]
-    },
-    {
-      "id": "REQ-42",
-      "text": "Fix Gold & Silver Rates visibility by ensuring it is accessible and visible to authenticated users: (1) the dashboard must render the Gold & Silver Rates module reliably for all authenticated users, and (2) add a dedicated protected Gold & Silver Rates page/route if the UI currently expects a separate page.",
-      "target": "frontend",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "gold and silver rate page is not showing."
-        ]
-      },
-      "acceptanceCriteria": [
-        "After login, the Dashboard shows a visible \"Gold & Silver Rates\" section for any authenticated user.",
-        "If a dedicated page is added, it is protected (requires authentication) and can be navigated to from the authenticated navigation/menu.",
-        "All labels and disclaimers on the Gold & Silver Rates UI remain in English."
+        "When the app theme is set to dark mode, the generated background image is visible on core screens (at minimum: Login, Signup, Dashboard, Account, Statements, Market Insights, Mutual Funds, Stocks, Gold & Silver Rates, Profile/Settings).",
+        "Foreground content maintains high contrast and remains readable over the background (no low-contrast text or icons).",
+        "No user-facing text is added or modified in a non-English language as part of this change.",
+        "Light mode behavior is not regressed (light mode continues to render as before unless explicitly updated to maintain overall visual consistency)."
       ]
     }
   ],
   "constraints": [
-    "Do not edit files under `frontend/src/components/ui` (Shadcn UI components are read-only).",
-    "Do not modify any frontend immutable paths listed in SYSTEM_CONTEXT.",
-    "Keep Motoko backend as a single-actor architecture in `backend/main.mo`; only introduce `backend/migration.mo` if an upgrade-safe state migration is required."
+    "Do not introduce any external APIs or image hosting; the background must be a static asset stored under `frontend/public/assets/generated/`.",
+    "Do not add any people, text, logos, or watermarks to the generated background image.",
+    "Do not edit files under `frontend/src/components/ui` or other immutable frontend paths listed in SYSTEM_CONTEXT."
   ],
   "nonGoals": [
-    "Do not add external API integrations for live gold/silver pricing (dummy/simulated values only).",
-    "Do not change Admin Portal behavior or integrate Admin Portal with User Portal as part of this request."
+    "Do not change application features, data models, authentication flows, or backend behavior as part of this request.",
+    "Do not redesign page layouts beyond what is necessary to safely apply the background and preserve readability/accessibility."
   ],
   "imageRequirements": {
     "required": [
-      "ArthaNidhi logo wordmark with infinity loop mark in cyan/blue and orange accents (arthanidhi-logo-uploaded.dim_1200x600.png)"
+      "Premium dark-mode fintech abstract background in deep navy and charcoal with soft gradients, gentle glow lines, subtle blue/white accents, and minimal saffron/green highlights; high contrast; no text/logos/people/watermarks (banking-bg-dark-india.dim_3840x2160.png)"
     ],
     "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
   }
 }

@@ -5,83 +5,95 @@
 @layer base {
     :root {
         --radius: 0.75rem;
-        /* Solid background color palette */
-        --background: 0.98 0.02 220;
-        --foreground: 0.25 0.02 240;
-        --card: 0.99 0.01 210;
-        --card-foreground: 0.25 0.02 240;
-        --popover: 0.99 0.01 210;
-        --popover-foreground: 0.25 0.02 240;
-        --primary: 0.60 0.18 200;
-        --primary-foreground: 0.98 0.02 220;
-        --secondary: 0.75 0.12 180;
+        /* Modern clean color system */
+        --background: 0.98 0.01 220;
+        --foreground: 0.20 0.02 240;
+        --card: 1.00 0.00 0;
+        --card-foreground: 0.20 0.02 240;
+        --popover: 1.00 0.00 0;
+        --popover-foreground: 0.20 0.02 240;
+        --primary: 0.55 0.20 250;
+        --primary-foreground: 0.99 0.01 220;
+        --secondary: 0.92 0.03 240;
         --secondary-foreground: 0.20 0.02 240;
-        --muted: 0.88 0.06 200;
-        --muted-foreground: 0.50 0.03 220;
-        --accent: 0.65 0.15 160;
+        --muted: 0.94 0.02 220;
+        --muted-foreground: 0.45 0.02 240;
+        --accent: 0.90 0.04 200;
         --accent-foreground: 0.20 0.02 240;
         --destructive: 0.55 0.22 25;
-        --destructive-foreground: 0.98 0.02 220;
-        --border: 0.85 0.08 200;
-        --input: 0.85 0.08 200;
-        --ring: 0.60 0.18 200;
-        --chart-1: 0.60 0.18 200;
-        --chart-2: 0.55 0.18 160;
-        --chart-3: 0.70 0.15 180;
-        --chart-4: 0.65 0.12 140;
-        --chart-5: 0.50 0.15 220;
-        --sidebar: 0.98 0.02 220;
-        --sidebar-foreground: 0.25 0.02 240;
-        --sidebar-primary: 0.60 0.18 200;
-        --sidebar-primary-foreground: 0.98 0.02 220;
-        --sidebar-accent: 0.88 0.06 200;
-        --sidebar-accent-foreground: 0.25 0.02 240;
-        --sidebar-border: 0.85 0.08 200;
-        --sidebar-ring: 0.60 0.18 200;
+        --destructive-foreground: 0.99 0.01 220;
+        --border: 0.90 0.02 220;
+        --input: 0.90 0.02 220;
+        --ring: 0.55 0.20 250;
+        --chart-1: 0.55 0.20 250;
+        --chart-2: 0.60 0.18 160;
+        --chart-3: 0.65 0.15 200;
+        --chart-4: 0.70 0.12 140;
+        --chart-5: 0.50 0.15 280;
+        --sidebar: 1.00 0.00 0;
+        --sidebar-foreground: 0.20 0.02 240;
+        --sidebar-primary: 0.55 0.20 250;
+        --sidebar-primary-foreground: 0.99 0.01 220;
+        --sidebar-accent: 0.94 0.02 220;
+        --sidebar-accent-foreground: 0.20 0.02 240;
+        --sidebar-border: 0.90 0.02 220;
+        --sidebar-ring: 0.55 0.20 250;
     }
 
     .dark {
-        --background: 0.18 0.08 240;
-        --foreground: 0.92 0.05 200;
-        --card: 0.22 0.08 240;
-        --card-foreground: 0.92 0.05 200;
-        --popover: 0.20 0.08 240;
-        --popover-foreground: 0.92 0.05 200;
-        --primary: 0.65 0.18 200;
-        --primary-foreground: 0.18 0.08 240;
-        --secondary: 0.28 0.08 220;
-        --secondary-foreground: 0.92 0.05 200;
-        --muted: 0.28 0.08 220;
-        --muted-foreground: 0.60 0.05 200;
-        --accent: 0.35 0.12 180;
-        --accent-foreground: 0.92 0.05 200;
+        --background: 0.15 0.02 240;
+        --foreground: 0.95 0.02 220;
+        --card: 0.18 0.02 240;
+        --card-foreground: 0.95 0.02 220;
+        --popover: 0.18 0.02 240;
+        --popover-foreground: 0.95 0.02 220;
+        --primary: 0.65 0.20 250;
+        --primary-foreground: 0.15 0.02 240;
+        --secondary: 0.22 0.03 240;
+        --secondary-foreground: 0.95 0.02 220;
+        --muted: 0.25 0.03 240;
+        --muted-foreground: 0.60 0.02 220;
+        --accent: 0.28 0.04 240;
+        --accent-foreground: 0.95 0.02 220;
         --destructive: 0.60 0.22 25;
-        --destructive-foreground: 0.92 0.05 200;
-        --border: 0.30 0.08 220;
-        --input: 0.30 0.08 220;
-        --ring: 0.65 0.18 200;
-        --chart-1: 0.65 0.18 200;
-        --chart-2: 0.60 0.18 160;
-        --chart-3: 0.75 0.15 180;
-        --chart-4: 0.70 0.12 140;
-        --chart-5: 0.55 0.15 220;
-        --sidebar: 0.20 0.08 240;
-        --sidebar-foreground: 0.92 0.05 200;
-        --sidebar-primary: 0.65 0.18 200;
-        --sidebar-primary-foreground: 0.18 0.08 240;
-        --sidebar-accent: 0.28 0.08 220;
-        --sidebar-accent-foreground: 0.92 0.05 200;
-        --sidebar-border: 0.30 0.08 220;
-        --sidebar-ring: 0.65 0.18 200;
+        --destructive-foreground: 0.95 0.02 220;
+        --border: 0.25 0.03 240;
+        --input: 0.25 0.03 240;
+        --ring: 0.65 0.20 250;
+        --chart-1: 0.65 0.20 250;
+        --chart-2: 0.65 0.18 160;
+        --chart-3: 0.70 0.15 200;
+        --chart-4: 0.75 0.12 140;
+        --chart-5: 0.60 0.15 280;
+        --sidebar: 0.18 0.02 240;
+        --sidebar-foreground: 0.95 0.02 220;
+        --sidebar-primary: 0.65 0.20 250;
+        --sidebar-primary-foreground: 0.15 0.02 240;
+        --sidebar-accent: 0.25 0.03 240;
+        --sidebar-accent-foreground: 0.95 0.02 220;
+        --sidebar-border: 0.25 0.03 240;
+        --sidebar-ring: 0.65 0.20 250;
     }
 
     * {
         @apply border-border;
     }
+    
     body {
         @apply bg-background text-foreground;
         font-feature-settings: "rlig" 1, "calt" 1;
         min-height: 100vh;
+    }
+
+    /* Premium dark mode banking background for Indian fintech */
+    html.dark body {
+        background-image: url('/assets/generated/banking-bg-dark-india.dim_3840x2160.png');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        /* Fallback to deep navy if image fails to load */
+        background-color: oklch(0.15 0.02 240);
     }
 }
 

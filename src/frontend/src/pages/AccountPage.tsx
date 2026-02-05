@@ -1,7 +1,8 @@
-import { useGetBalance, useGetFinancialHealthData } from '../hooks/useQueries';
+import { useGetBalance, useGetFinancialHealthData, useGetCallerAccount } from '../hooks/useQueries';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Wallet, TrendingUp, TrendingDown, PieChart as PieChartIcon } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Wallet, TrendingUp, TrendingDown, PieChart as PieChartIcon, User, CreditCard, Loader2, AlertCircle } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer as BarResponsiveContainer } from 'recharts';
 import { formatINR } from '../utils/currency';
@@ -9,6 +10,7 @@ import { formatINR } from '../utils/currency';
 export default function AccountPage() {
   const { data: balanceData, isLoading: balanceLoading } = useGetBalance();
   const { data: healthData, isLoading: healthLoading } = useGetFinancialHealthData();
+  const { data: accountData, isLoading: accountLoading, error: accountError } = useGetCallerAccount();
 
   const pieData = [
     {
@@ -38,6 +40,13 @@ export default function AccountPage() {
     },
   ];
 
+  // Check if identifiers are being generated or if balance is still 0
+  const identifiersGenerating = accountData && (
+    !accountData.customerId || 
+    !accountData.accountNumber || 
+    accountData.balance === BigInt(0)
+  );
+
   return (
     <div className="container py-8 space-y-8 animate-fade-in">
       <div>
@@ -47,6 +56,81 @@ export default function AccountPage() {
         </p>
       </div>
 
+      {accountError && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            Failed to load account data. Please refresh the page or contact support.
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Account Identifiers */}
+      <div className="grid gap-6 md:grid-cols-2">
+        <Card className="bg-card/95 backdrop-blur">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Customer ID</CardTitle>
+            <User className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {accountLoading ? (
+              <Skeleton className="h-8 w-48" />
+            ) : identifiersGenerating ? (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span className="text-sm">Generating your customer ID...</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  This usually takes a few seconds. Your account is being set up.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-1">
+                <div className="text-2xl font-bold font-mono">
+                  {accountData?.customerId || 'Not Available'}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Your unique customer identifier
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        <Card className="bg-card/95 backdrop-blur">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Account Number</CardTitle>
+            <CreditCard className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            {accountLoading ? (
+              <Skeleton className="h-8 w-48" />
+            ) : identifiersGenerating ? (
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                  <span className="text-sm">Generating your account number...</span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  This usually takes a few seconds. Your account is being set up.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-1">
+                <div className="text-2xl font-bold font-mono">
+                  {accountData?.accountNumber || 'Not Available'}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Your account number for transfers
+                </p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Financial Summary */}
       <div className="grid gap-6 md:grid-cols-3">
         <Card className="bg-card/95 backdrop-blur">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -56,6 +140,18 @@ export default function AccountPage() {
           <CardContent>
             {balanceLoading ? (
               <Skeleton className="h-8 w-32" />
+            ) : identifiersGenerating ? (
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                  <span className="text-2xl font-bold text-muted-foreground">
+                    Initializing...
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Your initial balance is being set up
+                </p>
+              </div>
             ) : (
               <div className="text-2xl font-bold">
                 {formatINR(balanceData?.balance || BigInt(0))}
@@ -97,6 +193,7 @@ export default function AccountPage() {
         </Card>
       </div>
 
+      {/* Charts */}
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="bg-card/95 backdrop-blur">
           <CardHeader>

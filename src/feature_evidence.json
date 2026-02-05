@@ -2,13 +2,9 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-add-the-uploaded-image-screenshot-2026-02-06-012037-4-png-as-the-canonical-arthanidhi-pay-logo-static-asset-under-frontend-public-assets-generated-and-update-the-user-portal-ui-to-use-this-new-logo-everywhere-a-logo-is-shown-at-minimum-global-header-and-footer-include-any-auth-pages-that-display-a-logo",
-      "featureTitle": "Add the uploaded image (Screenshot 2026-02-06 012037-4.png) as the canonical ArthaNidhi Pay logo static asset under `frontend/public/assets/generated/`, and update the User Portal UI to use this new logo everywhere a logo is shown (at minimum: global Header and Footer; include any auth pages that display a logo).",
-      "files": [
-        "frontend/src/components/layout/Footer.tsx",
-        "frontend/src/components/layout/Header.tsx",
-        "frontend/src/pages/LoginPage.tsx"
-      ],
+      "featureId": "feature-generate-a-premium-high-resolution-dark-mode-website-background-image-suitable-for-an-indian-digital-banking-fintech-ui-using-deep-navy-blue-and-charcoal-tones-as-the-base-subtle-accents-of-blue-and-white-and-very-minimal-saffron-or-green-highlights-include-soft-gradients-gentle-glow-lines-and-minimal-abstract-elements-representing-finance-growth-digital-payments-and-secure-transactions-ensure-the-image-contains-no-people-no-text-no-logos-and-no-watermarks",
+      "featureTitle": "Generate a premium, high-resolution dark-mode website background image suitable for an Indian digital banking/fintech UI, using deep navy blue and charcoal tones as the base, subtle accents of blue and white, and very minimal saffron or green highlights; include soft gradients, gentle glow lines, and minimal abstract elements representing finance, growth, digital payments, and secure transactions; ensure the image contains no people, no text, no logos, and no watermarks.",
+      "files": [],
       "components": [
         "authorization@4.0.0",
         "core-infrastructure@1.0.2",
@@ -18,15 +14,14 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-39"
+        "REQ-52"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-revert-the-user-portal-background-styling-to-the-earlier-agreed-background-color-theme-do-not-use-the-current-multi-color-gradient-background-and-apply-the-reverted-background-consistently-across-unauthenticated-and-authenticated-user-portal-pages",
-      "featureTitle": "Revert the User Portal background styling to the earlier agreed background color/theme (do not use the current multi-color gradient background), and apply the reverted background consistently across unauthenticated and authenticated User Portal pages.",
+      "featureId": "feature-apply-the-newly-generated-dark-mode-banking-background-image-across-the-arthanidhi-pay-user-portal-in-dark-mode-unauthenticated-and-authenticated-pages-ensuring-readable-contrast-for-all-primary-ui-surfaces-cards-tables-form-fields-and-navigation-while-keeping-the-background-subtle-and-non-distracting",
+      "featureTitle": "Apply the newly generated dark-mode banking background image across the ArthaNidhi Pay User Portal in dark mode (unauthenticated and authenticated pages), ensuring readable contrast for all primary UI surfaces (cards, tables, form fields, and navigation) while keeping the background subtle and non-distracting.",
       "files": [
-        "frontend/src/components/layout/AppShell.tsx",
         "frontend/src/index.css"
       ],
       "components": [
@@ -38,47 +33,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-40"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-ensure-the-full-kyc-section-is-rendered-and-required-during-user-portal-signup-i-e-kyc-fields-are-visible-on-the-signup-page-and-validated-before-account-creation-and-ensure-the-kyc-data-is-persisted-with-the-user-profile-so-it-can-be-retrieved-after-signup",
-      "featureTitle": "Ensure the full KYC section is rendered and required during User Portal signup (i.e., KYC fields are visible on the Signup page and validated before account creation), and ensure the KYC data is persisted with the user profile so it can be retrieved after signup.",
-      "files": [
-        "frontend/src/pages/SignupPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-41"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-fix-gold-silver-rates-visibility-by-ensuring-it-is-accessible-and-visible-to-authenticated-users-1-the-dashboard-must-render-the-gold-silver-rates-module-reliably-for-all-authenticated-users-and-2-add-a-dedicated-protected-gold-silver-rates-page-route-if-the-ui-currently-expects-a-separate-page",
-      "featureTitle": "Fix Gold & Silver Rates visibility by ensuring it is accessible and visible to authenticated users: (1) the dashboard must render the Gold & Silver Rates module reliably for all authenticated users, and (2) add a dedicated protected Gold & Silver Rates page/route if the UI currently expects a separate page.",
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/layout/Header.tsx",
-        "frontend/src/pages/GoldSilverRatesPage.tsx"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-42"
+        "REQ-53"
       ],
       "confidence": "high"
     }

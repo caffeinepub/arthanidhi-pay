@@ -9,11 +9,14 @@ import { Label } from '@/components/ui/label';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, AlertCircle, UserPlus } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { useQueryClient } from '@tanstack/react-query';
+import type { Account } from '../backend';
 
 export default function SignupPage() {
   const navigate = useNavigate();
   const { signup, isAuthenticated } = useAuth();
   const saveProfile = useSaveCallerUserProfile();
+  const queryClient = useQueryClient();
   const [displayName, setDisplayName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -71,19 +74,37 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
+      // First, create the user account in localStorage
       await signup(email, password, displayName.trim());
       
-      // Save KYC profile data
-      await saveProfile.mutateAsync({
+      // Small delay to ensure auth state is updated
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Save KYC profile data with all required Account fields
+      // Backend will generate customerId, accountNumber, and set initial balance
+      const newAccount: Account = {
         name: displayName.trim(),
         dateOfBirth: dateOfBirth.trim(),
         idDocumentNumber: idDocumentNumber.trim(),
         address: address.trim(),
-      });
+        customerId: '', // Backend will generate
+        accountNumber: '', // Backend will generate
+        balance: BigInt(0), // Backend will set to INITIAL_BALANCE
+        transactionHistory: [],
+      };
       
+      await saveProfile.mutateAsync(newAccount);
+      
+      // Force invalidate all queries to ensure fresh data
+      queryClient.invalidateQueries({ queryKey: ['callerAccount'] });
+      queryClient.invalidateQueries({ queryKey: ['currentUserProfile'] });
+      queryClient.invalidateQueries({ queryKey: ['balance'] });
+      
+      // Navigate to dashboard
       navigate({ to: '/dashboard' });
     } catch (err: any) {
-      setError(err.message || 'Signup failed');
+      console.error('Signup error:', err);
+      setError(err.message || 'Signup failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
