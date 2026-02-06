@@ -19,6 +19,8 @@ import { formatINR } from '../utils/currency';
 import GoldSilverRatesCard from '../components/dashboard/GoldSilverRatesCard';
 import NewsCard from '../components/dashboard/NewsCard';
 import TransferDialog from '../components/transfers/TransferDialog';
+import BalanceAmount from '../components/balance/BalanceAmount';
+import BalanceVisibilityToggle from '../components/balance/BalanceVisibilityToggle';
 
 export default function DashboardPage() {
   const navigate = useNavigate();
@@ -96,9 +98,12 @@ export default function DashboardPage() {
               <Skeleton className="h-12 w-48" />
             ) : (
               <div className="space-y-2">
-                <p className="text-4xl font-bold font-display">
-                  {formatINR(balanceData?.balance || BigInt(0))}
-                </p>
+                <div className="flex items-center gap-3">
+                  <p className="text-4xl font-bold font-display">
+                    <BalanceAmount amount={formatINR(balanceData?.balance || BigInt(0))} />
+                  </p>
+                  <BalanceVisibilityToggle />
+                </div>
                 <p className="text-sm text-muted-foreground">
                   Available balance in INR
                 </p>

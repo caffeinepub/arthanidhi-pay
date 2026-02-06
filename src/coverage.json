@@ -1,7 +1,7 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-05T23:07:01.703Z",
+  "generatedAt": "2026-02-06T00:37:11.779Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
@@ -11,26 +11,29 @@
     "implemented": 2,
     "items": [
       {
-        "id": "REQ-52",
-        "summary": "Generate a premium, high-resolution dark-mode website background image suitable for an Indian digital banking/fintech UI, using deep navy blue and charcoal tones as the base, subtle accents of blue and white, and very minimal saffron or green highlights; include soft gradients, gentle glow lines, and minimal abstract elements representing finance, growth, digital payments, and secure transactions; ensure the image contains no people, no text, no logos, and no watermarks.",
+        "id": "REQ-66",
+        "summary": "Deliver the complete project source code (frontend + backend) directly in the chat as a Basic-plan alternative to the platform \"Export Code\" button, in a copy/paste-friendly format that a developer can recreate locally in VS Code.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/public/assets/generated/banking-bg-dark-india.dim_3840x2160.png"
+          "frontend/docs/CHAT_EXPORT_FORMAT.md",
+          "frontend/DELIVERY_PLAN_BATCHES.md",
+          "frontend/README.md"
         ],
         "matchedFiles": [
-          "frontend/public/assets/generated/banking-bg-dark-india.dim_3840x2160.png"
+          "frontend/docs/CHAT_EXPORT_FORMAT.md"
         ]
       },
       {
-        "id": "REQ-53",
-        "summary": "Apply the newly generated dark-mode banking background image across the ArthaNidhi Pay User Portal in dark mode (unauthenticated and authenticated pages), ensuring readable contrast for all primary UI surfaces (cards, tables, form fields, and navigation) while keeping the background subtle and non-distracting.",
+        "id": "REQ-67",
+        "summary": "Include clear, step-by-step instructions (in chat) for reconstructing the project locally from the pasted files, installing dependencies, configuring environment variables using the existing example `.env` files, and running the app in VS Code.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/index.css",
-          "frontend/src/components/layout/AppShell.tsx"
+          "frontend/docs/CHAT_RECONSTRUCTION_GUIDE.md",
+          "frontend/docs/LOCAL_DEVELOPMENT.md",
+          "frontend/.vscode/tasks.json"
         ],
         "matchedFiles": [
-          "frontend/src/index.css"
+          "frontend/docs/CHAT_RECONSTRUCTION_GUIDE.md"
         ]
       }
     ]
@@ -40,8 +43,10 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/public/assets/generated/banking-bg-dark-india.dim_3840x2160.png",
-    "frontend/src/index.css",
+    "frontend/docs/CHAT_EXPORT_FORMAT.md",
+    "frontend/docs/CHAT_RECONSTRUCTION_GUIDE.md",
+    "frontend/src/components/dashboard/NewsCard.tsx",
+    "frontend/src/components/layout/Sidebar.tsx",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",

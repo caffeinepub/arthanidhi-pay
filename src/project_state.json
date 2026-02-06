@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 33,
-  "summary": "Phase 1 change: apply the newly requested UI/content/feature updates ONLY to the ArthaNidhi Pay (User Portal) first, with NO data integration with the Admin Portal for now. User portal will include: new logo (replace everywhere) + updated footer copyright, global sunrise + neon sky-blue + peacock-feather mixed gradient background theme, full KYC form during signup with auto-approval if mandatory fields are filled, account view showing auto-generated Customer ID + Account Number (including auto-generation for existing users missing these), money transfer feature with real balance updates (using dummy/seed initial balances), updated dashboard greeting with username + local timezone date/time, move logout from dashboard into header (header-only), dark mode toggle across pages, left sidebar menu with all pages, dummy market/stocks/mutual-funds data, and a gold/silver rates module with dropdowns (Indian capital city, karat 18/22/24, weights 1g/10g/100g/1000g), plus a world+India financial news section (dummy).",
+  "projectStateVersion": 45,
+  "summary": "Phase 1 change: apply the newly requested UI/content/feature updates ONLY to the ArthaNidhi Pay (User Portal) first, with NO data integration with the Admin Portal for now. User portal will include: new logo (replace everywhere) + updated footer copyright, global premium dark-mode navy+charcoal fintech theme (subtle blue/white accents + minimal saffron/green), full KYC form during signup with auto-approval if mandatory fields are filled, account view showing auto-generated Customer ID + Account Number (including auto-generation for existing users missing these; Customer ID format now `ARTN` + 12 digits and a separate 16-digit Account Number), money transfer feature with real balance updates (using dummy/seed initial balances), updated dashboard greeting with username + local timezone date/time, move logout from dashboard into header (header-only), dark mode toggle across pages, left sidebar menu with all pages (no logo in sidebar), dummy market/stocks/mutual-funds data, and a gold/silver rates module with dropdowns (Indian capital city, karat 18/22/24, weights 1g/10g/100g/1000g), plus a world+India financial news section (dummy).",
   "architectural_notes": [
     "Site-wide header/footer shared across all pages with consistent ArthaNidhi Pay branding (name + logo).",
     "Currency formatting should use INR (₹) for all monetary values displayed in the UI.",
@@ -11,8 +11,8 @@
     "Node.js external REST backend folder should be named exactly `backend-node`.",
     "Add a separate Admin Portal (separate frontend + backend) within the same repo, sharing branding/theme but isolated via its own environment configuration.",
     "KYC-driven onboarding: users remain inactive until KYC is approved; if mandatory fields are completed, KYC can be auto-approved but still visible in admin.",
-    "On activation, auto-generate and persist unique IDs: Customer ID format `ARTHA` + 12 digits and a separate 16-digit Account Number.",
-    "Implement session inactivity timeout (5 minutes) with automatic logout for both user and admin portals."
+    "Implement session inactivity timeout (5 minutes) with automatic logout for both user and admin portals.",
+    "Customer ID format updated: `ARTN` + 12 random numeric digits (e.g., ARTN483920174562); Account Number remains a separate 16-digit random numeric value."
   ],
   "known_issues": [
     "Existing user(s) (e.g., 'abc user') currently missing generated Customer ID and Account Number; must be backfilled automatically.",
@@ -27,7 +27,6 @@
     "Background/theme should be a stunning, consistent background across all pages (user reiterates request to apply it everywhere)."
   ],
   "isFixRequest": false,
-  "imageRequirements": "## Required Images\n- Premium dark-mode fintech abstract background in deep navy and charcoal with soft gradients, gentle glow lines, subtle blue/white accents, and minimal saffron/green highlights; high contrast; no text/logos/people/watermarks (banking-bg-dark-india.dim_3840x2160.png)",
   "existing_features": [
     {
       "id": "feature-create-a-consistent-stunning-user-friendly-visual-theme-for-the-arthanidhi-pay-website-colors-typography-spacing-components-and-apply-it-across-all-pages-without-using-a-blue-purple-primary-palette",
@@ -428,6 +427,118 @@
         "REQ-53"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-a-subtle-fintech-themed-watermark-image-treatment-to-the-user-portal-dark-mode-ui-using-a-static-image-asset-no-text-ensuring-it-does-not-reduce-readability-contrast-of-cards-tables-form-fields-or-navigation",
+      "title": "Add a subtle fintech-themed watermark image treatment to the User Portal dark-mode UI using a static image asset (no text), ensuring it does not reduce readability/contrast of cards, tables, form fields, or navigation.",
+      "reqIds": [
+        "REQ-54"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-any-logo-rendering-from-the-authenticated-user-portal-sidebar-navigation-so-the-sidebar-does-not-display-a-different-logo-keep-navigation-items-only",
+      "title": "Remove any logo rendering from the authenticated User Portal sidebar navigation so the sidebar does not display a different logo (keep navigation items only).",
+      "reqIds": [
+        "REQ-55"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-hide-unhide-visibility-toggle-control-for-account-balance-amounts-in-the-arthanidhi-pay-user-portal-so-authenticated-users-can-mask-unmask-displayed-balance-values-e-g-an-eye-eye-off-icon-next-to-the-balance",
+      "title": "Add a hide/unhide (visibility) toggle control for account balance amounts in the ArthaNidhi Pay **User Portal** so authenticated users can mask/unmask displayed balance values (e.g., an eye/eye-off icon next to the balance).",
+      "reqIds": [
+        "REQ-56"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-additional-protected-user-portal-menu-items-in-the-existing-left-sidebar-navigation-for-a-more-complete-indian-fintech-banking-experience-and-ensure-each-new-menu-item-routes-to-a-real-page-not-a-dead-link-new-pages-must-be-demo-mock-no-external-api-calls-and-use-english-only-copy-add-at-minimum-payments-beneficiaries-cards-loans-deposits-insurance-rewards-offers-notifications-support-contact",
+      "title": "Add additional protected User Portal menu items (in the existing LEFT sidebar navigation) for a more complete Indian fintech banking experience, and ensure each new menu item routes to a real page (not a dead link). New pages must be demo/mock (no external API calls) and use English-only copy. Add at minimum: Payments, Beneficiaries, Cards, Loans, Deposits, Insurance, Rewards/Offers, Notifications, Support/Contact.",
+      "reqIds": [
+        "REQ-57"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-new-protected-pages-with-consistent-ui-patterns-cards-tables-forms-using-mock-data-and-safe-non-transactional-demo-interactions-pages-should-include-at-minimum-1-payments-mock-bill-categories-and-a-pay-form-that-results-in-a-local-ui-confirmation-only-2-beneficiaries-add-list-remove-beneficiary-entries-stored-in-the-app-s-existing-client-side-persistence-approach-consistent-with-current-auth-session-patterns-3-cards-show-a-mock-debit-card-summary-card-status-and-freeze-unfreeze-toggle-ui-only-4-loans-list-mock-loan-products-and-a-simple-emi-calculator-ui-no-backend-credit-decisioning-5-deposits-list-mock-fd-rd-products-and-a-maturity-calculator-ui-6-insurance-list-mock-policies-products-7-rewards-offers-list-mock-offers-rewards-8-notifications-display-mock-notifications-with-read-unread-filtering-9-support-contact-provide-help-topics-contact-details-and-a-simple-support-ticket-form-that-stores-submitted-tickets-locally-demo",
+      "title": "Implement the new protected pages with consistent UI patterns (cards/tables/forms), using mock data and safe, non-transactional demo interactions. Pages should include at minimum: (1) Payments: mock bill categories and a 'Pay' form that results in a local UI confirmation only; (2) Beneficiaries: add/list/remove beneficiary entries stored in the app’s existing client-side persistence approach (consistent with current auth/session patterns); (3) Cards: show a mock debit card summary, card status, and 'Freeze/Unfreeze' toggle (UI-only); (4) Loans: list mock loan products and a simple EMI calculator UI (no backend credit decisioning); (5) Deposits: list mock FD/RD products and a maturity calculator UI; (6) Insurance: list mock policies/products; (7) Rewards/Offers: list mock offers/rewards; (8) Notifications: display mock notifications with read/unread filtering; (9) Support/Contact: provide help topics + contact details and a simple support ticket form that stores submitted tickets locally (demo).",
+      "reqIds": [
+        "REQ-58"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-user-portal-background-styling-to-match-the-uploaded-reference-image-s-background-coloring-orange-deep-blue-fintech-glow-aesthetic-and-apply-it-consistently-across-unauthenticated-and-authenticated-user-portal-pages-including-the-new-pages-the-background-must-remain-subtle-and-non-distracting-with-accessible-contrast-for-cards-tables-forms-and-navigation-in-both-light-and-dark-modes",
+      "title": "Update the User Portal background styling to match the uploaded reference image’s background coloring (orange + deep blue fintech glow aesthetic) and apply it consistently across unauthenticated and authenticated User Portal pages (including the new pages). The background must remain subtle and non-distracting, with accessible contrast for cards, tables, forms, and navigation in both light and dark modes.",
+      "reqIds": [
+        "REQ-59"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-newly-generated-background-image-s-as-static-assets-under-frontend-public-assets-generated-and-render-them-via-css-background-utilities-do-not-serve-them-from-the-backend-ensure-the-app-selects-the-appropriate-background-per-theme-light-dark-if-both-are-generated",
+      "title": "Add the newly generated background image(s) as static assets under `frontend/public/assets/generated/` and render them via CSS/background utilities (do not serve them from the backend). Ensure the app selects the appropriate background per theme (light/dark) if both are generated.",
+      "reqIds": [
+        "REQ-60"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-in-the-arthanidhi-pay-user-portal-authenticated-left-sidebar-navigation-add-a-visible-downward-toggle-expand-collapse-control-that-allows-users-to-expand-the-sidebar-menu-to-reveal-all-navigation-items-when-the-list-is-long-and-collapse-it-back-to-a-shorter-condensed-view",
+      "title": "In the ArthaNidhi Pay **User Portal** authenticated left sidebar navigation, add a visible downward toggle (expand/collapse control) that allows users to expand the sidebar menu to reveal **all** navigation items when the list is long, and collapse it back to a shorter/condensed view.",
+      "reqIds": [
+        "REQ-61"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-arthanidhi-pay-user-portal-authenticated-left-sidebar-navigation-to-remove-the-current-expand-collapse-show-more-show-less-behavior-and-instead-keep-the-sidebar-width-fixed-while-allowing-users-to-scroll-through-long-menu-items-using-small-always-visible-chevron-buttons-one-at-the-top-scroll-up-and-one-at-the-bottom-scroll-down",
+      "title": "Update the ArthaNidhi Pay **User Portal** authenticated left sidebar navigation to remove the current expand/collapse (Show More/Show Less) behavior and instead keep the sidebar width fixed while allowing users to scroll through long menu items using **small, always-visible chevron buttons**: one at the top (scroll up) and one at the bottom (scroll down).",
+      "reqIds": [
+        "REQ-62"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-new-up-down-chevron-scrolling-controls-in-the-sidebar-using-the-existing-scroll-container-approach-currently-using-scrollarea-ensuring-the-chevrons-control-the-scroll-position-of-the-menu-list-area-rather-than-changing-sidebar-size-or-the-number-of-rendered-items",
+      "title": "Implement the new up/down chevron scrolling controls in the sidebar using the existing scroll container approach (currently using `ScrollArea`), ensuring the chevrons control the scroll position of the menu list area rather than changing sidebar size or the number of rendered items.",
+      "reqIds": [
+        "REQ-63"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-user-portal-global-css-background-in-the-main-index-global-css-file-to-be-glossy-and-modern-replacing-the-current-background-styling-and-apply-it-consistently-across-unauthenticated-and-authenticated-user-portal-pages-in-both-light-and-dark-modes-with-readable-contrast-for-cards-tables-forms-and-navigation",
+      "title": "Update the User Portal global CSS background (in the main index/global CSS file) to be **glossy and modern**, replacing the current background styling, and apply it consistently across unauthenticated and authenticated User Portal pages in both light and dark modes with readable contrast for cards, tables, forms, and navigation.",
+      "reqIds": [
+        "REQ-64"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-complete-copy-paste-ready-developer-guidance-in-repo-for-getting-the-full-project-code-running-locally-in-vs-code-and-pushing-it-to-the-user-s-github-repository-consolidating-and-or-completing-the-existing-docs-so-a-developer-can-follow-them-without-missing-steps",
+      "title": "Provide complete, copy-paste-ready developer guidance in-repo for getting the full project code running locally in VS Code and pushing it to the user’s GitHub repository, consolidating and/or completing the existing docs so a developer can follow them without missing steps.",
+      "reqIds": [
+        "REQ-65"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-deliver-the-complete-project-source-code-frontend-backend-directly-in-the-chat-as-a-basic-plan-alternative-to-the-platform-export-code-button-in-a-copy-paste-friendly-format-that-a-developer-can-recreate-locally-in-vs-code",
+      "title": "Deliver the complete project source code (frontend + backend) directly in the chat as a Basic-plan alternative to the platform \"Export Code\" button, in a copy/paste-friendly format that a developer can recreate locally in VS Code.",
+      "reqIds": [
+        "REQ-66"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-include-clear-step-by-step-instructions-in-chat-for-reconstructing-the-project-locally-from-the-pasted-files-installing-dependencies-configuring-environment-variables-using-the-existing-example-env-files-and-running-the-app-in-vs-code",
+      "title": "Include clear, step-by-step instructions (in chat) for reconstructing the project locally from the pasted files, installing dependencies, configuring environment variables using the existing example `.env` files, and running the app in VS Code.",
+      "reqIds": [
+        "REQ-67"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -722,6 +833,48 @@
     {
       "id": "AR-60",
       "summary": "Create/generate a premium dark-mode banking website background image for Indian users (deep navy + charcoal base, subtle blue/white accents, minimal saffron/green; soft gradients + gentle glow lines; abstract finance/growth/digital payments/security elements; high-contrast, accessible; no people/text/logos/watermarks; high resolution)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-61",
+      "summary": "Add a hide/unhide (visibility) toggle for account balance amounts in the User Portal UI (e.g., eye icon) so users can mask/unmask balances",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-62",
+      "summary": "Expand ArthaNidhi Pay into a more complete India-focused fintech banking system by adding missing/extra menu options/pages, and update background coloring to match the user’s referenced look",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-63",
+      "summary": "Add a downward toggle/expand-collapse control in the User Portal left sidebar menu so users can expand to view all menu content/items",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-64",
+      "summary": "In the User Portal left sidebar, add small always-visible up/down chevron controls (top+bottom) to scroll through long menu items; keep sidebar width fixed (no expand/collapse).",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-65",
+      "summary": "Provide step-by-step instructions (sent in chat) to get the full project code into VS Code locally and push it to the user's GitHub repository.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-66",
+      "summary": "Update the global User Portal background defined via index/global CSS (e.g., index.css) to be glossy and modern, replacing the current background styling.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-67",
+      "summary": "Provide an alternative to platform Export (Basic plan): deliver complete project code (frontend + backend) directly in chat in a copy/paste-friendly format (optionally file-by-file).",
       "reqIds": [],
       "status": "pending"
     }

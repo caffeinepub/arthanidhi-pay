@@ -1,26 +1,32 @@
 # GitHub Onboarding Guide
 
-This guide walks you through setting up a GitHub repository for your ArthaNidhi Pay project and pushing your code safely.
+This guide will help you push your ArthaNidhi Pay project to GitHub.
 
 ## Prerequisites
 
-- Git installed on your machine ([Download Git](https://git-scm.com/downloads))
+- Git installed on your machine ([Download here](https://git-scm.com/))
 - A GitHub account ([Sign up here](https://github.com/join))
-- Your project code ready locally
+- Your project code downloaded/cloned locally
 
-## Step 1: Create a GitHub Repository
+---
+
+## Step 1: Create a New GitHub Repository
 
 1. Go to [GitHub](https://github.com) and log in
-2. Click the **+** icon in the top-right corner and select **New repository**
-3. Fill in the repository details:
+2. Click the **"+"** icon in the top-right corner
+3. Select **"New repository"**
+4. Fill in the repository details:
    - **Repository name**: `arthanidhi-pay` (or your preferred name)
-   - **Description**: "Indian Personal Finance Assistant - User Portal"
-   - **Visibility**: Choose Public or Private
-   - **DO NOT** initialize with README, .gitignore, or license (we already have these)
-4. Click **Create repository**
-5. Copy your repository URL (it will look like: `https://github.com/YOUR_USERNAME/arthanidhi-pay.git`)
+   - **Description**: "ArthaNidhi Pay - User Portal for Financial Services"
+   - **Visibility**: Choose **Public** or **Private**
+   - **Do NOT** initialize with README, .gitignore, or license (your project already has these)
+5. Click **"Create repository"**
 
-## Step 2: Initialize Git in Your Project
+GitHub will show you a page with setup instructions. Keep this page open - you'll need the repository URL.
 
-Open a terminal in your project root directory and run:
+---
+
+## Step 2: Initialize Git (If Not Already Done)
+
+Open your terminal/command prompt and navigate to the **project root directory**:
 

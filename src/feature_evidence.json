@@ -2,9 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-generate-a-premium-high-resolution-dark-mode-website-background-image-suitable-for-an-indian-digital-banking-fintech-ui-using-deep-navy-blue-and-charcoal-tones-as-the-base-subtle-accents-of-blue-and-white-and-very-minimal-saffron-or-green-highlights-include-soft-gradients-gentle-glow-lines-and-minimal-abstract-elements-representing-finance-growth-digital-payments-and-secure-transactions-ensure-the-image-contains-no-people-no-text-no-logos-and-no-watermarks",
-      "featureTitle": "Generate a premium, high-resolution dark-mode website background image suitable for an Indian digital banking/fintech UI, using deep navy blue and charcoal tones as the base, subtle accents of blue and white, and very minimal saffron or green highlights; include soft gradients, gentle glow lines, and minimal abstract elements representing finance, growth, digital payments, and secure transactions; ensure the image contains no people, no text, no logos, and no watermarks.",
-      "files": [],
+      "featureId": "feature-deliver-the-complete-project-source-code-frontend-backend-directly-in-the-chat-as-a-basic-plan-alternative-to-the-platform-export-code-button-in-a-copy-paste-friendly-format-that-a-developer-can-recreate-locally-in-vs-code",
+      "featureTitle": "Deliver the complete project source code (frontend + backend) directly in the chat as a Basic-plan alternative to the platform \"Export Code\" button, in a copy/paste-friendly format that a developer can recreate locally in VS Code.",
+      "files": [
+        "frontend/docs/CHAT_EXPORT_FORMAT.md"
+      ],
       "components": [
         "authorization@4.0.0",
         "core-infrastructure@1.0.2",
@@ -14,15 +16,15 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-52"
+        "REQ-66"
       ],
       "confidence": "high"
     },
     {
-      "featureId": "feature-apply-the-newly-generated-dark-mode-banking-background-image-across-the-arthanidhi-pay-user-portal-in-dark-mode-unauthenticated-and-authenticated-pages-ensuring-readable-contrast-for-all-primary-ui-surfaces-cards-tables-form-fields-and-navigation-while-keeping-the-background-subtle-and-non-distracting",
-      "featureTitle": "Apply the newly generated dark-mode banking background image across the ArthaNidhi Pay User Portal in dark mode (unauthenticated and authenticated pages), ensuring readable contrast for all primary UI surfaces (cards, tables, form fields, and navigation) while keeping the background subtle and non-distracting.",
+      "featureId": "feature-include-clear-step-by-step-instructions-in-chat-for-reconstructing-the-project-locally-from-the-pasted-files-installing-dependencies-configuring-environment-variables-using-the-existing-example-env-files-and-running-the-app-in-vs-code",
+      "featureTitle": "Include clear, step-by-step instructions (in chat) for reconstructing the project locally from the pasted files, installing dependencies, configuring environment variables using the existing example `.env` files, and running the app in VS Code.",
       "files": [
-        "frontend/src/index.css"
+        "frontend/docs/CHAT_RECONSTRUCTION_GUIDE.md"
       ],
       "components": [
         "authorization@4.0.0",
@@ -33,7 +35,7 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-53"
+        "REQ-67"
       ],
       "confidence": "high"
     }

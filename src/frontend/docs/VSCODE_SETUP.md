@@ -1,70 +1,31 @@
 # VS Code Setup Guide
 
-This guide provides recommended VS Code configuration for developing ArthaNidhi Pay efficiently.
+This guide will help you configure Visual Studio Code for optimal development experience with the ArthaNidhi Pay project.
+
+## Prerequisites
+
+- **Visual Studio Code** installed ([Download here](https://code.visualstudio.com/))
+- Project cloned/downloaded locally
+- Dependencies installed (`pnpm install` from project root)
+
+---
+
+## Opening the Project
+
+1. Launch VS Code
+2. Click **File → Open Folder** (or **File → Open...** on macOS)
+3. Navigate to and select the **project root directory** (`arthanidhi-pay/`)
+4. Click **"Select Folder"** / **"Open"**
+
+> **Important**: Always open the **project root**, not just the `frontend/` folder. This ensures all tooling and tasks work correctly.
+
+---
 
 ## Recommended Extensions
 
-The following extensions are optional but highly recommended for the best development experience:
+The project includes a `.vscode/extensions.json` file with recommended extensions. VS Code will prompt you to install them automatically.
 
-### Essential Extensions
+### Installing Extensions via Command Line
 
-1. **ESLint** (`dbaeumer.vscode-eslint`)
-   - Lints JavaScript/TypeScript code
-   - Shows errors and warnings inline
-
-2. **Prettier - Code formatter** (`esbenp.prettier-vscode`)
-   - Formats code automatically
-   - Ensures consistent code style
-
-3. **Tailwind CSS IntelliSense** (`bradlc.vscode-tailwindcss`)
-   - Autocomplete for Tailwind classes
-   - Shows color previews
-
-4. **TypeScript and JavaScript Language Features** (built-in)
-   - Enhanced TypeScript support
-   - Usually enabled by default
-
-### Internet Computer Development (IC Mode)
-
-5. **Motoko** (`dfinity-foundation.vscode-motoko`)
-   - Syntax highlighting for Motoko
-   - Code completion and snippets
-
-6. **DFX** (if available)
-   - DFX command integration
-   - Canister management
-
-### Optional but Useful
-
-7. **GitLens** (`eamodio.gitlens`)
-   - Enhanced Git integration
-   - Blame annotations and history
-
-8. **Path Intellisense** (`christian-kohler.path-intellisense`)
-   - Autocomplete for file paths
-   - Helpful for imports
-
-9. **Auto Rename Tag** (`formulahendry.auto-rename-tag`)
-   - Automatically renames paired HTML/JSX tags
-
-10. **Error Lens** (`usernamehw.errorlens`)
-    - Shows errors inline in the editor
-    - Improves error visibility
-
-## Installing Extensions
-
-### Option 1: Using the Extensions Panel
-
-1. Open VS Code
-2. Click the Extensions icon in the sidebar (or press `Ctrl+Shift+X` / `Cmd+Shift+X`)
-3. Search for each extension by name
-4. Click **Install**
-
-### Option 2: Using the Command Palette
-
-1. Press `Ctrl+Shift+P` (Windows/Linux) or `Cmd+Shift+P` (Mac)
-2. Type: `Extensions: Install Extensions`
-3. Search and install each extension
-
-### Option 3: Using the Terminal
+You can also install extensions via the terminal. Open the integrated terminal in VS Code (**View → Terminal** or `` Ctrl+` ``) and run:
 

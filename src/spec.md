@@ -1,11 +1,11 @@
 # Specification
 
 ## Summary
-**Goal:** Add a premium India-focused dark-mode banking background and apply it across the ArthaNidhi Pay User Portal in dark mode while preserving readability and not affecting light mode.
+**Goal:** Provide the complete existing project source code (frontend + backend) directly in chat as a copy/paste-friendly alternative to the platform “Export Code” feature.
 
 **Planned changes:**
-- Add a new high-resolution dark-mode fintech background image under `frontend/public/assets/generated/` with the specified filename and visual constraints (no people/text/logos/watermarks).
-- Apply the new background image across the portal in dark mode for both unauthenticated and authenticated pages (at minimum: Login, Signup, Dashboard, Account, Statements, Market Insights, Mutual Funds, Stocks, Gold & Silver Rates, Profile/Settings).
-- Adjust dark-mode styling as needed to maintain high contrast and readability for primary UI surfaces (cards, tables, form fields, navigation) while keeping the background subtle.
+- Output the full repository content in chat, organized file-by-file with exact relative paths and full file contents for both frontend and backend.
+- Include step-by-step instructions to recreate the folder/file structure locally in VS Code, paste files safely, install dependencies, configure environment variables from the existing `.env.example` files, and run frontend/backend locally.
+- Ensure all user-facing text in the delivered code and instructions is in English.
 
-**User-visible outcome:** When using dark mode, users see a premium, subtle fintech background across key portal screens with readable, high-contrast UI content; light mode remains unchanged.
+**User-visible outcome:** The user can copy/paste the provided files to reconstruct the full project locally in VS Code, configure env vars, install dependencies, and run the frontend and backend without using the “Export Code” button.

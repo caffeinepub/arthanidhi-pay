@@ -6,6 +6,8 @@ import { Wallet, TrendingUp, TrendingDown, PieChart as PieChartIcon, User, Credi
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer as BarResponsiveContainer } from 'recharts';
 import { formatINR } from '../utils/currency';
+import BalanceAmount from '../components/balance/BalanceAmount';
+import BalanceVisibilityToggle from '../components/balance/BalanceVisibilityToggle';
 
 export default function AccountPage() {
   const { data: balanceData, isLoading: balanceLoading } = useGetBalance();
@@ -153,8 +155,11 @@ export default function AccountPage() {
                 </p>
               </div>
             ) : (
-              <div className="text-2xl font-bold">
-                {formatINR(balanceData?.balance || BigInt(0))}
+              <div className="flex items-center gap-2">
+                <div className="text-2xl font-bold">
+                  <BalanceAmount amount={formatINR(balanceData?.balance || BigInt(0))} />
+                </div>
+                <BalanceVisibilityToggle />
               </div>
             )}
           </CardContent>

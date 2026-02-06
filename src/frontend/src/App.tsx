@@ -5,6 +5,7 @@
  * - TanStack Router for client-side routing with protected routes
  * - ThemeProvider for light/dark mode support
  * - AuthProvider for email/password authentication (localStorage-based)
+ * - BalanceVisibilityProvider for session-persisted balance hide/show toggle
  * - Toaster for toast notifications
  * - AppShell layout wrapper for consistent page structure
  * 
@@ -25,10 +26,20 @@ import MutualFundsPage from './pages/MutualFundsPage';
 import StocksPage from './pages/StocksPage';
 import GoldSilverRatesPage from './pages/GoldSilverRatesPage';
 import ProfileSettingsPage from './pages/ProfileSettingsPage';
+import PaymentsPage from './pages/PaymentsPage';
+import BeneficiariesPage from './pages/BeneficiariesPage';
+import CardsPage from './pages/CardsPage';
+import LoansPage from './pages/LoansPage';
+import DepositsPage from './pages/DepositsPage';
+import InsurancePage from './pages/InsurancePage';
+import RewardsOffersPage from './pages/RewardsOffersPage';
+import NotificationsPage from './pages/NotificationsPage';
+import SupportContactPage from './pages/SupportContactPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from '@/components/ui/sonner';
 import { AuthProvider } from './contexts/AuthContext';
+import { BalanceVisibilityProvider } from './contexts/BalanceVisibilityContext';
 
 // Root layout component that wraps all pages with AppShell
 function RootLayout() {
@@ -94,6 +105,66 @@ const statementsRoute = createRoute({
   ),
 });
 
+const paymentsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/payments',
+  component: () => (
+    <ProtectedRoute>
+      <PaymentsPage />
+    </ProtectedRoute>
+  ),
+});
+
+const beneficiariesRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/beneficiaries',
+  component: () => (
+    <ProtectedRoute>
+      <BeneficiariesPage />
+    </ProtectedRoute>
+  ),
+});
+
+const cardsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/cards',
+  component: () => (
+    <ProtectedRoute>
+      <CardsPage />
+    </ProtectedRoute>
+  ),
+});
+
+const loansRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/loans',
+  component: () => (
+    <ProtectedRoute>
+      <LoansPage />
+    </ProtectedRoute>
+  ),
+});
+
+const depositsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/deposits',
+  component: () => (
+    <ProtectedRoute>
+      <DepositsPage />
+    </ProtectedRoute>
+  ),
+});
+
+const insuranceRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/insurance',
+  component: () => (
+    <ProtectedRoute>
+      <InsurancePage />
+    </ProtectedRoute>
+  ),
+});
+
 const marketInsightsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/market-insights',
@@ -134,6 +205,36 @@ const goldSilverRatesRoute = createRoute({
   ),
 });
 
+const rewardsOffersRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/rewards-offers',
+  component: () => (
+    <ProtectedRoute>
+      <RewardsOffersPage />
+    </ProtectedRoute>
+  ),
+});
+
+const notificationsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/notifications',
+  component: () => (
+    <ProtectedRoute>
+      <NotificationsPage />
+    </ProtectedRoute>
+  ),
+});
+
+const supportContactRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/support',
+  component: () => (
+    <ProtectedRoute>
+      <SupportContactPage />
+    </ProtectedRoute>
+  ),
+});
+
 const profileSettingsRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/settings',
@@ -152,10 +253,19 @@ const routeTree = rootRoute.addChildren([
   dashboardRoute,
   accountRoute,
   statementsRoute,
+  paymentsRoute,
+  beneficiariesRoute,
+  cardsRoute,
+  loansRoute,
+  depositsRoute,
+  insuranceRoute,
   marketInsightsRoute,
   mutualFundsRoute,
   stocksRoute,
   goldSilverRatesRoute,
+  rewardsOffersRoute,
+  notificationsRoute,
+  supportContactRoute,
   profileSettingsRoute,
 ]);
 
@@ -168,15 +278,18 @@ const router = createRouter({ routeTree });
  * Wraps the entire application with necessary providers:
  * 1. ThemeProvider - Manages light/dark theme with system preference support
  * 2. AuthProvider - Manages user authentication state and localStorage session
- * 3. RouterProvider - Handles client-side routing
- * 4. Toaster - Displays toast notifications
+ * 3. BalanceVisibilityProvider - Manages balance visibility state with sessionStorage persistence
+ * 4. RouterProvider - Handles client-side routing
+ * 5. Toaster - Displays toast notifications
  */
 export default function App() {
   return (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <AuthProvider>
-        <RouterProvider router={router} />
-        <Toaster />
+        <BalanceVisibilityProvider>
+          <RouterProvider router={router} />
+          <Toaster />
+        </BalanceVisibilityProvider>
       </AuthProvider>
     </ThemeProvider>
   );

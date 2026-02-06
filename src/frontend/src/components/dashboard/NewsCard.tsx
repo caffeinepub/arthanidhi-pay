@@ -77,7 +77,7 @@ export default function NewsCard() {
       <CardContent>
         <div className="mb-4 p-3 bg-muted/50 rounded-lg border border-border/50">
           <p className="text-xs text-muted-foreground flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 flex-shrink-0 mt-0.5" />
+            <AlertCircle className="h-4 w-4 shrink-0 mt-0.5" />
             <span>
               <strong>Disclaimer:</strong> This news feed displays simulated demo content for demonstration purposes only. 
               In a production environment, this would show real-time financial news from verified sources.
@@ -93,7 +93,7 @@ export default function NewsCard() {
                 className="p-4 rounded-lg border bg-card hover:bg-accent/50 transition-colors cursor-pointer"
               >
                 <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 mt-1">
+                  <div className="shrink-0 mt-1">
                     {item.category === 'India' ? (
                       <MapPin className="h-4 w-4 text-chart-2" />
                     ) : (
