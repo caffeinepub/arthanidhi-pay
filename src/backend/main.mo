@@ -5,13 +5,9 @@ import Nat "mo:core/Nat";
 import Text "mo:core/Text";
 import Time "mo:core/Time";
 import Array "mo:core/Array";
-import List "mo:core/List";
 import Iter "mo:core/Iter";
-
 import AccessControl "authorization/access-control";
 import MixinAuthorization "authorization/MixinAuthorization";
-
-// Apply migration module using with-clause
 
 actor {
   // Types
@@ -43,7 +39,7 @@ actor {
   var nextTransactionId = 0;
   let INITIAL_BALANCE = 100_000;
 
-  // Helper functions for generating account info
+  // Helper functions
   func generateCustomerId() : Text {
     let timestamp = Time.now().toNat();
     "UIDAI-" # timestamp.toText();
@@ -82,7 +78,6 @@ actor {
   };
 
   // Public functions
-
   public query ({ caller }) func getCallerAccount() : async ?Account {
     if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
       Runtime.trap("Unauthorized: Only users can access accounts");
@@ -250,4 +245,3 @@ actor {
     accounts.add(targetP, updatedProfile);
   };
 };
-

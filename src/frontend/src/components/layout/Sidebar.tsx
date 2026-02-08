@@ -20,7 +20,8 @@ import {
   Settings,
   ChevronLeft,
   ChevronUp,
-  ChevronDown
+  ChevronDown,
+  ArrowRightLeft
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -53,6 +54,12 @@ export default function Sidebar({ isOpen = true, onClose, isMobile = false }: Si
       description: 'Balance & Details'
     },
     { 
+      label: 'Transfer Money', 
+      path: '/transfer', 
+      icon: ArrowRightLeft,
+      description: 'Send Money'
+    },
+    { 
       label: 'Statements', 
       path: '/statements', 
       icon: FileText,
@@ -62,7 +69,7 @@ export default function Sidebar({ isOpen = true, onClose, isMobile = false }: Si
       label: 'Payments', 
       path: '/payments', 
       icon: Send,
-      description: 'Pay Bills & Transfer'
+      description: 'Pay Bills'
     },
     { 
       label: 'Beneficiaries', 

@@ -1,43 +1,4 @@
 {
   "kind": "feature_evidence_report",
-  "features": [
-    {
-      "featureId": "feature-deliver-the-complete-project-source-code-frontend-backend-directly-in-the-chat-as-a-basic-plan-alternative-to-the-platform-export-code-button-in-a-copy-paste-friendly-format-that-a-developer-can-recreate-locally-in-vs-code",
-      "featureTitle": "Deliver the complete project source code (frontend + backend) directly in the chat as a Basic-plan alternative to the platform \"Export Code\" button, in a copy/paste-friendly format that a developer can recreate locally in VS Code.",
-      "files": [
-        "frontend/docs/CHAT_EXPORT_FORMAT.md"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-66"
-      ],
-      "confidence": "high"
-    },
-    {
-      "featureId": "feature-include-clear-step-by-step-instructions-in-chat-for-reconstructing-the-project-locally-from-the-pasted-files-installing-dependencies-configuring-environment-variables-using-the-existing-example-env-files-and-running-the-app-in-vs-code",
-      "featureTitle": "Include clear, step-by-step instructions (in chat) for reconstructing the project locally from the pasted files, installing dependencies, configuring environment variables using the existing example `.env` files, and running the app in VS Code.",
-      "files": [
-        "frontend/docs/CHAT_RECONSTRUCTION_GUIDE.md"
-      ],
-      "components": [
-        "authorization@4.0.0",
-        "core-infrastructure@1.0.2",
-        "shadcn-ui@1.0.0",
-        "build-template-react@1.0.0",
-        "initial-app@1.0.0",
-        "github-export-icp-cli@1.0.0"
-      ],
-      "testIds": [
-        "REQ-67"
-      ],
-      "confidence": "high"
-    }
-  ]
+  "features": []
 }

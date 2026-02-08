@@ -20,6 +20,7 @@ import SignupPage from './pages/SignupPage';
 import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import DashboardPage from './pages/DashboardPage';
 import AccountPage from './pages/AccountPage';
+import TransferPage from './pages/TransferPage';
 import StatementsPage from './pages/StatementsPage';
 import MarketInsightsPage from './pages/MarketInsightsPage';
 import MutualFundsPage from './pages/MutualFundsPage';
@@ -91,6 +92,16 @@ const accountRoute = createRoute({
   component: () => (
     <ProtectedRoute>
       <AccountPage />
+    </ProtectedRoute>
+  ),
+});
+
+const transferRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/transfer',
+  component: () => (
+    <ProtectedRoute>
+      <TransferPage />
     </ProtectedRoute>
   ),
 });
@@ -252,6 +263,7 @@ const routeTree = rootRoute.addChildren([
   forgotPasswordRoute,
   dashboardRoute,
   accountRoute,
+  transferRoute,
   statementsRoute,
   paymentsRoute,
   beneficiariesRoute,

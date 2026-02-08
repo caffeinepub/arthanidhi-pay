@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 45,
+  "projectStateVersion": 47,
   "summary": "Phase 1 change: apply the newly requested UI/content/feature updates ONLY to the ArthaNidhi Pay (User Portal) first, with NO data integration with the Admin Portal for now. User portal will include: new logo (replace everywhere) + updated footer copyright, global premium dark-mode navy+charcoal fintech theme (subtle blue/white accents + minimal saffron/green), full KYC form during signup with auto-approval if mandatory fields are filled, account view showing auto-generated Customer ID + Account Number (including auto-generation for existing users missing these; Customer ID format now `ARTN` + 12 digits and a separate 16-digit Account Number), money transfer feature with real balance updates (using dummy/seed initial balances), updated dashboard greeting with username + local timezone date/time, move logout from dashboard into header (header-only), dark mode toggle across pages, left sidebar menu with all pages (no logo in sidebar), dummy market/stocks/mutual-funds data, and a gold/silver rates module with dropdowns (Indian capital city, karat 18/22/24, weights 1g/10g/100g/1000g), plus a world+India financial news section (dummy).",
   "architectural_notes": [
     "Site-wide header/footer shared across all pages with consistent ArthaNidhi Pay branding (name + logo).",
@@ -26,7 +26,7 @@
     "Gold & Silver Rates: The Gold/Silver rates module/page is still not showing (user reports it missing; should be visible for all authenticated users).",
     "Background/theme should be a stunning, consistent background across all pages (user reiterates request to apply it everywhere)."
   ],
-  "isFixRequest": false,
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-create-a-consistent-stunning-user-friendly-visual-theme-for-the-arthanidhi-pay-website-colors-typography-spacing-components-and-apply-it-across-all-pages-without-using-a-blue-purple-primary-palette",

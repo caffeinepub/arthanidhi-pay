@@ -1,61 +1,6 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Chat-based Export Alternative Documentation (Frontend-only)",
-  "requirements": [
-    {
-      "id": "REQ-66",
-      "summary": "Add a copy/paste-friendly, file-by-file repository listing format developers can use to recreate the project locally.",
-      "acceptanceCriteria": [
-        "The chat output includes BOTH the frontend and backend code for the project.",
-        "The code is organized file-by-file, where each file output clearly indicates the exact relative path (e.g., `backend/main.mo`, `frontend/src/App.tsx`) followed by the full file contents.",
-        "The file listing is complete enough that a developer can reconstruct the repository locally and run it using the existing documented commands.",
-        "Any user-facing text included in the delivered code/files or instructions is in English."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/docs/CHAT_EXPORT_FORMAT.md",
-          "operation": "create",
-          "description": "Create documentation that specifies the exact, copy/paste-friendly file-by-file format to deliver complete repository code in chat (including both frontend and backend file paths and contents), plus guidance for verifying completeness against the repository structure. Keep all user-facing text in English."
-        },
-        {
-          "path": "frontend/DELIVERY_PLAN_BATCHES.md",
-          "operation": "modify",
-          "description": "Add a short section referencing frontend/docs/CHAT_EXPORT_FORMAT.md as the canonical file-by-file listing format for chat-based delivery (Basic-plan alternative), without changing any application behavior/UI."
-        },
-        {
-          "path": "frontend/README.md",
-          "operation": "modify",
-          "description": "Add a documentation link/reference to frontend/docs/CHAT_EXPORT_FORMAT.md so developers can find the chat-based export format quickly. Ensure text is in English."
-        }
-      ]
-    },
-    {
-      "id": "REQ-67",
-      "summary": "Add step-by-step local reconstruction and run instructions tailored to pasting files from chat, including env setup from existing .env example files and copy-paste commands.",
-      "acceptanceCriteria": [
-        "Instructions include where to create folders/files, how to verify the directory structure matches the provided paths, and how to paste contents safely.",
-        "Instructions reference the existing example env files (e.g., `frontend/.env.example`, `frontend/.env.development.example`, `frontend/.env.staging.example`) and explain how to create the real `.env` file(s) from them.",
-        "Instructions include copy-paste-ready commands to install dependencies and start the frontend and backend for local development.",
-        "All instruction text is in English."
-      ],
-      "file_operations": [
-        {
-          "path": "frontend/docs/CHAT_RECONSTRUCTION_GUIDE.md",
-          "operation": "create",
-          "description": "Create a step-by-step guide for reconstructing the repo locally from chat-pasted files, including: creating folders/files per paths, verifying directory structure, safe paste tips, dependency install commands, and run commands. Include explicit references to frontend/.env.example, frontend/.env.development.example, and frontend/.env.staging.example and how to create the real .env files from them. Keep all instruction text in English."
-        },
-        {
-          "path": "frontend/docs/LOCAL_DEVELOPMENT.md",
-          "operation": "modify",
-          "description": "Add a section that links to frontend/docs/CHAT_RECONSTRUCTION_GUIDE.md and clarifies that it is the preferred guide when the repo is delivered via chat, reusing existing documented commands and env-file conventions."
-        },
-        {
-          "path": "frontend/.vscode/tasks.json",
-          "operation": "modify",
-          "description": "Ensure existing task labels/commands are accurately referenced by the new chat reconstruction guide (and update task descriptions/labels only if needed for clarity), without changing application runtime behavior."
-        }
-      ]
-    }
-  ]
+  "title": "Untitled request",
+  "requirements": []
 }

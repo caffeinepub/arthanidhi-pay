@@ -1,69 +1,12 @@
 {
   "kind": "build_request",
-  "title": "Provide complete project code (frontend + backend) in chat as an Export alternative",
+  "title": "Untitled request",
   "priority": "normal",
-  "requirements": [
-    {
-      "id": "REQ-66",
-      "text": "Deliver the complete project source code (frontend + backend) directly in the chat as a Basic-plan alternative to the platform \"Export Code\" button, in a copy/paste-friendly format that a developer can recreate locally in VS Code.",
-      "target": "unknown",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "annother way",
-          "Both (complete project)"
-        ]
-      },
-      "acceptanceCriteria": [
-        "The chat output includes BOTH the frontend and backend code for the project.",
-        "The code is organized file-by-file, where each file output clearly indicates the exact relative path (e.g., `backend/main.mo`, `frontend/src/App.tsx`) followed by the full file contents.",
-        "The file listing is complete enough that a developer can reconstruct the repository locally and run it using the existing documented commands.",
-        "Any user-facing text included in the delivered code/files or instructions is in English."
-      ]
-    },
-    {
-      "id": "REQ-67",
-      "text": "Include clear, step-by-step instructions (in chat) for reconstructing the project locally from the pasted files, installing dependencies, configuring environment variables using the existing example `.env` files, and running the app in VS Code.",
-      "target": "unknown",
-      "source": {
-        "messageIds": [
-          "msg-1"
-        ],
-        "quotes": [
-          "Both (complete project)"
-        ]
-      },
-      "acceptanceCriteria": [
-        "Instructions include where to create folders/files, how to verify the directory structure matches the provided paths, and how to paste contents safely.",
-        "Instructions reference the existing example env files (e.g., `frontend/.env.example`, `frontend/.env.development.example`, `frontend/.env.staging.example`) and explain how to create the real `.env` file(s) from them.",
-        "Instructions include copy-paste-ready commands to install dependencies and start the frontend and backend for local development.",
-        "All instruction text is in English."
-      ]
-    }
-  ],
-  "constraints": [
-    "Do not modify any files under immutable frontend paths: `frontend/src/hooks/useInternetIdentity.ts`, `frontend/src/hooks/useInternetIdentity.tsx`, `frontend/src/hooks/useActor.ts`, `frontend/src/main.tsx`, `frontend/src/components/ui`.",
-    "Backend must remain a single Motoko actor with logic in `backend/main.mo`; only introduce `backend/migration.mo` if state migration is required."
-  ],
-  "nonGoals": [
-    "Adding new product features or changing the existing application behavior/UI as part of this request.",
-    "Providing or requiring access to the platform UI \"Export Code\" feature (the user is on the Basic plan).",
-    "Integrating any third-party services (payments, email, external auth, analytics, etc.)."
-  ],
+  "requirements": [],
+  "constraints": [],
+  "nonGoals": [],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }
